@@ -105,7 +105,7 @@
       <!-- Card 6 -->
       <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
         <div class="card  border-black p-3">
-          <img src="imagens/categoria tenis/pumalogo.png" class="card-img-top" alt="Marca 6">
+          <img src="imagens/categoria tenis/pumaaa.png" class="card-img-top" alt="Marca 6">
         </div>
       </div>      
     </div>
