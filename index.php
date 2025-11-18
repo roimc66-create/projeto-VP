@@ -15,40 +15,9 @@
     </head>
     <body>
         <header>
-             <nav class="navbar navbar-expand-lg  bg-body-tertiary navbar-dark bg-dark " data-bs-theme="dark">
-            <div class="container-fluid" id="HOME">
-
-                <a class="navbar-brand" href="#" _msttexthash="378430" _msthash="213"><a>
-                  <img src="/imagens/logo/LOGO1.png" width="70" class=""  alt="">
-                </a>VP Street</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#Marcas">Marcas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#Promoçoes">Promoções</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#Exclusivos">Exclusivos</a>
-                        </li>
-
-                       <form class="d-flex ms-auto " role="search">
-    <input class="form-control me-2 bg-dark text-white border-white" 
-           type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-light" type="submit">Search</button>
-  </form>
-                </div>
-            </div>
-        </nav>
+             <?php include('menu_publico.php')  ?>
+    <a name="">&nbsp; </a>
+        <div class="container">  
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -96,8 +65,9 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        </div>
         </header>       
-        <main>
+        
            <section class="py-5 bg-white text-center">
   <div class="container " id="Marcas">
     <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
@@ -135,7 +105,7 @@
       <!-- Card 6 -->
       <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
         <div class="card  border-black p-3">
-          <img src="imagens/categoria tenis/converse- logo.svg" class="card-img-top" alt="Marca 6">
+          <img src="imagens/categoria tenis/pumalogo.png" class="card-img-top" alt="Marca 6">
         </div>
       </div>      
     </div>

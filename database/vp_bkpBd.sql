@@ -39,11 +39,12 @@ CREATE TABLE tbmarcas(
 CREATE TABLE tbtenis(
     id_tenis INT(11) NOT NULL,
     id_marca_tenis INT(11) NOT NULL,
-    descri_tenis VARCHAR(100) NOT NULL,
+    nome_tenis VARCHAR(100) NOT NULL,
     resumo_tenis VARCHAR(1000) NULL,
     valor_tenis DECIMAL(9,2) NULL,
     imagem_tenis VARCHAR(50) NULL,
-    promoção_tenis enum('Sim','Não') NOT NULL
+    promoção_tenis enum('Sim','Não') NOT NULL,
+    sneakers_tenis enum('Sim','Não') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ------ CHAVES ------
@@ -75,6 +76,34 @@ ALTER TABLE tbtenis
 ALTER TABLE tbusuarios
 ADD PRIMARY KEY (id_usuario),
 ADD UNIQUE KEY login_usuario_uniq(login_usuario);
+
+
+-- inserts 
+INSERT INTO tbmarcas (id_marca, nome_marca, imagem_marca) VALUES
+(1, 'Adidas', 'adidas-logo.svg'),
+(2, 'Nike', 'nike-logo.svg'),
+(3, 'Crocs', 'crocs-logo.svg'),
+(4, 'Jordan', 'jordan-marca.svg'),
+(5, 'Newbalence', 'Newbalence-logo.svg'),
+(6, 'Puma', 'pumalogo.png'),
+(7, 'Converse', 'converse-logo.svg');
+
+
+INSERT INTO tbusuarios
+(id_usuario, login_usuario, senha_usuario, nivel_usuario)
+VALUES
+(1, 'paulo', '1234', 'admin'),
+(2, 'rocha', '1234', 'user'),
+(3, 'gabriel', '1234', 'admin');
+
+-- Extraindo dados da tabela `tbprodutos`
+INSERT INTO tbtenis (id_tenis, id_marca_tenis, nome_tenis, resumo_tenis, valor_tenis, imagem_tenis, promoção_tenis, sneakers_tenis) VALUES
+(1, 6, 'PUMA INHALE X A$AP ROCKY', ' tenis puma', 1.000,99, 'puma-promoçao.webp', 'Sim', 'Não'),
+(2, 4, 'AIR JORDAN 1 OG', ' tenis nike', 1.299,00, 'puma-promoçao.webp', 'Sim', 'Sim'),
+(3, 4, 'PUMA LAFRANCÉ', ' tenis puma', 2.099,99, 'puma-promoçao.webp', 'Sim', 'Sim'),
+(4, 4, 'PUMA MOSTRO', 'tenis puma', 1.000,99, 'puma-promoçao.webp', 'Não', 'Sim'),
+(5, 4, 'AIR JORDAN 1 OG', ' tenis puma', 1.000,99, 'puma-promoçao.webp', 'Não', 'Sim'),
+(6, 2, 'Abacaxiiiiiiii', 'Abacaxi assado com canela ao creme de leite condensado ', 29.90, 'abacaxi.jpg', 'Não');
 
 
 
