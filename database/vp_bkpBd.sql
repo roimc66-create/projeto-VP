@@ -31,14 +31,21 @@ CREATE TABLE tbusuarios(
 -- criaçao tabela tbmarcas
 CREATE TABLE tbmarcas(
     id_marca INT(11) NOT NULL,
-    nome_marca VARCHAR(3) NOT NULL,
+    nome_marca VARCHAR(15) NOT NULL,
     imagem_marca VARCHAR(50) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- criaçao tabela tbtipos
+CREATE TABLE tbtipos(
+    id_tipo INT(11) NOT NULL,
+    nome_tipo VARCHAR(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- criaçao tabela tbtenis
 CREATE TABLE tbtenis(
     id_tenis INT(11) NOT NULL,
     id_marca_tenis INT(11) NOT NULL,
+    id_tipo_tenis INT(11) NOT NULL,
     nome_tenis VARCHAR(100) NOT NULL,
     resumo_tenis VARCHAR(1000) NULL,
     valor_tenis DECIMAL(9,2) NULL,
@@ -55,6 +62,9 @@ ALTER TABLE tbtenis
 ALTER TABLE tbmarcas
       ADD PRIMARY KEY (id_marca);
 
+ALTER TABLE tbtipos
+      ADD PRIMARY KEY (id_tipo);
+
 -- ----- AUTO INCREMENTS -----
 ALTER TABLE tbtenis
     MODIFY id_tenis INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
@@ -65,12 +75,22 @@ ALTER TABLE tbmarcas
 ALTER TABLE tbusuarios
     MODIFY id_usuario INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;   
 
+ALTER TABLE tbtipos
+    MODIFY id_tipo INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;        
+
 -- limitadores e referencias da chave estrangeira
 ALTER TABLE tbtenis
    ADD CONSTRAINT id_marca_tenis_fk FOREIGN KEY (id_marca_tenis)
    REFERENCES tbmarcas(id_marca)
    ON DELETE NO ACTION
    ON UPDATE NO ACTION;  
+
+   ALTER TABLE tbtenis
+   ADD CONSTRAINT id_tipo_tenis_fk FOREIGN KEY (id_tipo_tenis)
+   REFERENCES tbtipos(id_tipo)
+   ON DELETE NO ACTION
+   ON UPDATE NO ACTION;  
+
 
 -- Adicionar Chave Primária e Chave Única
 ALTER TABLE tbusuarios
@@ -86,6 +106,11 @@ INSERT INTO tbmarcas (id_marca, nome_marca, imagem_marca) VALUES
 (4, 'Jordan', 'jordan-marca.svg'),
 (5, 'Newbalance', 'Newbalence-logo.svg'),
 (6, 'Puma', 'pumaaa.png');
+
+-- Extraindo dados da tabela tbtipos
+INSERT INTO tbtipos (id_tipo, nome_tipo) VALUES
+(1, 'Churrasco'),
+(2, 'Sobremesa');
 
 
 INSERT INTO tbusuarios
