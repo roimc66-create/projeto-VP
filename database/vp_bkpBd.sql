@@ -84,9 +84,8 @@ INSERT INTO tbmarcas (id_marca, nome_marca, imagem_marca) VALUES
 (2, 'Nike', 'nike-logo.svg'),
 (3, 'Crocs', 'crocs-logo.svg'),
 (4, 'Jordan', 'jordan-marca.svg'),
-(5, 'Newbalence', 'Newbalence-logo.svg'),
-(6, 'Puma', 'pumalogo.png'),
-(7, 'Converse', 'converse-logo.svg');
+(5, 'Newbalance', 'Newbalence-logo.svg'),
+(6, 'Puma', 'pumaaa.png');
 
 
 INSERT INTO tbusuarios
@@ -100,10 +99,12 @@ VALUES
 INSERT INTO tbtenis (id_tenis, id_marca_tenis, nome_tenis, resumo_tenis, valor_tenis, imagem_tenis, promoção_tenis, sneakers_tenis) VALUES
 (1, 6, 'PUMA INHALE X A$AP ROCKY', ' tenis puma', 1.000,99, 'puma-promoçao.webp', 'Sim', 'Não'),
 (2, 4, 'AIR JORDAN 1 OG', ' tenis nike azul', 1.299,00, 'jordan-1-promoçao.webp', 'Sim', 'Sim'),
-(3, 4, 'PUMA LAFRANCÉ', ' tenis puma', 2.099,99, 'puma-lafrancé-promoçao.webp', 'Sim', 'Sim'),
-(4, 4, 'PUMA MOSTRO', 'tenis puma', 1.199,99, 'puma-promoçao.webp', 'Não', 'Sim'),
-(5, 4, 'AIR JORDAN 5', ' tenis nike ', 1.399,99, 'puma-promoçao.webp', 'Não', 'Sim'),
-(6, 2, 'Abacaxiiiiiiii', 'Abacaxi assado com canela ao creme de leite condensado ', 29.90, 'abacaxi.jpg', 'Não');
+(3, 6, 'PUMA LAFRANCÉ', ' tenis puma', 2.099,99, 'puma-lafrancé-promoçao.webp', 'Sim', 'Sim'),
+(4, 6, 'PUMA MOSTRO', 'tenis puma', 1.199,99, 'puma-2-promoçao.webp', 'Sim', 'Não'),
+(5, 4, 'AIR JORDAN 5', ' tenis nike ', 1.399,99, 'air-jordan-promoçao.webp', 'Sim', 'Não'),
+(6, 4, 'Tênis Air Jordan 1 Low Feminino', ' tenis jordan ',  1.099,99, 'puma-promoçao.webp', 'Sim', 'Não'),
+(7, 4, 'Tênis Nike A One Run Low Feminino', ' tenis nike ', 899,99, 'nike-rosa-eclusivo.webp', 'Sim', 'Não'),
+(8, 2, 'Tênis Nike Shox Tl Low Masculino', 'nike mola ', 1.399,99, 'nikeshox-exclusivo.webp', 'Não', 'Sim');
 
 
 
