@@ -133,3 +133,22 @@ VALUES
 (7, 4, 2, 'Tênis Nike A One Run Low Feminino', 'Modelo moderno com linhas fluidas e destaque no rosa vibrante. Leve, confortável e estiloso, ideal para quem quer um visual futurista e cheio de personalidade.', 899.99, 'nike-rosa-exclusivo.webp', 'Sim', 'Não'),
 (8, 2, 1, 'Tênis Nike Shox Tl Low Masculino', 'Design icônico com sistema Shox de amortecimento total. Durável, moderno e com visual agressivo, ideal para quem busca conforto e estilo marcante no dia a dia.', 1399.99, 'nikeshox-exclusivo.webp', 'Não', 'Sim');
 
+-- view 
+
+CREATE VIEW vw_tbtenis as
+
+  SELECT t.id_tenis,
+         t.id_marca_tenis,
+         t.id_tipo_tenis,        
+         m.nome_marca,
+         i.nome_tipo,
+         m.imagem_marca,
+         t.nome_tenis,
+         t.resumo_tenis,
+         t.valor_tenis,
+         t.imagem_tenis,
+         t.promoção_tenis,
+         sneakers_tenis
+  FROM tbtenis t JOIN tbtipos i JOIN tbmarcas m
+ WHERE t.id_tipo_tenis = i.id_tipo
+  AND t.id_marca_tenis = m.id_marca;
