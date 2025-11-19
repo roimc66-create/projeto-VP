@@ -65,6 +65,10 @@ ALTER TABLE tbmarcas
 ALTER TABLE tbtipos
       ADD PRIMARY KEY (id_tipo);
 
+    ALTER TABLE tbusuarios
+ADD PRIMARY KEY (id_usuario),
+ADD UNIQUE KEY login_usuario_uniq(login_usuario);
+
 -- ----- AUTO INCREMENTS -----
 ALTER TABLE tbtenis
     MODIFY id_tenis INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
@@ -92,13 +96,16 @@ ALTER TABLE tbtenis
    ON UPDATE NO ACTION;  
 
 
--- Adicionar Chave Primária e Chave Única
-ALTER TABLE tbusuarios
-ADD PRIMARY KEY (id_usuario),
-ADD UNIQUE KEY login_usuario_uniq(login_usuario);
+-- inserts
+
+INSERT INTO tbusuarios
+(id_usuario, login_usuario, senha_usuario, nivel_usuario)
+VALUES
+(1, 'paulo', '1234', 'admin'),
+(2, 'rocha', '1234', 'user'),
+(3, 'gabriel', '1234', 'admin');
 
 
--- inserts 
 INSERT INTO tbmarcas (id_marca, nome_marca, imagem_marca) VALUES
 (1, 'Adidas', 'adidas-logo.svg'),
 (2, 'Nike', 'nike-logo.svg'),
@@ -109,27 +116,21 @@ INSERT INTO tbmarcas (id_marca, nome_marca, imagem_marca) VALUES
 
 -- Extraindo dados da tabela tbtipos
 INSERT INTO tbtipos (id_tipo, nome_tipo) VALUES
-(1, 'Churrasco'),
-(2, 'Sobremesa');
+(1, 'Masculino'),
+(2, 'Feminino');
 
 
-INSERT INTO tbusuarios
-(id_usuario, login_usuario, senha_usuario, nivel_usuario)
-VALUES
-(1, 'paulo', '1234', 'admin'),
-(2, 'rocha', '1234', 'user'),
-(3, 'gabriel', '1234', 'admin');
 
 -- Extraindo dados da tabela `tbprodutos`
-INSERT INTO tbtenis (id_tenis, id_marca_tenis, nome_tenis, resumo_tenis, valor_tenis, imagem_tenis, promoção_tenis, sneakers_tenis) VALUES
-(1, 6, 'PUMA INHALE X A$AP ROCKY', ' Modelo de visual agressivo, com design inspirado nos anos 2000. Mistura materiais robustos com cores chamativas e detalhes esportivos que dão um ar futurista.', 1.000,99, 'puma-promoçao.webp', 'Sim', 'Não'),
-(2, 4, 'AIR JORDAN 1 OG', ' Clássico absoluto do basquete. Construção tradicional em couro, visual retrô e acabamento premium, perfeito para quem gosta de estilo autêntico e versátil.', 1.299,00, 'jordan-1-promoçao.webp', 'Sim', 'Sim'),
-(3, 6, 'PUMA LAFRANCÉ', ' Tênis de edição especial com design moderno e elegante. Combina materiais leves, tons sofisticados e o padrão característico da collab, trazendo estilo e conforto.', 2.099,99, 'puma-lafrancé-promoçao.webp', 'Sim', 'Sim'),
-(4, 6, 'PUMA MOSTRO', 'Icônico e ousado, conhecido pelo solado dentado e pela silhueta futurista. Mistura moda, esporte e um visual diferenciado que se destaca em qualquer look.', 1.199,99, 'puma-2-promoçao.webp', 'Sim', 'Não'),
-(5, 4, 'AIR JORDAN 5', 'Modelo marcante com língua refletiva e solado translúcido. Inspirado em jatos de caça, traz um visual esportivo e cheio de personalidade. ', 1.399,99, 'air-jordan-promoçao.webp', 'Sim', 'Não'),
-(6, 4, 'Tênis Air Jordan 1 Low Feminino', ' Clássico e elegante, combina couro macio e silhueta baixa para um visual versátil. Perfeito para quem gosta de estilo clean com toque esportivo. ',  1.099,99, 'puma-promoçao.webp', 'Sim', 'Não'),
-(7, 4, 'Tênis Nike A One Run Low Feminino', ' Modelo moderno com linhas fluidas e destaque no rosa vibrante. Leve, confortável e estiloso, ideal para quem quer um visual futurista e cheio de personalidade.', 899,99, 'nike-rosa-eclusivo.webp', 'Sim', 'Não'),
-(8, 2, 'Tênis Nike Shox Tl Low Masculino', 'Design icônico com sistema Shox de amortecimento total. Durável, moderno e com visual agressivo, ideal para quem busca conforto e estilo marcante no dia a dia.', 1.399,99, 'nikeshox-exclusivo.webp', 'Não', 'Sim');
+INSERT INTO tbtenis (id_tenis, id_marca_tenis, id_tipo_tenis, nome_tenis, resumo_tenis, valor_tenis, imagem_tenis, promoção_tenis, sneakers_tenis) VALUES
+(1, 6, 1, 'PUMA INHALE X A$AP ROCKY', ' Modelo de visual agressivo, com design inspirado nos anos 2000. Mistura materiais robustos com cores chamativas e detalhes esportivos que dão um ar futurista.', 1.000,99, 'puma-promoçao.webp', 'Sim', 'Não'),
+(2, 4, 1, 'AIR JORDAN 1 OG', ' Clássico absoluto do basquete. Construção tradicional em couro, visual retrô e acabamento premium, perfeito para quem gosta de estilo autêntico e versátil.', 1.299,00, 'jordan-1-promoçao.webp', 'Sim', 'Sim'),
+(3, 6, 1, 'PUMA LAFRANCÉ', ' Tênis de edição especial com design moderno e elegante. Combina materiais leves, tons sofisticados e o padrão característico da collab, trazendo estilo e conforto.', 2.099,99, 'puma-lafrancé-promoçao.webp', 'Sim', 'Sim'),
+(4, 6, 1, 'PUMA MOSTRO', 'Icônico e ousado, conhecido pelo solado dentado e pela silhueta futurista. Mistura moda, esporte e um visual diferenciado que se destaca em qualquer look.', 1.199,99, 'puma-2-promoçao.webp', 'Sim', 'Não'),
+(5, 4, 1, 'AIR JORDAN 5', 'Modelo marcante com língua refletiva e solado translúcido. Inspirado em jatos de caça, traz um visual esportivo e cheio de personalidade. ', 1.399,99, 'air-jordan-promoçao.webp', 'Sim', 'Não'),
+(6, 4, 2, 'Tênis Air Jordan 1 Low Feminino', ' Clássico e elegante, combina couro macio e silhueta baixa para um visual versátil. Perfeito para quem gosta de estilo clean com toque esportivo. ',  1.099,99, 'puma-promoçao.webp', 'Sim', 'Não'),
+(7, 4, 2, 'Tênis Nike A One Run Low Feminino', ' Modelo moderno com linhas fluidas e destaque no rosa vibrante. Leve, confortável e estiloso, ideal para quem quer um visual futurista e cheio de personalidade.', 899,99, 'nike-rosa-eclusivo.webp', 'Sim', 'Não'),
+(8, 2, 1, 'Tênis Nike Shox Tl Low Masculino', 'Design icônico com sistema Shox de amortecimento total. Durável, moderno e com visual agressivo, ideal para quem busca conforto e estilo marcante no dia a dia.', 1.399,99, 'nikeshox-exclusivo.webp', 'Não', 'Sim');
 
 
 
