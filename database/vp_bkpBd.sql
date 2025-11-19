@@ -123,7 +123,7 @@ VALUES
 -- Extraindo dados da tabela `tbprodutos`
 INSERT INTO tbtenis (id_tenis, id_marca_tenis, nome_tenis, resumo_tenis, valor_tenis, imagem_tenis, promoção_tenis, sneakers_tenis) VALUES
 (1, 6, 'PUMA INHALE X A$AP ROCKY', ' tenis puma', 1.000,99, 'puma-promoçao.webp', 'Sim', 'Não'),
-(2, 4, 'AIR JORDAN 1 OG', ' tenis nike azul', 1.299,00, 'jordan-1-promoçao.webp', 'Sim', 'Sim'),
+(2, 4, 'AIR JORDAN 1 OG', ' tenis nikae azul', 1.299,00, 'jordan-1-promoçao.webp', 'Sim', 'Sim'),
 (3, 6, 'PUMA LAFRANCÉ', ' tenis puma', 2.099,99, 'puma-lafrancé-promoçao.webp', 'Sim', 'Sim'),
 (4, 6, 'PUMA MOSTRO', 'tenis puma', 1.199,99, 'puma-2-promoçao.webp', 'Sim', 'Não'),
 (5, 4, 'AIR JORDAN 5', ' tenis nike ', 1.399,99, 'air-jordan-promoçao.webp', 'Sim', 'Não'),
