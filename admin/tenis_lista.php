@@ -1,3 +1,21 @@
+<?php
+// Incluir o arquivo e fazer a conexão
+include("../Connections/conn_produtos.php");
+
+// Selecionar os dados
+$consulta   =   "
+                SELECT  *
+                FROM    vw_tbprodutos
+                ORDER BY descri_produto ASC;
+                ";
+// Fazer uma lista completa dos dados
+$lista      =   $conn_produtos->query($consulta);
+// Separar os dados em linhas (row)
+$row        =   $lista->fetch_assoc();
+// Contar o total de linhas
+$totalRows  =   ($lista)->num_rows;
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
