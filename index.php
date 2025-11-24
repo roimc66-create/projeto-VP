@@ -70,7 +70,7 @@
         
            <section class="py-5 bg-white text-center">
   <div class="container " id="Marcas">
-    <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
+    <h2 class="fw-bold mb-4">peitos</h2>
     <div class="row justify-content-center">
       <!-- Card 1 -->
       <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
