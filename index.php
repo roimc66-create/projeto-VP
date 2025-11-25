@@ -17,7 +17,7 @@
         <header>
              <?php include('menu_publico.php')  ?>
     <a name="">&nbsp; </a>
-        <div class="container">  
+        <!-- <div class="container">  
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -65,52 +65,11 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        </div>
+        </div> -->
         </header>       
         
-           <section class="py-5 bg-white text-center">
-  <div class="container " id="Marcas">
-    <h2 class="fw-bold mb-4">peitos</h2>
-    <div class="row justify-content-center">
-      <!-- Card 1 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/adidas-logo.svg" class="card-img-top" alt="Marca 1">
-        </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/nike-logo.svg" class="card-img-top" alt="Marca 2">
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/crocs-logo.svg" class="card-img-top" alt="Marca 3">
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/jordan-marca.svg" class="card-img-top" alt="Marca 4">
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/Newbalence-logo.svg" class="card-img-top" alt="Marca 5">
-        </div>
-      </div>
-      <!-- Card 6 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card  border-black p-3">
-          <img src="imagens/categoria tenis/pumaaa.png" class="card-img-top" alt="Marca 6">
-        </div>
-      </div>      
-    </div>
-  </div>
-</section>
+           <?php include('marcas.php')  ?>
+    <a name="">&nbsp; </a>
 <div class="container-md bg-dark py-4" id="Promoçoes">
   <div class="d-flex">
     <div class="me-3 d-flex align-items-center">
