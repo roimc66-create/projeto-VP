@@ -130,3 +130,4 @@ $totalRows  =   ($lista)->num_rows;
 
 </body>
 </html>
+<?php mysqli_free_result($lista); ?>

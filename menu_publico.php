@@ -18,7 +18,7 @@
   <!-- NAVBAR SOBRE A IMAGEM -->
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent position-absolute w-100" style="z-index: 10;">
     <div class="container-fluid">
-      <a class="navbar-brand text-dark fw-bold" href="#">VP STREET</a>
+      <a class="navbar-brand text-dark  fw-bold" href="#">VP STREET</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,22 +26,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-dark fw-bold" aria-current="page" href="#">Home</a>
+            <a class="nav-link active text-dark fw-bold" aria-current="page" href="#Marcas">Marcas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="#Marcas">Marcas</a>
+            <a class="nav-link text-dark" href="#Marcas">Promoções</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Categorias
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Lançamentos</a></li>
-              <li><a class="dropdown-item" href="#">Promoções</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Contato</a></li>
-            </ul>
-          </li>
+          
         </ul>
 
         <form class="d-flex">
@@ -53,7 +43,7 @@
   </nav>
 
   <!-- IMAGEM DE FUNDO -->
-  <img src="imagens/Banners/Banner.png" class="img-fluid w-100" alt="Banner Puma">
+  <img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png" class="img-fluid w-100" alt="Banner Puma">
 
 </div>
 
