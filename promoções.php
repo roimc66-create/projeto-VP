@@ -1,12 +1,12 @@
 <?php
 // Incluir o arquivo e fazer a conexão
-include("../Connections/conn_produtos.php");
+include("Connections/conn_produtos.php");
 
 // Selecionar os dados
 $consulta   =   "
                 SELECT  *
-                FROM    vw_tbtenis
-                ORDER BY resumo_tenis ASC;
+                FROM    vw_tbprodutos
+                ORDER BY promoção_produto ASC;
                 ";
 // Fazer uma lista completa dos dados
 $lista      =   $conn_produtos->query($consulta);
@@ -90,3 +90,5 @@ R$ 1.399,99</p>
         ></script>
 </body>
 </html>
+
+<?php mysqli_free_result($lista); ?>

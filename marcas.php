@@ -5,8 +5,8 @@ include("Connections/conn_produtos.php");
 // Selecionar os dados
 $consulta   =   "
                 SELECT  *
-                FROM    vw_tbtenis
-                ORDER BY resumo_tenis ASC;
+                FROM    tbmarcas
+                ORDER BY imagem_marca ASC;
                 ";
 // Fazer uma lista completa dos dados
 $lista      =   $conn_produtos->query($consulta);
@@ -33,12 +33,14 @@ $totalRows  =   ($lista)->num_rows;
   <div class="container " id="Marcas">
     <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
     <div class="row justify-content-center">
-        <?php do{ ?>
+        <?php 
+        $contador = 0;
+        do{ ?>
             
       <!-- Card 1 -->
       <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3">
-          <img src="imagens/tenis/<?php echo $row['imagem_marca'];?>" class="card-img-top" alt="<?php echo $row['nome_marca']; ?>">
+        <div class="card border-black p-3 h-100 d-flex justify-content-center">
+          <img src="imagens/tenis/<?php echo $row['imagem_marca'];?>" class="card-img-top img-logo" alt="<?php echo $row['nome_marca']; ?>">
         </div>
       </div>     
       <?php }while($row=$lista->fetch_assoc()); ?>  <!-- Fecha estrut. de repetição -->
