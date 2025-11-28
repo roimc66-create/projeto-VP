@@ -28,13 +28,13 @@ $totalRows  =   ($lista)->num_rows;
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"/>
 </head>
-<body>
+<body class="">
 <section class="py-5 bg-white text-center">
   <div class="container " id="Marcas">
     <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
     <div class="row justify-content-center">
         <?php 
-        $contador = 0;
+       
         do{ ?>
             
       <!-- Card 1 -->
