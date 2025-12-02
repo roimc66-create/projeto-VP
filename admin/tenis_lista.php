@@ -5,8 +5,8 @@ include("../Connections/conn_produtos.php");
 // SELECT com JOIN para trazer nome do tipo
 $sql = "SELECT t.*, tp.nome_tipo
         FROM tbtenis AS t
-        INNER JOIN tbtipotenis AS tp
-        ON t.id_tipo_tenis = tp.id_tipo_tenis
+        INNER JOIN tbtipos AS tp
+        ON t.id_tipo_tenis = tp.id_tipo
         ORDER BY t.id_tenis ASC";
 
 $result = $conn_produtos->query($sql);
