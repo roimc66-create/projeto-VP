@@ -86,7 +86,7 @@ $lista = $conn_produtos->query($consulta);
                         <td><?php echo $row['nome_genero']; ?></td>
 
                         <td>
-                            <img src="../imagens/<?php echo $row['imagem_produto']; ?>" width="90">
+                            <img src="imagens/exclusivo/<?php echo $row['imagem_produto']; ?>" width="90">
                         </td>
 
                         <td class="text-center">
