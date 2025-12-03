@@ -47,7 +47,7 @@ $totalRows  =   ($lista_promoçao)->num_rows;
              <a   
            href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
         >
-            <img src="imagens/Promocoes/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção grande" >
+            <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção grande" >
              <a
                          href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
                     </a>  
@@ -65,7 +65,7 @@ $totalRows  =   ($lista_promoçao)->num_rows;
             <a   
            href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
         >
-            <img src="imagens/Promocoes/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção 1">
+            <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção 1">
             <a
                          href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
                     </a>  
@@ -83,7 +83,7 @@ $totalRows  =   ($lista_promoçao)->num_rows;
             <a   
            href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
         >
-            <img src="imagens/Promocoes/<?php echo $row_promoçao['imagem_produto'];?>" class="card-img-top img-fluid" alt="Promoção 3">
+            <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto'];?>" class="card-img-top img-fluid" alt="Promoção 3">
              <a
                          href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
                     </a>  
