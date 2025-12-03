@@ -1,3 +1,12 @@
 @charset "utf-8";
 
+.fundoBanner{
+    
+    background: url(../imagens/Banners/Bannerfundo.png) no-repeat fixed;
+    background-size: cover ;
+    -webkit-background-size:cover ;
+}
 
+.opacidade{
+    background-color: rgba(255, 255, 255, 0.6);
+}
