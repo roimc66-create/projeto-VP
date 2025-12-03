@@ -32,21 +32,59 @@ $totalRows  =   ($lista)->num_rows;
 <section class="py-5 bg-white text-center">
   <div class="container " id="Marcas">
     <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
-    <div class="row justify-content-center">
-        <?php 
+    <div id="carouselMarcas" class="carousel slide" data-bs-ride="false">
+  <div class="carousel-inner">
+    <?php
+    $contador = 0;
+    $active = "active";
+
+    mysqli_data_seek($lista, 0);
+
+    while ($row = $lista->fetch_assoc()) {
+
        
-        do{ ?>
-            
-      <!-- Card 1 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3 h-100 d-flex justify-content-center">
-          <img src="imagens/tenis/<?php echo $row['imagem_marca'];?>" class="card-img-top img-logo" alt="<?php echo $row['nome_marca']; ?>">
+        if ($contador % 6 == 0) {
+            echo '<div class="carousel-item ' . $active . '">';
+            echo '<div class="row justify-content-center">';
+            $active = ""; 
+        }
+    ?>
+
+        <!-- CARD individual -->
+        <div class="col-6 col-sm-4 col-md-2 mb-4">
+          <div class="card border-black p-3 h-100">
+            <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
+                 class="card-img-top img-logo"
+                 alt="<?php echo $row['nome_marca']; ?>">
+          </div>
         </div>
-      </div>     
-      <?php }while($row=$lista->fetch_assoc()); ?>  <!-- Fecha estrut. de repetição -->
-      
-     
-      </div>      
+
+    <?php
+        $contador++;
+
+        // fecha a row e o slide quando completar 6 imagens
+        if ($contador % 6 == 0) {
+            echo '</div></div>';
+        }
+    }
+    // Se terminar com menos de 6 e o slide não foi fechado → fecha agora
+    if ($contador % 6 != 0) {
+        echo '</div></div>';
+    }
+    ?>
+
+  </div>
+
+  <!-- SETAS DE NAVEGAÇÃO -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselMarcas" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselMarcas" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+    
     </div>
   </div>
 </section>

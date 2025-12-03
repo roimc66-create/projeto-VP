@@ -107,4 +107,4 @@ $totalRows  =   ($lista_promoçao)->num_rows;
 </body>
 </html>
 
-<?php mysqli_free_result($lista); ?>
+<?php mysqli_free_result($lista_promoçao); ?>
