@@ -119,7 +119,12 @@ $result = $conn_produtos->query($sql);
     </style>
 </head>
 
-<body>
+<body
+{
+    margin-top: 90px !important; 
+}
+>
+
       
 <?php include("menu.php"); ?>
 
