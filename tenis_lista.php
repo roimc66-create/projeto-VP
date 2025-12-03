@@ -20,12 +20,10 @@ $result = $conn_produtos->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-
         body {
             background: #f3f4f6;
             min-height: 100vh;
         }
-
         /* CARD PRINCIPAL */
         .card-custom {
             border-radius: 18px;
@@ -34,7 +32,6 @@ $result = $conn_produtos->query($sql);
             box-shadow: 0 10px 30px rgba(0,0,0,0.06);
             margin-top: 40px;
         }
-
         /* TÍTULO */
         .page-title {
             font-weight: 700;
@@ -123,7 +120,7 @@ $result = $conn_produtos->query($sql);
 </head>
 
 <body>
-
+      
 <?php include("menu.php"); ?>
 
 <div class="container">
