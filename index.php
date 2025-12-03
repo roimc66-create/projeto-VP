@@ -70,7 +70,7 @@
         
            <?php include('marcas.php')  ?>
     <a name="">&nbsp; </a>
-    <?php include('promoções.php')  ?>
+    <?php include('promocoes.php')  ?>
     <a name="">&nbsp; </a>
 
 <div class="container my-5 text-center" id="Exclusivos">
