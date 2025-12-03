@@ -70,60 +70,9 @@
         
            <?php include('marcas.php')  ?>
     <a name="">&nbsp; </a>
-<div class="container-md bg-dark py-4" id="Promoçoes">
-  <div class="d-flex">
-    <div class="me-3 d-flex align-items-center">
-      <div class=" fw-bold text-uppercase" 
-           style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px;">
-       <h3 class="text-bg-dark">Promoções</h3> 
-      </div>
-    </div>
-    <div class="w-100">
-      <div class="row">    
-        <div class="col-md-6 mb-3 d-none d-sm-block d-lg-block">
-          <div class="card text-center ">
-            <img src="imagens/Promoçoes/puma-promoçao.webp" class="card-img-top img-fluid" alt="Promoção grande">
-            <h6 class="card-title mb-1">PUMA INHALE X A$AP ROCKY</h6>
-          <p class="card-text fw-bold">
-R$ 1.000,99</p>
-          </div>
-        </div>
-        <!-- esquerda card -->
-        <div class="col-6 col-md-3 mb-3 ">
-          <div class="card text-center mb-3">
-            <img src="imagens/Promoçoes/jordan-1-promoçao.webp" class="card-img-top img-fluid" alt="Promoção 1">
-            <h6 class="card-title mb-1"> AIR JORDAN 1 OG</h6>
-          <p class="card-text fw-bold">
-R$ 1.299,00</p>
-          </div>
-          <div class="card  text-center">
-            <img src="imagens/Promoçoes/puma-2-promoçao.webp" class="card-img-top img-fluid" alt="Promoção 2">
-            <h6 class="card-title mb-1">PUMA MOSTRO </h6>
-          <p class="card-text fw-bold">
-R$ 1.199,99</p>
-          </div>
-        </div>
-        <!-- direita card -->
-        <div class="col-6 col-md-3 mb-3 " >
-          <div class="card text-center mb-3">
-            <img src="imagens/Promoçoes/puma-lafrancé-promoçao.webp" class="card-img-top img-fluid" alt="Promoção 3">
-            <h6 class="card-title mb-1">PUMA LAFRANCÉ</h6>
-          <p class="card-text fw-bold">
-R$ 2.099,99</p>
-          </div>
-          <div class="card  text-center ">
-            <img src="imagens/Promoçoes/air-jordan-promoçao.webp" class="card-img-top img-fluid" alt="Promoção 4">
-            <h6 class="card-title mb-1">AIR JORDAN 5  </h6>
-          <p class="card-text fw-bold">
-R$ 1.399,99</p>
-          </div>
-        </div>
+    <?php include('promoções.php')  ?>
+    <a name="">&nbsp; </a>
 
-      </div>
-    </div>
-
-  </div>
-</div>
 <div class="container my-5 text-center" id="Exclusivos">
   <h2 class="fw-bold mb-4">EXCLUSIVOS</h2>
   <div class="row justify-content-center mt-4">

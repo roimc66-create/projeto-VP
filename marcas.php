@@ -1,3 +1,21 @@
+<?php
+// Incluir o arquivo e fazer a conexão
+include("Connections/conn_produtos.php");
+
+// Selecionar os dados
+$consulta   =   "
+                SELECT  *
+                FROM    tbmarcas
+                ORDER BY imagem_marca ASC;
+                ";
+// Fazer uma lista completa dos dados
+$lista      =   $conn_produtos->query($consulta);
+// Separar os dados em linhas (row)
+$row        =   $lista->fetch_assoc();
+// Contar o total de linhas
+$totalRows  =   ($lista)->num_rows;
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,46 +28,24 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"/>
 </head>
-<body>
+<body class="">
 <section class="py-5 bg-white text-center">
   <div class="container " id="Marcas">
     <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
     <div class="row justify-content-center">
+        <?php 
+       
+        do{ ?>
+            
       <!-- Card 1 -->
       <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/adidas-logo.svg" class="card-img-top" alt="Marca 1">
+        <div class="card border-black p-3 h-100 d-flex justify-content-center">
+          <img src="imagens/tenis/<?php echo $row['imagem_marca'];?>" class="card-img-top img-logo" alt="<?php echo $row['nome_marca']; ?>">
         </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-none d-sm-block d-lg-block">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/nike-logo.svg" class="card-img-top" alt="Marca 2">
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/crocs-logo.svg" class="card-img-top" alt="Marca 3">
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/jordan-marca.svg" class="card-img-top" alt="Marca 4">
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card border-black p-3">
-          <img src="imagens/categoria tenis/Newbalence-logo.svg" class="card-img-top" alt="Marca 5">
-        </div>
-      </div>
-      <!-- Card 6 -->
-      <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4">
-        <div class="card  border-black p-3">
-          <img src="imagens/categoria tenis/pumaaa.png" class="card-img-top" alt="Marca 6">
-        </div>
+      </div>     
+      <?php }while($row=$lista->fetch_assoc()); ?>  <!-- Fecha estrut. de repetição -->
+      
+     
       </div>      
     </div>
   </div>
@@ -60,3 +56,4 @@
         ></script>
 </body>
 </html>
+<?php mysqli_free_result($lista); ?>
