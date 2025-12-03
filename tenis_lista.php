@@ -2,10 +2,10 @@
 include("Connections/conn_produtos.php");
 
 $sql = "SELECT t.*, tp.nome_tipo
-        FROM tbtenis AS t
+        FROM tbprodutos AS t
         INNER JOIN tbtipos AS tp
-        ON t.id_tipo_tenis = tp.id_tipo
-        ORDER BY t.id_tenis ASC";
+        ON t.id_tipo_produto = tp.id_tipo
+        ORDER BY t.id_produto ASC";
 
 $result = $conn_produtos->query($sql);
 ?>
@@ -137,7 +137,7 @@ $result = $conn_produtos->query($sql);
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title">Catálogo de Tênis</h2>
 
-            <a href="tenis_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
+            <a href="produto_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
@@ -159,34 +159,34 @@ $result = $conn_produtos->query($sql);
                 <tbody>
                 <?php while($row = $result->fetch_assoc()) { ?>
                     <tr>
-                        <td><strong><?php echo $row['id_tenis']; ?></strong></td>
+                        <td><strong><?php echo $row['id_produto']; ?></strong></td>
 
                         <td><span class="badge badge-tipo"><?php echo $row['nome_tipo']; ?></span></td>
 
-                        <td><?php echo $row['nome_tenis']; ?></td>
+                        <td><?php echo $row['nome_produto']; ?></td>
 
-                        <td><?php echo $row['resumo_tenis']; ?></td>
+                        <td><?php echo $row['resumo_produto']; ?></td>
 
                         <td>
                             <span class="fw-bold text-success">
-                                R$ <?php echo number_format($row['valor_tenis'], 2, ',', '.'); ?>
+                                R$ <?php echo number_format($row['valor_produto'], 2, ',', '.'); ?>
                             </span>
                         </td>
 
                         <td>
-                            <img src="../imagens/<?php echo $row['imagem_tenis']; ?>" width="90">
+                            <img src="../imagens/<?php echo $row['imagem_produto']; ?>" width="90">
                         </td>
 
                         <td class="text-center">
 
-                            <a href="tenis_atualiza.php?id_tenis=<?php echo $row['id_tenis']; ?>"
+                            <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
                                class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
                             <button
-                                data-id="<?php echo $row['id_tenis']; ?>"
-                                data-nome="<?php echo $row['nome_tenis']; ?>"
+                                data-id="<?php echo $row['id_produto']; ?>"
+                                data-nome="<?php echo $row['nome_produto']; ?>"
                                 class="btn btn-danger btn-sm w-100 btn-custom delete">
                                 🗑 Excluir
                             </button>
