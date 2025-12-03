@@ -44,18 +44,31 @@ $totalRows  =   ($lista_promoçao)->num_rows;
       <div class="row">    
         <div class="col-md-6 mb-3 d-none d-sm-block d-lg-block">
           <div class="card text-center ">
-            <img src="imagens/Promoçoes/jordan-1-promoçao.webp" class="card-img-top img-fluid" alt="Promoção grande">
+            <a   
+           href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
+        >
+            <img src="imagens/Promoçoes/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção grande" >
+            <a
+                         href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
+                    </a>   
             <h6 class="card-title mb-1"><?php echo $row_promoçao['nome_produto'];  ?></h6>
-          <p class="card-text fw-bold"> <?php echo $row_promoçao['valor_produto'];  ?></p>                                          
+          <p class="card-text fw-bold"> <?php echo $row_promoçao['valor_produto'];  ?></p>  
+                                              
           </div>
         </div>
 
         <?php $i = 1;      
         do{ $i++; ?>
-        <!-- esquerda card  C:\xampp\htdocs\projeto VP\imagens\Promoçoes\jordan-1-promoçao.webp-->
+        <!-- esquerda card imagens\Promoçoes\jordan-1-promoçao.webp-->
         <div class="col-6 col-md-3 mb-3 ">
           <div class="card text-center mb-3">
+            <a   
+           href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
+        >
             <img src="imagens/Promoçoes/<?php echo $row_promoçao['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Promoção 1">
+            <a
+                         href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
+                    </a>  
             <h6 class="card-title mb-1"><?php echo $row_promoçao['nome_produto']; ?></h6>
           <p class="card-text fw-bold">
 <?php echo $row_promoçao['valor_produto'];  ?></p>
@@ -68,7 +81,13 @@ $totalRows  =   ($lista_promoçao)->num_rows;
          do{ $i++; ?>
         <div class="col-6 col-md-3 mb-3 " >
           <div class="card text-center mb-3">
-            <img src="imagens/Promoçoes/<?php echo $row_promoçao['imagem_produto'];  ?>" class="card-img-top img-fluid" alt="Promoção 3">
+            <a   
+           href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"  
+        >
+            <img src="imagens/Promoçoes/<?php echo $row_promoçao['imagem_produto'];?>" class="card-img-top img-fluid" alt="Promoção 3">
+             <a
+                         href="Produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>">                       
+                    </a>  
             <h6 class="card-title mb-1"><?php echo $row_promoçao['nome_produto'];  ?></h6>
           <p class="card-text fw-bold">
 <?php echo number_format($row_promoçao['valor_produto'],2,',','.'); ?></p>
