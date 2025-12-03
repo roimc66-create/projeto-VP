@@ -1,13 +1,14 @@
 <?php
 include("Connections/conn_produtos.php");
 
-$sql = "SELECT t.*, tp.nome_tipo
-        FROM tbprodutos AS t
-        INNER JOIN tbtipos AS tp
-        ON t.id_tipo_produto = tp.id_tipo
-        ORDER BY t.id_produto ASC";
+// --- CONSULTA VIA VIEW ---
+$consulta = "
+            SELECT *
+            FROM vw_tbprodutos
+            ORDER BY id_produto ASC;
+            ";
 
-$result = $conn_produtos->query($sql);
+$lista = $conn_produtos->query($consulta);
 ?>
 
 <!DOCTYPE html>
@@ -16,116 +17,24 @@ $result = $conn_produtos->query($sql);
     <meta charset="UTF-8">
     <title>Lista de Tênis</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #f3f4f6;
-            min-height: 100vh;
-        }
-        /* CARD PRINCIPAL */
-        .card-custom {
-            border-radius: 18px;
-            padding: 40px;
-            background: #ffffff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-            margin-top: 40px;
-        }
-        /* TÍTULO */
-        .page-title {
-            font-weight: 700;
-            font-size: 32px;
-            color: #1f2937;
-        }
-
-        .header-bar {
-            height: 4px;
-            width: 70px;
-            background: #0d6efd;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* TABELA */
-        table {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        thead {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .table-hover tbody tr:hover {
-            background: #eef5ff;
-            transition: all 0.2s ease;
-        }
-
-        /* IMAGENS */
-        .table img {
-            border-radius: 12px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-            transition: 0.2s;
-        }
-
-        .table img:hover {
-            transform: scale(1.08);
-        }
-
-        /* TIPO */
-        .badge-tipo {
-            background: #0d6efd !important;
-            padding: 7px 13px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        /* BOTÕES */
-        .btn-custom {
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        .btn-warning {
-            background: #fbbf24 !important;
-            border: none;
-            color: #000;
-        }
-
-        .btn-warning:hover {
-            background: #f59e0b !important;
-        }
-
-        .btn-danger {
-            background: #ef4444 !important;
-            border: none;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626 !important;
-        }
-
-        .btn-success {
-            background: #10b981 !important;
-            border: none;
-        }
-
-        .btn-success:hover {
-            background: #059669 !important;
-        }
+        body { background: #f3f4f6; min-height: 100vh; }
+        .card-custom { border-radius: 18px; padding: 40px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-top: 40px; }
+        .page-title { font-weight: 700; font-size: 32px; color: #1f2937; }
+        .header-bar { height: 4px; width: 70px; background: #0d6efd; border-radius: 10px; margin-bottom: 20px; }
+        thead { background: #0d6efd; color: white; }
+        .table-hover tbody tr:hover { background: #eef5ff; }
+        .table img { border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s; }
+        .table img:hover { transform: scale(1.08); }
+        .badge-tipo { background: #0d6efd !important; padding: 7px 13px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+        .btn-custom { border-radius: 10px; font-weight: 600; }
     </style>
 </head>
 
-<body
-{
-    margin-top: 90px !important; 
-}
->
+<body style="margin-top: 90px !important;">   
 
-      
 <?php include("menu.php"); ?>
 
 <div class="container">
@@ -151,13 +60,14 @@ $result = $conn_produtos->query($sql);
                         <th>Nome</th>
                         <th>Resumo</th>
                         <th>Valor</th>
+                        <th>Gênero</th>
                         <th>Imagem</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                <?php while($row = $result->fetch_assoc()) { ?>
+                <?php while($row = $lista->fetch_assoc()) { ?>
                     <tr>
                         <td><strong><?php echo $row['id_produto']; ?></strong></td>
 
@@ -173,6 +83,8 @@ $result = $conn_produtos->query($sql);
                             </span>
                         </td>
 
+                        <td><?php echo $row['nome_genero']; ?></td>
+
                         <td>
                             <img src="../imagens/<?php echo $row['imagem_produto']; ?>" width="90">
                         </td>
@@ -180,7 +92,7 @@ $result = $conn_produtos->query($sql);
                         <td class="text-center">
 
                             <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
-                               class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
+                            class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
