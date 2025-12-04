@@ -79,7 +79,6 @@ $totalRows  =   ($lista_promoçao)->num_rows;
           </div>
         </div>
         <?php $contador++; } ?>
-
       </div>
     </div>
   </div>
