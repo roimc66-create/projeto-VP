@@ -89,7 +89,6 @@
     </div>
 </nav>
 
-
 <script>
     // Torna a navbar sólida automaticamente quando não há imagem de fundo
     document.addEventListener("DOMContentLoaded", () => {
