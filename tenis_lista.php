@@ -18,9 +18,10 @@ $lista = $conn_produtos->query($consulta);
     <title>Lista de Tênis</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/fundos.css">
 
     <style>
-        body { background: #f3f4f6; min-height: 100vh; }
+        body { background:rgb(255, 255, 255); min-height: 100vh; }
         .card-custom { border-radius: 18px; padding: 40px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-top: 40px; }
         .page-title { font-weight: 700; font-size: 32px; color: #1f2937; }
         .header-bar { height: 4px; width: 70px; background: #0d6efd; border-radius: 10px; margin-bottom: 20px; }
@@ -33,7 +34,7 @@ $lista = $conn_produtos->query($consulta);
     </style>
 </head>
 
-<body style="margin-top: 90px !important;">   
+<body class="fundoBanner">   
 
 <?php include("menu.php"); ?>
 
