@@ -84,9 +84,7 @@
      alt="Banner Puma">
 
 <!-- CONTEÚDO DA PÁGINA -->
-<main class="container">
-    <h1>Conteúdo abaixo do banner</h1>
-</main>
+
 
 <!-- BOOTSTRAP -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

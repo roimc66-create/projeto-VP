@@ -1,19 +1,13 @@
 <?php
-// Incluir o arquivo e fazer a conexão
 include("Connections/conn_produtos.php");
 
-// Selecionar os dados
-$consulta   =   "
-                SELECT  *
-                FROM    tbmarcas
-                ORDER BY imagem_marca ASC;
-                ";
-// Fazer uma lista completa dos dados
-$lista      =   $conn_produtos->query($consulta);
-// Separar os dados em linhas (row)
-$row        =   $lista->fetch_assoc();
-// Contar o total de linhas
-$totalRows  =   ($lista)->num_rows;
+$consulta = "
+    SELECT *
+    FROM tbmarcas
+    ORDER BY imagem_marca ASC;
+";
+
+$lista = $conn_produtos->query($consulta);
 ?>
 
 <!DOCTYPE html>
@@ -21,77 +15,137 @@ $totalRows  =   ($lista)->num_rows;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
-</head>
-<body class="">
-<section class="py-5 bg-white text-center">
-  <div class="container " id="Marcas">
-    <h2 class="fw-bold mb-4">NOSSAS MARCAS</h2>
-    <div id="carouselMarcas" class="carousel slide" data-bs-ride="false">
-  <div class="carousel-inner">
-    <?php
-    $contador = 0;
-    $active = "active";
+    <title>Marcas</title>
 
-    mysqli_data_seek($lista, 0);
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    while ($row = $lista->fetch_assoc()) {
-
-       
-        if ($contador % 6 == 0) {
-            echo '<div class="carousel-item ' . $active . '">';
-            echo '<div class="row justify-content-center">';
-            $active = ""; 
+    <style>
+        /* Área geral */
+        section#Marcas {
+            padding-top: 60px;
         }
-    ?>
 
-        <!-- CARD individual -->
-        <div class="col-6 col-sm-4 col-md-2 mb-4">
-          <div class="card border-black p-3 h-100">
-            <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
-                 class="card-img-top img-logo"
-                 alt="<?php echo $row['nome_marca']; ?>">
-          </div>
+        /* Linha do título + setas */
+        .marcas-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .marcas-header h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        /* Botões laterais alinhados com o título */
+        .arrow-btn {
+            background: #00000010;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            border: none;
+        }
+        .arrow-btn:hover {
+            background: #00000025;
+        }
+
+        .arrow-btn span {
+            filter: invert(1);
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 15px;
+            transition: transform .3s, box-shadow .3s;
+        }
+        .card img {
+            height: 100px;
+            object-fit: contain;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 25px #00000025;
+        }
+
+        /* Colunas centralizadas */
+        .carousel-item .row {
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="bg-white text-center" id="Marcas">
+    <div class="container">
+
+        <!-- TÍTULO + SETAS -->
+        <div class="marcas-header">
+
+            <button class="arrow-btn" type="button" data-bs-target="#carouselMarcas" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <h2>NOSSAS MARCAS</h2>
+
+            <button class="arrow-btn" type="button" data-bs-target="#carouselMarcas" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
 
-    <?php
-        $contador++;
+        <!-- CARROSSEL -->
+        <div id="carouselMarcas" class="carousel slide" data-bs-ride="false">
+            <div class="carousel-inner">
 
-        // fecha a row e o slide quando completar 6 imagens
-        if ($contador % 6 == 0) {
-            echo '</div></div>';
-        }
-    }
-    // Se terminar com menos de 6 e o slide não foi fechado → fecha agora
-    if ($contador % 6 != 0) {
-        echo '</div></div>';
-    }
-    ?>
+                <?php
+                $contador = 0;
+                $active = "active";
 
-  </div>
+                mysqli_data_seek($lista, 0);
 
-  <!-- SETAS DE NAVEGAÇÃO -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselMarcas" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
+                while ($row = $lista->fetch_assoc()) {
 
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselMarcas" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-</div>
-    
+                    if ($contador % 6 == 0) {
+                        echo '<div class="carousel-item ' . $active . '">';
+                        echo '<div class="row">';
+                        $active = "";
+                    }
+                ?>
+
+                    <div class="col-6 col-sm-4 col-md-2 mb-4">
+                        <div class="card border p-3">
+                            <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
+                                 class="img-fluid"
+                                 alt="<?php echo $row['nome_marca']; ?>">
+                        </div>
+                    </div>
+
+                <?php
+                    $contador++;
+                    if ($contador % 6 == 0) {
+                        echo '</div></div>';
+                    }
+                }
+
+                if ($contador % 6 != 0) {
+                    echo '</div></div>';
+                }
+                ?>
+            </div>
+        </div>
+
     </div>
-  </div>
 </section>
-<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-           crossorigin="anonymous"
-        ></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
+
 <?php mysqli_free_result($lista); ?>
