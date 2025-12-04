@@ -45,26 +45,43 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-transparent" id="mainNav">
     <div class="container-fluid">
-        <a class="navbar-brand text-dark fw-bold" href="#">VP STREET</a>
+        
+        <!-- LOGO / NOME DO SITE -->
+        <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
 
+        <!-- Botão mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
+            <!-- LINKS PRINCIPAIS -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
-                    <a class="nav-link text-dark fw-bold" href="#Marcas">Marcas</a>
+                    <a class="nav-link text-dark fw-bold" href=".php">Marcas</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#Promocoes">Promoções</a>
+                    <a class="nav-link text-dark" href=".php">Promoções</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href=".php">Produtos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="contato.php">Contato</a>
+                </li>
+
             </ul>
 
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar">
+            <!-- BARRA DE PESQUISA -->
+            <form class="d-flex" action="buscar.php" method="GET">
+                <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
                 <button class="btn btn-outline-dark" type="submit">Ok</button>
             </form>
 
