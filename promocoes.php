@@ -27,67 +27,56 @@ $totalRows  =   ($lista_promoçao)->num_rows;
   <title>Modelo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/promo.css">
 </head>
 
 <body>
 
- <div class="container-md bg-dark py-4" id="Promoçoes">
-  <div class="d-flex">
-    <div class="me-3 d-flex align-items-center">
-      <div class="fw-bold text-uppercase"
-           style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px;">
-        <h3 class="text-bg-dark">Promoções</h3>
-      </div>
-    </div>
 
-    <div class="w-100">
-      <div class="row">
+  <div class="snkr-container">
 
-        <?php 
-        // ----- 1º card: grande -----
-        if($row = $lista_promoçao->fetch_assoc()) {
-        ?>
-        <div class="col-md-6 mb-3 d-none d-sm-block d-lg-block">
-          <div class="card text-center">
-            <a href="Produto_detalhe.php?id_produto=<?= $row['id_produto']; ?>">
-              <img src="imagens/exclusivo/<?= $row['imagem_produto']; ?>" 
-                   class="card-img-top img-fluid">
-            </a>
-            <h6 class="card-title mb-1"><?= $row['nome_produto']; ?></h6>
-            <p class="card-text fw-bold">
-              <?= number_format($row['valor_produto'],2,',','.'); ?>
-            </p>
-          </div>
-        </div>
-        <?php } ?>
+    <aside class="snkr-sidebar">
+      <h1><span>Calendário</span> SNEAKER</h1>
+    </aside>
 
-        <?php 
-        // ----- Próximos 4 cards pequenos -----
-        $contador = 0;
-        while($contador < 4 && $row = $lista_promoçao->fetch_assoc()) {
-        ?>
-        <div class="col-6 col-md-3 mb-3">
-          <div class="card text-center">
-            <a href="Produto_detalhe.php?id_produto=<?= $row['id_produto']; ?>">
-              <img src="imagens/exclusivo/<?= $row['imagem_produto']; ?>" 
-                   class="card-img-top img-fluid">
-            </a>
-            <h6 class="card-title mb-1"><?= $row['nome_produto']; ?></h6>
-            <p class="card-text fw-bold">
-              <?= number_format($row['valor_produto'],2,',','.'); ?>
-            </p>
-          </div>
+    <main class="snkr-main">
+
+      <section class="snkr-featured">
+        <div class="snkr-date">28 | NOV</div>     
+        <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto']; ?>"  class="snkr-shoe">
+        <h3>
+          <?= $row_promoçao['nome_produto']; ?>
+        </h3>
+        <button class="snkr-btn-price">
+    <?= number_format($row_promoçao['valor_produto'], 2, ',', '.'); ?>
+</button>
+
+      </section>
+
+      <section class="snkr-grid">
+        
+        <?php // ----- Próximos 4 cards pequenos -----
+         $contador = 0; 
+         while($contador < 4 && $row = $lista_promoçao->fetch_assoc()) { 
+          ?>
+        <div class="snkr-item">
+          <div class="snkr-date small">29 | NOV</div>
+          <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto']; ?>">
+          <h4><?= $row_promoçao['nome_produto']; ?></h4>
+          <button class="snkr-btn-price">
+    <?= number_format($row_promoçao['valor_produto'], 2, ',', '.'); ?>
+</button>
         </div>
         <?php $contador++; } ?>
-      </div>
-    </div>
+      </section>
+    </main>
+
   </div>
-</div>
 
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

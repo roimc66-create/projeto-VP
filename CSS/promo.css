@@ -1,0 +1,109 @@
+.snkr-container {
+    display: flex;
+    background: #ececec;
+    padding: 0;
+}
+
+/* SIDEBAR */
+.snkr-sidebar {
+    width: 18%;
+    background: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.snkr-sidebar h1 {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 45px;
+    font-weight: 900;
+    margin: 0;
+    text-align: center;
+}
+
+.snkr-sidebar h1 span {
+    font-weight: 200;
+}
+
+/* MAIN */
+.snkr-main {
+    width: 82%;
+    padding: 40px;
+    display: flex;
+    gap: 30px;
+}
+
+/* FEATURED */
+.snkr-featured {
+    background: white;
+    padding: 40px;
+    width: 50%;
+    text-align: center;
+    position: relative;
+    border-radius: 6px;
+}
+
+.snkr-featured .snkr-date {
+    font-weight: bold;
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    font-size: 18px;
+}
+
+.snkr-featured img {
+    width: 70%;
+}
+
+.snkr-subtitle {
+    color: #444;
+}
+
+/* GRID */
+.snkr-grid {
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.snkr-item {
+    background: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 6px;
+    position: relative;
+}
+
+.snkr-item img {
+    width: 80%;
+}
+
+.snkr-item .snkr-date.small {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-weight: bold;
+}
+
+.snkr-item p {
+    color: #444;
+    margin: 0;
+}
+.snkr-btn-price {
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+.snkr-btn-price:hover {
+    background: #333;
+}
+
