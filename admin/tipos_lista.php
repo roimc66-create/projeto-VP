@@ -1,26 +1,32 @@
 <?php
-include("Connections/conn_produtos.php");
+include("../Connections/conn_produtos.php");
 
 // --- CONSULTA VIA VIEW ---
 $consulta = "
             SELECT *
-            FROM vw_tbprodutos
-            ORDER BY id_produto ASC;
+            FROM tbtipos
+            ORDER BY id_tipo ASC;
             ";
 
 $lista = $conn_produtos->query($consulta);
+$row        =   $lista->fetch_assoc();
+// Contar o total de linhas
+$totalRows  =   ($lista)->num_rows;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Tênis</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/fundos.css">
-
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tipo-Lista</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"/>
+            <style>
         body { background:rgb(255, 255, 255); min-height: 100vh; }
         .card-custom { border-radius: 18px; padding: 40px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-top: 40px; }
         .page-title { font-weight: 700; font-size: 32px; color: #1f2937; }
@@ -33,21 +39,17 @@ $lista = $conn_produtos->query($consulta);
         .btn-custom { border-radius: 10px; font-weight: 600; }
     </style>
 </head>
-
-<body class="fundoBanner">   
-
-<?php include("menu.php"); ?>
-
-<div class="container">
+<body>
+        <div class="container">
 
     <div class="card-custom">
 
         <div class="header-bar"></div>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="page-title">Catálogo de Tênis</h2>
+            <h2 class="page-title">Catálogo de Tipos</h2>
 
-            <a href="produto_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
+            <a href="tipo_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
@@ -56,13 +58,8 @@ $lista = $conn_produtos->query($consulta);
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Tipo</th>
+                        <th>ID</th>                        
                         <th>Nome</th>
-                        <th>Resumo</th>
-                        <th>Valor</th>
-                        <th>Gênero</th>
-                        <th>Imagem</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
@@ -70,36 +67,20 @@ $lista = $conn_produtos->query($consulta);
                 <tbody>
                 <?php while($row = $lista->fetch_assoc()) { ?>
                     <tr>
-                        <td><strong><?php echo $row['id_produto']; ?></strong></td>
+                        <td><strong><?php echo $row['id_tipo']; ?></strong></td>
 
-                        <td><span class="badge badge-tipo"><?php echo $row['nome_tipo']; ?></span></td>
-
-                        <td><?php echo $row['nome_produto']; ?></td>
-
-                        <td><?php echo $row['resumo_produto']; ?></td>
-
-                        <td>
-                            <span class="fw-bold text-success">
-                                R$ <?php echo number_format($row['valor_produto'], 2, ',', '.'); ?>
-                            </span>
-                        </td>
-
-                        <td><?php echo $row['nome_genero']; ?></td>
-
-                        <td>
-                            <img src="imagens/exclusivo/<?php echo $row['imagem_produto']; ?>" width="90">
-                        </td>
+                        <td><?php echo $row['nome_tipo']; ?></td>
 
                         <td class="text-center">
 
-                            <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
+                            <a href="genero_atualiza.php?id_tipo=<?php echo $row['id_tipo']; ?>"
                             class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
                             <button
-                                data-id="<?php echo $row['id_produto']; ?>"
-                                data-nome="<?php echo $row['nome_produto']; ?>"
+                                data-id="<?php echo $row['id_tipo']; ?>"
+                                data-nome="<?php echo $row['nome_tipo']; ?>"
                                 class="btn btn-danger btn-sm w-100 btn-custom delete">
                                 🗑 Excluir
                             </button>
@@ -115,5 +96,10 @@ $lista = $conn_produtos->query($consulta);
 
 </div>
 
+
+<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+           crossorigin="anonymous"
+        ></script>
 </body>
 </html>

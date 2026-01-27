@@ -5,14 +5,14 @@ include("Connections/conn_produtos.php");
 
 // Selecionar os dados
 $tabela_exclusivo        =   "vw_tbprodutos";  
-$campo_filtro           =   "sneakers_produto";
-$ordenar_por            =   "resumo_produto ASC";
+$campo_filtro_exclusivo  =   "sneakers_produto";
+$ordenar_por_exclusivo   =   "resumo_produto ASC";
 $filtro_select_exclusivo =   "Sim"; 
 $consulta_exclusivo      =   "
                    SELECT *
                    FROM ".$tabela_exclusivo."
-                   WHERE  ".$campo_filtro."='".$filtro_select_exclusivo."'
-                   ORDER BY ".$ordenar_por.";
+                   WHERE  ".$campo_filtro_exclusivo."='".$filtro_select_exclusivo."'
+                   ORDER BY ".$ordenar_por_exclusivo.";
                    ";
 $lista_exclusivo      =   $conn_produtos->query($consulta_exclusivo);
 $row_exclusivo        =   $lista_exclusivo->fetch_assoc();
@@ -36,6 +36,7 @@ $totalRows  =   ($lista_exclusivo)->num_rows;
 <div class="container my-5 text-center" id="Exclusivos">
   <h2 class="fw-bold mb-4">EXCLUSIVOS</h2>
   <div class="row justify-content-center mt-4">
+    <?php do{ ?>
     <div class="col-12 col-md-4 mb-4">
       <div class="card h-100 border-black p-3">
         <img src="imagens/exclusivo/<?php echo $row_exclusivo['imagem_produto']; ?>" class="card-img-top img-fluid" alt="Nike Produto 1">
@@ -47,30 +48,10 @@ $totalRows  =   ($lista_exclusivo)->num_rows;
         </div>
       </div>
     </div>
+    <?php }while($row_exclusivo=$lista_exclusivo->fetch_assoc()); ?>
 
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100 border-black p-3">
-        <img src="imagens/exclusivo/air-jordan-exclusivo.webp" class="card-img-top img-fluid" alt="Nike Produto 2">
-        <div class="card-body">
-          <h6 class="card-title mb-1">Tênis Air Jordan 1 Low Feminino</h6>
-          <p class="card-text fw-bold">R$ 1.099,99</p>
-          <a href="#" class="btn btn-dark w-100">Comprar</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100 border-black p-3">
-        <img src="imagens/exclusivo/nike-rosa-eclusivo.webp" class="card-img-top img-fluid" alt="Nike Produto 3">
-        <div class="card-body">
-          <h6 class="card-title mb-1">Tênis Nike A'One Run Low Feminino</h6>
-          <p class="card-text fw-bold">
-R$ 899,99</p>
-          <a href="#" class="btn btn-dark w-100">Comprar</a>
-        </div>
-      </div>
-    </div>
-
+  </div>
+</div>
 </main>
 <script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
@@ -78,3 +59,4 @@ R$ 899,99</p>
         ></script>
 </body>
 </html>
+<?php mysqli_free_result($lista_exclusivo); ?>

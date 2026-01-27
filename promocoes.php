@@ -53,12 +53,7 @@ $totalRows  =   ($lista_promoçao)->num_rows;
 
       </section>
 
-      <section class="snkr-grid">
-        
-        <?php // ----- Próximos 4 cards pequenos -----
-         $contador = 0; 
-         while($contador < 4 && $row = $lista_promoçao->fetch_assoc()) { 
-          ?>
+      <section class="snkr-grid">        
         <div class="snkr-item">
           <div class="snkr-date small">29 | NOV</div>
           <img src="imagens/exclusivo/<?php echo $row_promoçao['imagem_produto']; ?>">
@@ -67,8 +62,10 @@ $totalRows  =   ($lista_promoçao)->num_rows;
     <?= number_format($row_promoçao['valor_produto'], 2, ',', '.'); ?>
 </button>
         </div>
-        <?php $contador++; } ?>
+
       </section>
+      
+
     </main>
 
   </div>

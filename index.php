@@ -72,47 +72,8 @@
     <a name="">&nbsp; </a>
     <?php include('promocoes.php')  ?>
     <a name="">&nbsp; </a>
-
-<div class="container my-5 text-center" id="Exclusivos">
-  <h2 class="fw-bold mb-4">EXCLUSIVOS</h2>
-  <div class="row justify-content-center mt-4">
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100 border-black p-3">
-        <img src="imagens/exclusivo/nikeshox-exclusivo.webp" class="card-img-top img-fluid" alt="Nike Produto 1">
-        <div class="card-body">
-          <h6 class="card-title mb-1">Tênis Nike Shox Tl Low Masculino</h6>
-          <p class="card-text fw-bold">
-R$ 1.399,99</p>
-          <a href="#" class="btn btn-dark w-100">Comprar</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100 border-black p-3">
-        <img src="imagens/exclusivo/air-jordan-exclusivo.webp" class="card-img-top img-fluid" alt="Nike Produto 2">
-        <div class="card-body">
-          <h6 class="card-title mb-1">Tênis Air Jordan 1 Low Feminino</h6>
-          <p class="card-text fw-bold">R$ 1.099,99</p>
-          <a href="#" class="btn btn-dark w-100">Comprar</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-4 mb-4">
-      <div class="card h-100 border-black p-3">
-        <img src="imagens/exclusivo/nike-rosa-eclusivo.webp" class="card-img-top img-fluid" alt="Nike Produto 3">
-        <div class="card-body">
-          <h6 class="card-title mb-1">Tênis Nike A'One Run Low Feminino</h6>
-          <p class="card-text fw-bold">
-R$ 899,99</p>
-          <a href="#" class="btn btn-dark w-100">Comprar</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
+     <?php include('exclusivo.php')  ?>
+    <a name="">&nbsp; </a>
         </main>
         <footer>
             <section class="py-5 bg-dark text-white">
