@@ -50,7 +50,7 @@ $totalRows  =   ($lista)->num_rows;
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title">Catálogo de Usuarios</h2>
 
-            <a href="produto_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
+            <a href="usuario_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
@@ -74,9 +74,9 @@ $totalRows  =   ($lista)->num_rows;
                         <td><?php echo $row['login_usuario']; ?></td>
 
                         <td><?php 
-                        if($row['nivel_usuario'] == 'sup'){
+                        if($row['nivel_usuario'] == 'admin'){
                             echo('<span class="glyphicon glyphicon-sunglasses text-black"></span>');
-                        } else  if($row['nivel_usuario'] == 'com'){
+                        } else  if($row['nivel_usuario'] == 'user'){
                             echo('<span class="glyphicon glyphicon-user text-info"></span>');
                         };
                     ?>

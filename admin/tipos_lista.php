@@ -77,14 +77,15 @@ $totalRows  =   ($lista)->num_rows;
                             class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
-
+                          
                             <button
                                 data-id="<?php echo $row['id_tipo']; ?>"
                                 data-nome="<?php echo $row['nome_tipo']; ?>"
-                                class="btn btn-danger btn-sm w-100 btn-custom delete">
-                                🗑 Excluir
+                                class="btn btn-danger btn-sm w-100 btn-custom btn-block delete">
+                                <span class="hidden-xs">EXCLUIR<br></span>
+                        <span class="glyphicon glyphicon-trash"></span>
                             </button>
-
+                            
                         </td>
                     </tr>
                 <?php } ?>
@@ -95,11 +96,57 @@ $totalRows  =   ($lista)->num_rows;
     </div>
 
 </div>
-
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                >
+                    &times;
+                </button>
+                <h4 class="modal-title text-danger">ATENÇÃO!</h4>
+            </div> <!-- fecha modal-header -->
+            <div class="modal-body">
+                Deseja mesmo EXCLUIR o item?
+                <h4><span class="nome text-danger"></span></h4>
+            </div> <!-- fecha modal-body -->
+            <div class="modal-footer">
+                <a 
+                    href="#" 
+                    type="button" 
+                    class="btn btn-danger delete-yes"
+                >
+                    Confirmar
+                </a>
+                <button class="btn btn-success" data-dismiss="modal">
+                    Cancelar
+                </button>
+            </div> <!-- fecha modal-footer -->
+        </div> <!-- fecha modal-content -->
+    </div> <!-- fecha modal-dialog -->
+</div> <!-- fecha modal -->
 
 <script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
            crossorigin="anonymous"
         ></script>
+        <!-- Script para o Modal -->
+<script type="text/javascript">
+    $('.delete').on('click',function(){
+        var nome    =   $(this).data('nome');
+        // buscar o valor do atributo data-nome
+        var id      =   $(this).data('id');
+        // buscar o valor do atributo data-id
+        $('span.nome').text(nome);
+        // Inserir o nome do item na pergunta de confirmação
+        $('a.delete-yes').attr('href','tipos_exclui.php?id_tipo='+id);
+        // mudar dinamicamente o id do link no botão confirmar
+        $('#myModal').modal('show'); // abre modal
+    });
+</script>
 </body>
 </html>
