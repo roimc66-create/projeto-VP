@@ -49,7 +49,7 @@ $totalRows  =   ($lista)->num_rows;
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title">Lista de Genero</h2>
 
-            <a href="tipo_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
+            <a href="genero_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
