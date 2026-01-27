@@ -49,7 +49,7 @@ $totalRows  =   ($lista)->num_rows;
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title">Catálogo de Tipos</h2>
 
-            <a href="tipo_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
+            <a href="tipos_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
@@ -73,7 +73,7 @@ $totalRows  =   ($lista)->num_rows;
 
                         <td class="text-center">
 
-                            <a href="genero_atualiza.php?id_tipo=<?php echo $row['id_tipo']; ?>"
+                            <a href="tipos_atualiza.php?id_tipo=<?php echo $row['id_tipo']; ?>"
                             class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
