@@ -58,7 +58,7 @@ CREATE TABLE tbprodutos(
     valor_produto DECIMAL(9,2) NULL,
     imagem_produto VARCHAR(50) NULL,
     promoção_produto enum('Pro','Não') NOT NULL,
-    sneakers_produto enum('Sim','Não') NOT NULL
+    sneakers_produto enum('Sne','Não') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ------ CHAVES ------

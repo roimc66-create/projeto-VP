@@ -1,151 +1,161 @@
 <?php
-// Incluir o arquivo e fazer a conexão
 include("../Connections/conn_produtos.php");
 
-if($_POST){
-    // Selecionar o banco de dados (USE)
-    mysqli_select_db($conn_produtos,$database_conn);
+if ($_POST) {
 
-    // Variáveis para acrescentar dados no banco
-    $tabela_insert  =   "tbmarcas";
-    $campos_insert  =   "
-                            nome_marca,
-                            imagem_marca                           
-                        ";
+    mysqli_select_db($conn_produtos, $database_conn);
 
-    // Guardar o nome da imagem no banco e o arquivo no diretório
-    if(isset($_POST['enviar'])){
-        $nome_img   =   $_FILES['imagem_marca']['name'];
-        $tmp_img    =   $_FILES['imagem_marca']['tmp_name'];
-        $dir_img    =   "../imagens/exclusivo/".$nome_img;
-        move_uploaded_file($tmp_img,$dir_img);
-    };                    
-    // Receber os dados do formulário
-    // Organizar os campos na mesma ordem
-    $nome_marca     =   $_POST['nome_marca'];
-    $imagem_marca     =   $_FILES['imagem_marca']['name'];
+    $tabela_insert = "tbmarcas";
+    $campos_insert = "nome_marca, imagem_marca";
 
-    // Reunir os valores a serem inseridos
-    $valores_insert =   "
-                        '$nome_marca',
-                        '$imagem_marca'
-                        ";
+    if (isset($_POST['enviar'])) {
+        $nome_img = $_FILES['imagem_marca']['name'];
+        $tmp_img  = $_FILES['imagem_marca']['tmp_name'];
+        $dir_img  = "../imagens/exclusivo/" . $nome_img;
+        move_uploaded_file($tmp_img, $dir_img);
+    }
 
-    // Consulta SQL para inserção dos dados
-    $insertSQL  =   "
-                    INSERT INTO ".$tabela_insert."
-                        (".$campos_insert.")
-                    VALUES
-                        (".$valores_insert.");
-                    ";
-    $resultado  =   $conn_produtos->query($insertSQL);
+    $nome_marca   = $_POST['nome_marca'];
+    $imagem_marca = $_FILES['imagem_marca']['name'];
 
-    // Após a ação a página será redirecionada
-    $destino    =   "marcas_lista.php";
-    if(mysqli_insert_id($conn_produtos)){
-        header("Location: $destino");
-    }else{
-        header("Location: $destino");
-    };
-};
+    $valores_insert = "'$nome_marca', '$imagem_marca'";
+
+    $insertSQL = "
+        INSERT INTO $tabela_insert ($campos_insert)
+        VALUES ($valores_insert)
+    ";
+
+    $resultado = $conn_produtos->query($insertSQL);
+
+    header("Location: marcas_lista.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
-            
+    <title>Inserir Marca</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        .card-custom {
+            border-radius: 18px;
+            padding: 30px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 50px;
+        }
+        .preview-img {
+            max-height: 140px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
+
 <main class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4" > <!-- abre dimensionamento -->
-            <h2 class="breadcrumb text-warning">
-                <a href="tipos_lista.php">
-                    <button class="btn btn-warning">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </button>
-                </a>
-                Inserir Marca
-            </h2>
-            <div class="thumbnail">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+            <div class="card-custom">
+
+                <div class="d-flex align-items-center mb-3">
+                    <a href="marcas_lista.php" class="btn btn-warning me-3">
+                        ←
+                    </a>
+                    <h4 class="mb-0 text-warning fw-bold">Inserir Marca</h4>
+                </div>
+
                 <div class="alert alert-warning">
-                    <form 
+
+                    <form
                         action="marcas_insere.php"
-                        enctype="multipart/form-data"
                         method="post"
-                        id="form_insere_tipo"
-                        name="form_insere_tipo"
+                        enctype="multipart/form-data"
+                        id="form_insere_marca"
+                        name="form_insere_marca"
                     >
-                        <!-- text nome_marca -->
-                        <label for="nome_marca">Rótulo:</label>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-apple"></span>
-                            </span>
-                            <input 
-                                type="text" 
-                                name="nome_marca" 
+
+                        <!-- Nome -->
+                        <div class="mb-3">
+                            <label for="nome_marca" class="form-label fw-semibold">
+                                Rótulo:
+                            </label>
+
+                            <input
+                                type="text"
+                                name="nome_marca"
                                 id="nome_marca"
                                 class="form-control"
-                                autofocus
                                 maxlength="15"
                                 required
-                                placeholder="Digite o marca."
+                                autofocus
+                                placeholder="Digite a marca"
                             >
-                        </div> <!-- fecha input-group -->
-                        <!-- fecha text nome_marca -->
-                        <br>
-                         <!-- file imagem_marca -->
-                        <label for="imagem_marca">Imagem:</label>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-picture"></span>
-                            </span>
-                            <!-- Exibir a imagem a ser inserida -->
-                            <img 
-                                src="" 
-                                alt=""
-                                name="imagem"
-                                id="imagem"
-                                class="img-responsive"
-                                style="max-height: 150px;"
-                            >
-                            <input 
-                                type="file" 
-                                name="imagem_marca" 
+                        </div>
+
+                        <!-- Imagem -->
+                        <div class="mb-3">
+                            <label for="imagem_marca" class="form-label fw-semibold">
+                                Imagem:
+                            </label>
+
+                            <img id="preview" class="preview-img img-fluid">
+
+                            <input
+                                type="file"
+                                name="imagem_marca"
                                 id="imagem_marca"
                                 class="form-control"
                                 accept="image/*"
+                                required
                             >
-                        </div> <!-- fecha input-group -->
-                        <!-- fecha file imagem_marca -->
-                        <br>
-                        <!-- btn enviar -->
-                        <input 
-                            type="submit" 
-                            value="Cadastrar"
+                        </div>
+
+                        <button
+                            type="submit"
                             name="enviar"
-                            id="enviar"
-                            role="button"
-                            class="btn btn-warning btn-block"
+                            class="btn btn-warning w-100 fw-semibold"
                         >
+                            Cadastrar
+                        </button>
+
                     </form>
-                </div> <!-- fecha alert alert-warning  -->
-            </div> <!-- thumbnail -->
-        </div> <!-- dimensionamento -->
-    </div> <!-- fecha row -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </main>
 
-<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-           crossorigin="anonymous"
-        ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.getElementById('imagem_marca').addEventListener('change', function (e) {
+    const preview = document.getElementById('preview');
+    const file = e.target.files[0];
+
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+    }
+});
+</script>
+
 </body>
 </html>

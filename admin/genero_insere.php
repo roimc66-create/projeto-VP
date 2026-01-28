@@ -1,116 +1,114 @@
 <?php
-// Incluir o arquivo e fazer a conexão
 include("../Connections/conn_produtos.php");
 
-if($_POST){
-    // Selecionar o banco de dados (USE)
-    mysqli_select_db($conn_produtos,$database_conn);
+if ($_POST) {
 
-    // Variáveis para acrescentar dados no banco
-    $tabela_insert  =   "tbgeneros";
-    $campos_insert  =   "
-                            nome_genero                           
-                        ";
+    mysqli_select_db($conn_produtos, $database_conn);
 
-    // Receber os dados do formulário
-    // Organizar os campos na mesma ordem
-    $nome_genero     =   $_POST['nome_genero'];
+    $tabela_insert = "tbgeneros";
+    $campos_insert = "nome_genero";
 
-    // Reunir os valores a serem inseridos
-    $valores_insert =   "
-                        '$nome_genero'
-                        ";
+    $nome_genero = $_POST['nome_genero'];
 
-    // Consulta SQL para inserção dos dados
-    $insertSQL  =   "
-                    INSERT INTO ".$tabela_insert."
-                        (".$campos_insert.")
-                    VALUES
-                        (".$valores_insert.");
-                    ";
-    $resultado  =   $conn_produtos->query($insertSQL);
+    $valores_insert = "'$nome_genero'";
 
-    // Após a ação a página será redirecionada
-    $destino    =   "genero_lista.php";
-    if(mysqli_insert_id($conn_produtos)){
-        header("Location: $destino");
-    }else{
-        header("Location: $destino");
-    };
-};
+    $insertSQL = "
+        INSERT INTO $tabela_insert ($campos_insert)
+        VALUES ($valores_insert)
+    ";
+
+    $resultado = $conn_produtos->query($insertSQL);
+
+    header("Location: genero_lista.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
-            
+    <title>Inserir Gênero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        .card-custom {
+            border-radius: 18px;
+            padding: 30px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 50px;
+        }
+    </style>
 </head>
+
 <body>
+
 <main class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4" > <!-- abre dimensionamento -->
-            <h2 class="breadcrumb text-warning">
-                <a href="tipos_lista.php">
-                    <button class="btn btn-warning">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </button>
-                </a>
-                Inserir Genero
-            </h2>
-            <div class="thumbnail">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+            <div class="card-custom">
+
+                <div class="d-flex align-items-center mb-3">
+                    <a href="genero_lista.php" class="btn btn-warning me-3">
+                        ←
+                    </a>
+                    <h4 class="mb-0 text-warning fw-bold">Inserir Gênero</h4>
+                </div>
+
                 <div class="alert alert-warning">
-                    <form 
+
+                    <form
                         action="genero_insere.php"
-                        enctype="multipart/form-data"
                         method="post"
-                        id="form_insere_tipo"
-                        name="form_insere_tipo"
+                        id="form_insere_genero"
+                        name="form_insere_genero"
                     >
-                        <!-- text nome_genero -->
-                        <label for="nome_genero">Rótulo:</label>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-apple"></span>
-                            </span>
-                            <input 
-                                type="text" 
-                                name="nome_genero" 
+
+                        <div class="mb-3">
+                            <label for="nome_genero" class="form-label fw-semibold">
+                                Rótulo:
+                            </label>
+
+                            <input
+                                type="text"
+                                name="nome_genero"
                                 id="nome_genero"
                                 class="form-control"
-                                autofocus
                                 maxlength="15"
                                 required
-                                placeholder="Digite o genero."
+                                autofocus
+                                placeholder="Digite o gênero"
                             >
-                        </div> <!-- fecha input-group -->
-                        <!-- fecha text nome_genero -->
-                        <br>
-                        <!-- btn enviar -->
-                        <input 
-                            type="submit" 
-                            value="Cadastrar"
+                        </div>
+
+                        <button
+                            type="submit"
                             name="enviar"
-                            id="enviar"
-                            role="button"
-                            class="btn btn-warning btn-block"
+                            class="btn btn-warning w-100 fw-semibold"
                         >
+                            Cadastrar
+                        </button>
+
                     </form>
-                </div> <!-- fecha alert alert-warning  -->
-            </div> <!-- thumbnail -->
-        </div> <!-- dimensionamento -->
-    </div> <!-- fecha row -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </main>
 
-<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-           crossorigin="anonymous"
-        ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
