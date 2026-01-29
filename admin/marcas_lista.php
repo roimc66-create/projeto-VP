@@ -1,17 +1,14 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-// --- CONSULTA VIA tabela ---
+// CONSULTA ORDENADA PELO ID
 $consulta = "
-            SELECT *
-            FROM tbmarcas
-            ORDER BY nome_marca ASC;
-            ";
+    SELECT *
+    FROM tbmarcas
+    ORDER BY id_marca ASC
+";
 
 $lista = $conn_produtos->query($consulta);
-$row        =   $lista->fetch_assoc();
-// Contar o total de linhas
-$totalRows  =   ($lista)->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -24,20 +21,45 @@ $totalRows  =   ($lista)->num_rows;
     <link rel="stylesheet" href="CSS/fundos.css">
 
     <style>
-        body { background:rgb(255, 255, 255); min-height: 100vh; }
-        .card-custom { border-radius: 18px; padding: 40px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-top: 40px; }
+        body { background: rgb(255, 255, 255); min-height: 100vh; }
+        .card-custom {
+            border-radius: 18px;
+            padding: 40px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            margin-top: 40px;
+        }
         .page-title { font-weight: 700; font-size: 32px; color: #1f2937; }
-        .header-bar { height: 4px; width: 70px; background: #0d6efd; border-radius: 10px; margin-bottom: 20px; }
+        .header-bar {
+            height: 4px;
+            width: 70px;
+            background: #0d6efd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
         thead { background: #0d6efd; color: white; }
         .table-hover tbody tr:hover { background: #eef5ff; }
-        .table img { border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s; }
+        .table img {
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: 0.2s;
+        }
         .table img:hover { transform: scale(1.08); }
-        .badge-tipo { background: #0d6efd !important; padding: 7px 13px; border-radius: 6px; font-size: 13px; font-weight: 600; }
-        .btn-custom { border-radius: 10px; font-weight: 600; }
+        .badge-tipo {
+            background: #0d6efd !important;
+            padding: 7px 13px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-custom {
+            border-radius: 10px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
-<body class="fundoBanner">   
+<body class="fundoBanner">
 
 <?php include("menu.php"); ?>
 
@@ -74,13 +96,15 @@ $totalRows  =   ($lista)->num_rows;
                         <td><?php echo $row['nome_marca']; ?></td>
 
                         <td>
-                            <img src="imagens/exclusivo/<?php echo $row['imagem_marca']; ?>" alt="<?php echo $row['nome_marca']; ?>"  width="100">
+                            <img src="imagens/exclusivo/<?php echo $row['imagem_marca']; ?>"
+                                 alt="<?php echo $row['nome_marca']; ?>"
+                                 width="100">
                         </td>
 
                         <td class="text-center">
 
                             <a href="marca_atualiza.php?id_marca=<?php echo $row['id_marca']; ?>"
-                            class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
+                               class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
@@ -104,4 +128,5 @@ $totalRows  =   ($lista)->num_rows;
 
 </body>
 </html>
+
 <?php mysqli_free_result($lista); ?>
