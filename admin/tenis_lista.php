@@ -5,7 +5,7 @@ include("../Connections/conn_produtos.php");
 $consulta = "
             SELECT *
             FROM vw_tbprodutos
-            ORDER BY resumo_produto ASC;
+            ORDER BY id_produto ASC;
             ";
 
 $lista = $conn_produtos->query($consulta);

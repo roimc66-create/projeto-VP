@@ -11,7 +11,6 @@
     />
 
     <style>
-        /* Navbar fixa e sempre sólida */
         nav.navbar {
             position: fixed !important;
             top: 0;
@@ -23,13 +22,11 @@
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* NÃO coloca padding no body */
         body {
             margin: 0;
             padding: 0;
         }
 
-        /* Só o conteúdo após o banner desce */
         main {
             padding-top: 75px;
         }
@@ -40,10 +37,10 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container-fluid">
         
-        <!-- LOGO -->
+        <!-- LOGO DO SITE -->
         <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
 
-        <!-- Botão mobile -->
+        <!-- BOTÃO CELULAR-->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
@@ -68,7 +65,7 @@
 
             </ul>
 
-            <!-- PESQUISA -->
+            <!-- CAIXA DE PESQUISA -->
             <form class="d-flex" action="buscar.php" method="GET">
                 <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
                 <button class="btn btn-outline-dark" type="submit">Ok</button>
@@ -78,15 +75,14 @@
     </div>
 </nav>
 
-<!-- BANNER ENCOSTANDO NA NAVBAR -->
 <img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png"
      class="img-fluid w-100"
      alt="Banner Puma">
 
-<!-- CONTEÚDO DA PÁGINA -->
 
 
-<!-- BOOTSTRAP -->
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
