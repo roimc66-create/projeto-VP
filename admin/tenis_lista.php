@@ -20,8 +20,11 @@ $totalRows  =   ($lista)->num_rows;
     <meta charset="UTF-8">
     <title>Lista de Tênis</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/fundos.css">
+   <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"/>
 
     <style>
         body { background:rgb(255, 255, 255); min-height: 100vh; }

@@ -1,43 +1,75 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-// --- CONSULTA VIA VIEW ---
-$consulta = "
-            SELECT *
-            FROM tbusuarios
-            ORDER BY login_usuario ASC;
-            ";
+$sql = "
+    SELECT *
+    FROM tbusuarios
+    ORDER BY id_usuario ASC
+";
 
-$lista = $conn_produtos->query($consulta);
-$row        =   $lista->fetch_assoc();
-// Contar o total de linhas
-$totalRows  =   ($lista)->num_rows;
+$lista = $conn_produtos->query($sql);
+
+$row = $lista->fetch_assoc();
+$totalRows = $lista->num_rows;
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Usuarios</title>
+    <title>Lista de Usuários</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/fundos.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"/>
 
     <style>
-        body { background:rgb(255, 255, 255); min-height: 100vh; }
-        .card-custom { border-radius: 18px; padding: 40px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-top: 40px; }
-        .page-title { font-weight: 700; font-size: 32px; color: #1f2937; }
-        .header-bar { height: 4px; width: 70px; background: #0d6efd; border-radius: 10px; margin-bottom: 20px; }
-        thead { background: #0d6efd; color: white; }
-        .table-hover tbody tr:hover { background: #eef5ff; }
-        .table img { border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s; }
-        .table img:hover { transform: scale(1.08); }
-        .badge-tipo { background: #0d6efd !important; padding: 7px 13px; border-radius: 6px; font-size: 13px; font-weight: 600; }
-        .btn-custom { border-radius: 10px; font-weight: 600; }
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+
+        .card-custom {
+            margin-top: 40px;
+            padding: 40px;
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .header-bar {
+            width: 70px;
+            height: 4px;
+            background: #0d6efd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        thead {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .table-hover tbody tr:hover {
+            background: #eef5ff;
+        }
+
+        .btn-custom {
+            border-radius: 10px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
-<body class="fundoBanner">   
+<body class="fundoBanner">
 
 <?php include("menu.php"); ?>
 
@@ -48,58 +80,59 @@ $totalRows  =   ($lista)->num_rows;
         <div class="header-bar"></div>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="page-title">Catálogo de Usuarios</h2>
+            <h2 class="page-title">Catálogo de Usuários</h2>
 
             <a href="usuario_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
         </div>
 
-        <div class="table-responsive mt-4">
+        <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Login</th>
-                        <th>Nivel</th>
+                        <th>Nível</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                <?php while($row = $lista->fetch_assoc()) { ?>
+                <?php do { ?>
                     <tr>
                         <td><strong><?php echo $row['id_usuario']; ?></strong></td>
 
                         <td><?php echo $row['login_usuario']; ?></td>
 
-                        <td><?php 
-                        if($row['nivel_usuario'] == 'admin'){
-                            echo('<span class="glyphicon glyphicon-sunglasses text-black"></span>');
-                        } else  if($row['nivel_usuario'] == 'user'){
-                            echo('<span class="glyphicon glyphicon-user text-info"></span>');
-                        };
-                    ?>
-                    <?php echo $row['nivel_usuario']; ?></td>
+                        <td>
+                            <?php
+                                if ($row['nivel_usuario'] == 'admin') {
+                                    echo '<span class="glyphicon glyphicon-sunglasses text-black"></span> ';
+                                } elseif ($row['nivel_usuario'] == 'user') {
+                                    echo '<span class="glyphicon glyphicon-user text-info"></span> ';
+                                }
 
+                                echo $row['nivel_usuario'];
+                            ?>
+                        </td>
 
                         <td class="text-center">
-
-                            <a href="usuario_atualiza.php?id_usuario=<?php echo $row['id_usuario']; ?>"
-                            class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
+                            <a
+                                href="usuario_atualiza.php?id_usuario=<?php echo $row['id_usuario']; ?>"
+                                class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
                             <button
+                                class="btn btn-danger btn-sm w-100 btn-custom delete"
                                 data-id="<?php echo $row['id_usuario']; ?>"
-                                data-nome="<?php echo $row['login_usuario']; ?>"
-                                class="btn btn-danger btn-sm w-100 btn-custom delete">
+                                data-nome="<?php echo $row['login_usuario']; ?>">
                                 🗑 Excluir
                             </button>
-
                         </td>
                     </tr>
-                <?php } ?>
+                <?php } while ($row = $lista->fetch_assoc()); ?>
                 </tbody>
             </table>
         </div>
@@ -110,4 +143,7 @@ $totalRows  =   ($lista)->num_rows;
 
 </body>
 </html>
-<?php mysqli_free_result($lista); ?>
+
+<?php
+mysqli_free_result($lista);
+?>
