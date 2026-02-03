@@ -93,7 +93,7 @@ $totalRows  =   ($lista)->num_rows;
                         <td><?php echo $row['nome_genero']; ?></td>
 
                         <td>
-                            <img src="imagens/exclusivo/<?php echo $row['imagem_produto']; ?>" alt="<?php echo $row['resumo_produto']; ?>"  width="100">
+                            <img src="../imagens/exclusivo/<?php echo $row['imagem_produto']; ?>" alt="<?php echo $row['resumo_produto']; ?>"  width="100">
                         </td>
 
                         <td class="text-center">

@@ -100,7 +100,7 @@ $lista = $conn_produtos->query($consulta);
                         <td><?php echo $row['nome_marca']; ?></td>
 
                         <td>
-                            <img src="imagens/exclusivo/<?php echo $row['imagem_marca']; ?>"
+                            <img src="../imagens/tenis/<?php echo $row['imagem_marca']; ?>"
                                  alt="<?php echo $row['nome_marca']; ?>"
                                  width="100">
                         </td>

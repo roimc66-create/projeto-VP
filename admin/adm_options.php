@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Administrativo</title>
 
-   <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
+    <!-- Bootstrap todo -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Link dos ícones no bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -18,66 +22,72 @@
 
 <div class="container mt-5">
 
-    <!-- TÍTULO-->
     <h2 class="mb-4 text-center">Área Administrativa</h2>
 
-    <!-- CARDS -->
     <div class="row g-4 justify-content-center">
 
-    <!-- USUÁRIOS -->
-    <div class="col-sm-12 col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title">USUÁRIOS</h5>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="usuario_lista.php" class="btn btn-outline-secondary">Listar</a>
-                    <a href="usuario_insere.php" class="btn btn-secondary">Inserir</a>
+        <!-- USUÁRIOS -->
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="bi bi-people-fill fs-1 text-secondary"></i>
+                    <h5 class="card-title mt-2">USUÁRIOS</h5>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="usuario_lista.php" class="btn btn-outline-secondary">Listar</a>
+                        <a href="usuario_insere.php" class="btn btn-secondary">Inserir</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- TIPOS -->
-    <div class="col-sm-12 col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title">TIPOS</h5>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="tipos_lista.php" class="btn btn-outline-secondary">Listar</a>
-                    <a href="tipos_insere.php" class="btn btn-secondary">Inserir</a>
+        <!-- TIPOS -->
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="bi bi-tags-fill fs-1 text-secondary"></i>
+                    <h5 class="card-title mt-2">TIPOS</h5>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="tipos_lista.php" class="btn btn-outline-secondary">Listar</a>
+                        <a href="tipos_insere.php" class="btn btn-secondary">Inserir</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- PRODUTOS -->
-    <div class="col-sm-12 col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title">PRODUTOS</h5>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="tenis_lista.php" class="btn btn-outline-secondary">Listar</a>
-                    <a href="tenis_insere.php" class="btn btn-secondary">Inserir</a>
+        <!-- PRODUTOS -->
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="bi bi-box-seam-fill fs-1 text-secondary"></i>
+                    <h5 class="card-title mt-2">PRODUTOS</h5>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="produtos_lista.php" class="btn btn-outline-secondary">Listar</a>
+                        <a href="produtos_insere.php" class="btn btn-secondary">Inserir</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- MARCAS -->
-    <div class="col-sm-12 col-md-6">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <h5 class="card-title">MARCAS</h5>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="marcas_lista.php" class="btn btn-outline-secondary">Listar</a>
-                    <a href="marcas_insere.php" class="btn btn-secondary">Inserir</a>
+        <!-- MARCAS -->
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="bi bi-award-fill fs-1 text-secondary"></i>
+                    <h5 class="card-title mt-2">MARCAS</h5>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="marcas_lista.php" class="btn btn-outline-secondary">Listar</a>
+                        <a href="marcas_insere.php" class="btn btn-secondary">Inserir</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
