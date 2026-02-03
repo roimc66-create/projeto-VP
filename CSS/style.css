@@ -57,3 +57,11 @@
         .carousel-item .row {
             justify-content: center;
         }
+/* Quando o link por cima estiver em hover, aplica o efeito no card */
+.marc-card:has(.stretched-link:hover) {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px #00000025;
+}
+
+/* opcional: cursor de clique */
+.marc-card { cursor: pointer; }

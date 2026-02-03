@@ -1,0 +1,34 @@
+/* garante que a imagem não estoure o card quando der zoom */
+#Exclusivos .card {
+  overflow: hidden;
+}
+
+/* só a imagem dá zoom */
+#Exclusivos .card-img-top {
+  height: 220px;
+  width: 100%;
+  object-fit: contain;
+
+  padding: 0;                /* remove padding antigo */
+  display: block;
+
+  margin: auto;              /* centraliza */
+}
+
+/* zoom no hover */
+#Exclusivos .card:hover .card-img-top {
+  transform: scale(1.10);
+}
+
+/* botão some por padrão */
+#Exclusivos .card .btn {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+/* aparece no hover do card */
+#Exclusivos .card:hover .btn {
+  opacity: 1;
+  transform: translateY(0);
+}

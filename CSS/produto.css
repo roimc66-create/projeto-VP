@@ -1,0 +1,298 @@
+  /* Área geral */
+.produto-wrap{
+  padding: 28px 0 60px;
+  background: #fff;
+}
+
+/* Galeria esquerda */
+.produto-galeria{
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.produto-main{
+  height: 520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+}
+
+.produto-main img{
+  max-height: 520px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.produto-bottom{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items:center;
+}
+
+.thumb-big{
+  width:100%;
+  height: 320px;
+  object-fit: contain;
+  cursor:pointer;
+  background:#fff;
+}
+
+/* Box direita */
+.produto-box{
+  padding-left: 6px;
+}
+
+.bread{
+  font-size: 12px;
+  color:#555;
+  margin-bottom: 12px;
+}
+.bread span{ margin: 0 6px; color:#bbb; }
+.bread b{ color:#ff4b00; font-weight:700; }
+
+.produto-titulo{
+  font-weight:800;
+  letter-spacing: -0.5px;
+  font-size: 28px;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+.produto-sku{
+  font-size: 12px;
+  color:#888;
+  margin-bottom: 14px;
+}
+
+.produto-preco{
+  margin: 6px 0 10px;
+}
+.preco-linha{
+  display:flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.preco-atual{
+  font-size: 18px;
+  font-weight:800;
+}
+.preco-atual small{
+  font-weight:600;
+  font-size: 12px;
+}
+.preco-de{
+  font-size: 13px;
+  color:#999;
+  text-decoration: line-through;
+}
+.badge-desconto{
+  background:#d8f5d8;
+  color:#1b7a1b;
+  font-weight:700;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.preco-parcela{
+  color:#666;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.produto-info{
+  margin-top: 14px;
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info-item{
+  display:flex;
+  gap: 10px;
+  font-size: 12px;
+  color:#444;
+  line-height: 1.35;
+}
+.info-dot{
+  width: 18px;
+  height: 18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius: 50%;
+  border:1px solid #ddd;
+  font-size: 12px;
+}
+
+/* Outras opções */
+.sec-title{
+  font-weight:800;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.opcoes{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+.opcao-card{
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.opcao-card img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+.opcao-text{
+  font-size: 12px;
+  color:#555;
+}
+
+/* Tamanhos */
+.tamanhos{
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.tam{
+  border: 1px solid #ddd;
+  background:#fff;
+  height: 34px;
+  font-weight:700;
+  font-size: 12px;
+}
+.tam.active{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+/* Botões */
+.btn-comprar{
+  background:#ff4b00;
+  color:#fff;
+  font-weight:800;
+  border-radius: 0;
+  padding: 12px 10px;
+}
+.btn-comprar:hover{ background:#e54300; color:#fff; }
+
+.btn-carrinho{
+  background:#fff;
+  color:#111;
+  font-weight:800;
+  border: 2px solid #111;
+  border-radius: 0;
+  padding: 10px 10px;
+}
+
+/* CEP */
+.cep-top{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom: 8px;
+}
+.cep-link{
+  font-size: 11px;
+  color:#555;
+  text-decoration: none;
+}
+.cep-row{
+  display:flex;
+  gap: 10px;
+}
+.cep-input{
+  flex:1;
+  height: 36px;
+  border:1px solid #ddd;
+  padding: 0 10px;
+  outline: none;
+}
+.cep-btn{
+  height: 36px;
+  border:1px solid #111;
+  background:#fff;
+  font-weight:800;
+  font-size: 12px;
+  padding: 0 14px;
+}
+
+/* Responsivo */
+@media (max-width: 991px){
+  .produto-main{ height: 420px; }
+  .produto-main img{ max-height: 420px; }
+  .thumb-big{ height: 240px; }
+  .produto-box{ padding-left: 0; }
+}
+/* Descrição do produto (bloco embaixo dos botões) */
+.produto-desc{
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #eee;
+}
+
+.desc-title{
+  font-weight: 800;
+  font-size: 27px;
+  margin: 0 0 8px 0;
+  color: #222;
+}
+
+.desc-text{
+  font-size: 19px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+}
+
+/* Selo "Produto original" */
+.desc-selo{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eee;
+  background: #f7f7f7;
+  padding: 12px;
+}
+
+.selo-icon{
+  width: 56px;
+  height: 56px;
+  background: #fff;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selo-icon img{
+  max-width: 30px;
+  height: auto;
+}
+
+.selo-text strong{
+  font-size: 13px;
+  color: #111;
+}
+
+.selo-text span{
+  font-size: 12px;
+  color: #666;
+}
+
+/* Só pra miniatura não estourar */
+.img-thumb{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
