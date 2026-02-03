@@ -1,6 +1,6 @@
 <?php
 include("Connections/conn_produtos.php");
-
+include("helpfun.php");
 $tabela_exclusivo        = "vw_tbprodutos";
 $campo_filtro_exclusivo  = "sneakers_produto";
 $ordenar_por_exclusivo   = "resumo_produto ASC";
@@ -22,13 +22,7 @@ if (!$lista_exclusivo) {
 $totalRows   = $lista_exclusivo->num_rows;
 $row_exclusivo = ($totalRows > 0) ? $lista_exclusivo->fetch_assoc() : null;
 
-function e($v) {
-    return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
-}
-function dinheiro($v) {
-    $num = is_numeric($v) ? (float)$v : 0;
-    return number_format($num, 2, ',', '.');
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -36,17 +30,12 @@ function dinheiro($v) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exclusivos</title>
+  <title>Promo</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 
-  <style>
-    #Exclusivos .card { border: 1px solid #000; }
-    #Exclusivos .card-img-top { height: 220px; object-fit: contain; padding: 10px; }
-    #Exclusivos .card-body { display: flex; flex-direction: column; justify-content: space-between; }
-    #Exclusivos .btn { margin-top: 10px; }
-  </style>
+  <link rel="stylesheet" href="css/exclusivo.css">
 </head>
 
 <body>
@@ -72,7 +61,7 @@ function dinheiro($v) {
                   <p class="card-text fw-bold">R$ <?php echo dinheiro($row_exclusivo['valor_produto']); ?></p>
                 </div>
 
-                <a href="#" class="btn btn-dark w-100">Comprar</a>
+                <a href="produto_detalhe.php?id_produto=<?php echo $row_exclusivo['id_produto']; ?>" class="btn btn-dark w-100" role="button">Comprar</a>
               </div>
             </div>
           </div>

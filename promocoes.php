@@ -1,7 +1,7 @@
 <?php
 // Incluir o arquivo e fazer a conexão
 include("Connections/conn_produtos.php");
-
+include("helpfun.php");
 // Selecionar os dados
 $tabela_promoçao        = "vw_tbprodutos";
 $campo_filtro           = "promoção_produto";
@@ -24,16 +24,11 @@ if (!$lista_promoçao) {
 $totalRows  = $lista_promoçao->num_rows;
 $row_promoçao = ($totalRows > 0) ? $lista_promoçao->fetch_assoc() : null;
 
-function e($v) {
-    return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8');
-}
 
-function dinheiro($v) {
-    $num = is_numeric($v) ? (float)$v : 0;
-    return number_format($num, 2, ',', '.');
-}
 ?>
-
+<?php
+include("dia_mes.php");
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -56,38 +51,58 @@ function dinheiro($v) {
       <?php if ($totalRows > 0 && $row_promoçao): ?>
         <!-- FEATURED (primeiro item da lista) -->
         <section class="snkr-featured">
-          <div class="snkr-date">28 | NOV</div>
-          <img
-            src="imagens/exclusivo/<?php echo e($row_promoçao['imagem_produto']); ?>"
-            class="snkr-shoe"
-            alt="<?php echo e($row_promoçao['nome_produto']); ?>"
-          >
-          <h3><?php echo e($row_promoçao['nome_produto']); ?></h3>
-          <button class="snkr-btn-price">
-            R$ <?php echo dinheiro($row_promoçao['valor_produto']); ?>
-          </button>
-        </section>
+  <a class="snkr-link-overlay"
+     href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
+     aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>"></a>
+
+  <div class="snkr-date"><?php echo $dia; ?> | <?php echo $mes; ?></div>
+
+  <img
+    src="imagens/exclusivo/<?php echo e($row_promoçao['imagem_produto']); ?>"
+    class="snkr-shoe"
+    alt="<?php echo e($row_promoçao['nome_produto']); ?>"
+  >
+
+  <h3><?php echo e($row_promoçao['nome_produto']); ?></h3>
+
+  <p class="card-text fw-bold">
+    R$ <?php echo dinheiro($row_promoçao['valor_produto']); ?>
+  </p>
+</section>
+
 
         <!-- GRID (restante dos itens) -->
-       <section class="snkr-grid">
+     <section class="snkr-grid">
   <?php
   $contador = 0;
   while ($row_grid = $lista_promoçao->fetch_assoc()):
       if ($contador >= 4) {
-          break; // para depois de 4 itens
+          break;
       }
       $contador++;
   ?>
-    <div class="snkr-item">
-      <div class="snkr-date small">29 | NOV</div>
+    <div class="snkr-item " >
+      
+      <!-- LINK que cobre o card todo -->
+      <a class="snkr-link-overlay"
+         href="produto_detalhe.php?id_produto=<?php echo $row_grid['id_produto']; ?>"
+         aria-label="Ver <?php echo e($row_grid['nome_produto']); ?>"></a>
+
+      <div class="snkr-date small"><?php echo $dia; ?> | <?php echo $mes; ?></div>
+
       <img
         src="imagens/exclusivo/<?php echo e($row_grid['imagem_produto']); ?>"
         alt="<?php echo e($row_grid['nome_produto']); ?>"
+        
       >
+
       <h4><?php echo e($row_grid['nome_produto']); ?></h4>
-      <button class="snkr-btn-price">
-        R$ <?php echo dinheiro($row_grid['valor_produto']); ?>
-      </button>
+
+      <p class="card-text fw-bold">R$ <?php echo dinheiro($row_grid['valor_produto']); ?></p>
+      <br>
+
+     
+
     </div>
   <?php endwhile; ?>
 </section>

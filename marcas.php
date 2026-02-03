@@ -62,12 +62,15 @@ $lista = $conn_produtos->query($consulta);
                 ?>
 
                     <div class="col-6 col-sm-4 col-md-2 mb-4">
-                        <div class="marc-card border p-3">
-                            <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
-                                 class="img-fluid"
-                                 alt="<?php echo $row['nome_marca']; ?>">
-                        </div>
-                    </div>
+    <div class="marc-card border p-3 position-relative">
+        <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
+             class="img-fluid"
+             alt="<?php echo $row['nome_marca']; ?>">
+
+        <a href="produtos_por_marca.php?id_marca=<?php echo $row['id_marca']; ?>"
+           class="stretched-link"></a>
+    </div>
+</div>
 
                 <?php
                     $contador++;
