@@ -1,35 +1,41 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-/* ===== PEGA O ID ===== */
+/* ===== VALIDAR ID ===== */
 if (!isset($_GET['id_produto'])) {
     header("Location: produtos_lista.php");
     exit;
 }
 
-$id_produto = $_GET['id_produto'];
+$id_produto = (int) $_GET['id_produto'];
 
-/* ===== BUSCA PRODUTO ===== */
+/* ===== BUSCAR PRODUTO ===== */
 $sqlProduto = "SELECT * FROM tbprodutos WHERE id_produto = $id_produto";
-$resultProduto = $conn_produtos->query($sqlProduto);
-$produto = $resultProduto->fetch_assoc();
+$result = $conn_produtos->query($sqlProduto);
 
-/* ===== SELECTS ===== */
-$marcas  = $conn_produtos->query("SELECT id_marca, nome_marca FROM tbmarcas ORDER BY nome_marca");
-$generos = $conn_produtos->query("SELECT id_genero, nome_genero FROM tbgeneros ORDER BY nome_genero");
-$tipos   = $conn_produtos->query("SELECT id_tipo, nome_tipo FROM tbtipos ORDER BY nome_tipo");
+if ($result->num_rows == 0) {
+    header("Location: produtos_lista.php");
+    exit;
+}
+
+$produto = $result->fetch_assoc();
+
+/* ===== BUSCAR MARCAS ===== */
+$marcas = $conn_produtos->query("
+    SELECT id_marca, nome_marca 
+    FROM tbmarcas 
+    ORDER BY nome_marca
+");
 
 /* ===== UPDATE ===== */
-if ($_POST) {
+if (isset($_POST['salvar'])) {
 
-    $nome_produto   = $_POST['nome_produto'];
-    $resumo_produto = $_POST['resumo_produto'];
-    $valor_produto  = $_POST['valor_produto'];
+    $nome   = $_POST['nome_produto'];
+    $resumo = $_POST['resumo_produto'];
+    $valor  = $_POST['valor_produto'];
+    $marca  = $_POST['id_marca_produto'];
 
-    $id_marca_produto  = $_POST['id_marca_produto'];
-    $id_genero_produto = $_POST['id_genero_produto'];
-    $id_tipo_produto   = $_POST['id_tipo_produto'];
-
+    // SE TROCOU A IMAGEM
     if (!empty($_FILES['imagem_produto']['name'])) {
 
         $imagem = $_FILES['imagem_produto']['name'];
@@ -40,13 +46,11 @@ if ($_POST) {
 
         $sqlUpdate = "
             UPDATE tbprodutos SET
-                id_marca_produto  = '$id_marca_produto',
-                id_genero_produto = '$id_genero_produto',
-                id_tipo_produto   = '$id_tipo_produto',
-                nome_produto      = '$nome_produto',
-                resumo_produto    = '$resumo_produto',
-                valor_produto     = '$valor_produto',
-                imagem_produto    = '$imagem'
+                nome_produto = '$nome',
+                resumo_produto = '$resumo',
+                valor_produto = '$valor',
+                id_marca_produto = '$marca',
+                imagem_produto = '$imagem'
             WHERE id_produto = $id_produto
         ";
 
@@ -54,19 +58,20 @@ if ($_POST) {
 
         $sqlUpdate = "
             UPDATE tbprodutos SET
-                id_marca_produto  = '$id_marca_produto',
-                id_genero_produto = '$id_genero_produto',
-                id_tipo_produto   = '$id_tipo_produto',
-                nome_produto      = '$nome_produto',
-                resumo_produto    = '$resumo_produto',
-                valor_produto     = '$valor_produto'
+                nome_produto = '$nome',
+                resumo_produto = '$resumo',
+                valor_produto = '$valor',
+                id_marca_produto = '$marca'
             WHERE id_produto = $id_produto
         ";
     }
 
-    $conn_produtos->query($sqlUpdate);
-    header("Location: produtos_lista.php");
-    exit;
+    if ($conn_produtos->query($sqlUpdate)) {
+        header("Location: produtos_lista.php");
+        exit;
+    } else {
+        echo "ERRO AO SALVAR: " . $conn_produtos->error;
+    }
 }
 ?>
 
@@ -84,24 +89,30 @@ if ($_POST) {
 
 <div class="container mt-5">
     <div class="card p-4 shadow">
+
         <h3 class="text-warning fw-bold mb-4">✏ Editar Produto</h3>
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
 
-            <label>Nome</label>
-            <input type="text" name="nome_produto" class="form-control mb-3"
-                   value="<?= $produto['nome_produto']; ?>" required>
+            <label class="fw-bold">Nome</label>
+            <input type="text" name="nome_produto"
+                   value="<?= $produto['nome_produto']; ?>"
+                   class="form-control mb-3" required>
 
-            <label>Resumo</label>
-            <textarea name="resumo_produto" class="form-control mb-3" required><?= $produto['resumo_produto']; ?></textarea>
+            <label class="fw-bold">Resumo</label>
+            <textarea name="resumo_produto"
+                      class="form-control mb-3"
+                      required><?= $produto['resumo_produto']; ?></textarea>
 
-            <label>Valor</label>
-            <input type="number" step="0.01" name="valor_produto"
-                   value="<?= $produto['valor_produto']; ?>" class="form-control mb-3">
+            <label class="fw-bold">Valor</label>
+            <input type="number" step="0.01"
+                   name="valor_produto"
+                   value="<?= $produto['valor_produto']; ?>"
+                   class="form-control mb-3" required>
 
-            <label>Marca</label>
+            <label class="fw-bold">Marca</label>
             <select name="id_marca_produto" class="form-select mb-3">
-                <?php while($m = $marcas->fetch_assoc()) { ?>
+                <?php while ($m = $marcas->fetch_assoc()) { ?>
                     <option value="<?= $m['id_marca']; ?>"
                         <?= $m['id_marca'] == $produto['id_marca_produto'] ? 'selected' : '' ?>>
                         <?= $m['nome_marca']; ?>
@@ -109,15 +120,19 @@ if ($_POST) {
                 <?php } ?>
             </select>
 
-            <label>Imagem (opcional)</label><br>
-            <img src="../imagens/exclusivo/<?= $produto['imagem_produto']; ?>" width="120" class="mb-2 rounded">
-            <input type="file" name="imagem_produto" class="form-control mb-3">
+            <label class="fw-bold">Imagem Atual</label><br>
+            <img src="../imagens/exclusivo/<?= $produto['imagem_produto']; ?>"
+                 width="120" class="mb-3 rounded shadow">
 
-            <button class="btn btn-warning w-100 fw-bold">
+            <input type="file" name="imagem_produto" class="form-control mb-4">
+
+            <button type="submit" name="salvar"
+                    class="btn btn-warning w-100 fw-bold">
                 💾 Salvar Alterações
             </button>
 
         </form>
+
     </div>
 </div>
 
