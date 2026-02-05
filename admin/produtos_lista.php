@@ -9,7 +9,6 @@ $consulta = "
             ";
 
 $lista = $conn_produtos->query($consulta);
-$row        =   $lista->fetch_assoc();
 // Contar o total de linhas
 $totalRows  =   ($lista)->num_rows;
 ?>
@@ -98,17 +97,16 @@ $totalRows  =   ($lista)->num_rows;
 
                         <td class="text-center">
 
-                            <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
+                            <a href="produtos_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
                             class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
-                            <button
-                                data-id="<?php echo $row['id_produto']; ?>"
-                                data-nome="<?php echo $row['nome_produto']; ?>"
-                                class="btn btn-danger btn-sm w-100 btn-custom delete">
-                                🗑 Excluir
-                            </button>
+                            <a href="produtos_exclui.php?id_produto=<?php echo $row['id_produto']; ?>"
+                            class="btn btn-danger btn-sm w-100 btn-custom"
+                            onclick="return confirm('Tem certeza que deseja excluir este produto?');">
+                            🗑 Excluir
+                            </a>
 
                         </td>
                     </tr>
