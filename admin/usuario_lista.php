@@ -8,7 +8,6 @@ $sql = "
 ";
 
 $lista = $conn_produtos->query($sql);
-
 $row = $lista->fetch_assoc();
 $totalRows = $lista->num_rows;
 ?>
@@ -21,15 +20,10 @@ $totalRows = $lista->num_rows;
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous"/>
+        rel="stylesheet">
 
     <style>
-        body {
-            background: #ffffff;
-            min-height: 100vh;
-        }
+        body { background: #ffffff; min-height: 100vh; }
 
         .card-custom {
             margin-top: 40px;
@@ -53,14 +47,9 @@ $totalRows = $lista->num_rows;
             margin-bottom: 20px;
         }
 
-        thead {
-            background: #0d6efd;
-            color: #fff;
-        }
+        thead { background: #0d6efd; color: #fff; }
 
-        .table-hover tbody tr:hover {
-            background: #eef5ff;
-        }
+        .table-hover tbody tr:hover { background: #eef5ff; }
 
         .btn-custom {
             border-radius: 10px;
@@ -68,6 +57,30 @@ $totalRows = $lista->num_rows;
         }
     </style>
 </head>
+
+<!-- MODAL EXCLUIR (IGUAL AO DE PRODUTOS) -->
+<div class="modal fade" id="myModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">ATENÇÃO!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                Deseja mesmo EXCLUIR o usuário?
+                <h5 class="nome text-danger mt-2"></h5>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <a href="#" class="btn btn-danger delete-yes">Confirmar</a>
+                <button class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <body class="fundoBanner">
 
@@ -105,17 +118,7 @@ $totalRows = $lista->num_rows;
 
                         <td><?php echo $row['login_usuario']; ?></td>
 
-                        <td>
-                            <?php
-                                if ($row['nivel_usuario'] == 'admin') {
-                                    echo '<span class="glyphicon glyphicon-sunglasses text-black"></span> ';
-                                } elseif ($row['nivel_usuario'] == 'user') {
-                                    echo '<span class="glyphicon glyphicon-user text-info"></span> ';
-                                }
-
-                                echo $row['nivel_usuario'];
-                            ?>
-                        </td>
+                        <td><?php echo $row['nivel_usuario']; ?></td>
 
                         <td class="text-center">
                             <a
@@ -141,9 +144,28 @@ $totalRows = $lista->num_rows;
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.querySelectorAll('.delete').forEach(botao => {
+    botao.addEventListener('click', function () {
+
+        const nome = this.dataset.nome;
+        const id   = this.dataset.id;
+
+        document.querySelector('.nome').textContent = nome;
+        document.querySelector('.delete-yes')
+            .setAttribute('href', 'usuarios_exclui.php?id_usuario=' + id);
+
+        const modal = new bootstrap.Modal(
+            document.getElementById('myModal')
+        );
+        modal.show();
+    });
+});
+</script>
+
 </body>
 </html>
 
-<?php
-mysqli_free_result($lista);
-?>
+<?php mysqli_free_result($lista); ?>

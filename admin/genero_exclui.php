@@ -3,9 +3,9 @@ include("../Connections/conn_produtos.php");
 
 mysqli_select_db($conn_produtos, $database_conn);
 
-$tabela_delete  = "tbtipos";
-$id_tabela_del  = "id_tipo";
-$id_filtro_del  = $_GET['id_tipo'];
+$tabela_delete  = "tbgeneros";
+$id_tabela_del  = "id_genero";
+$id_filtro_del  = $_GET['id_genero'];
 
 $deleteSQL = "
     DELETE
@@ -15,6 +15,6 @@ $deleteSQL = "
 
 $conn_produtos->query($deleteSQL);
 
-header("Location: tipos_lista.php");
+header("Location: genero_lista.php");
 exit;
 ?>
