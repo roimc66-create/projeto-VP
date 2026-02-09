@@ -1,20 +1,28 @@
 <?php
+// Incluir o arquivo e fazer a conexão
 include("../Connections/conn_produtos.php");
 
-mysqli_select_db($conn_produtos, $database_conn);
+// Definindo o USE do banco de dados
+mysqli_select_db($conn_produtos,$database_conn);
 
-$tabela_delete  = "tbtipos";
-$id_tabela_del  = "id_tipo";
-$id_filtro_del  = $_GET['id_tipo'];
+// Definindo e recebendo dados para consulta
+$tabela_delete  =   "tbtipos";
+$id_tabela_del  =   "id_tipo";
+$id_filtro_del  =   $_GET['id_tipo'];
 
-$deleteSQL = "
-    DELETE
-    FROM ".$tabela_delete."
-    WHERE ".$id_tabela_del."=".$id_filtro_del.";
-";
+// SQL para exclusão
+$deleteSQL  =   "
+                DELETE
+                FROM    ".$tabela_delete."
+                WHERE   ".$id_tabela_del."=".$id_filtro_del.";
+                ";
+$resultado  =   $conn_produtos->query($deleteSQL);
 
-$conn_produtos->query($deleteSQL);
-
-header("Location: tipos_lista.php");
-exit;
+// Após a ação a página será redirecionada
+$destino    =   "tipos_lista.php";
+if(mysqli_insert_id($conn_produtos)){
+    header("Location: $destino");
+}else{
+    header("Location: $destino");
+};
 ?>

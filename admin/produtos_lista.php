@@ -9,8 +9,9 @@ $consulta = "
 ";
 
 $lista = $conn_produtos->query($consulta);
-$row   = $lista->fetch_assoc();
-$totalRows = $lista->num_rows;
+$row        =   $lista->fetch_assoc();
+// Contar o total de linhas
+$totalRows  =   ($lista)->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -83,17 +84,19 @@ $totalRows = $lista->num_rows;
                             <img src="../imagens/exclusivo/<?php echo $row['imagem_produto']; ?>" width="100">
                         </td>
                         <td class="text-center">
-                            <a href="produtos_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
-                               class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
+
+                            <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
+                            class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
 
                             <button
-                                class="btn btn-danger btn-sm w-100 btn-custom delete"
                                 data-id="<?php echo $row['id_produto']; ?>"
-                                data-nome="<?php echo $row['nome_produto']; ?>">
+                                data-nome="<?php echo $row['nome_produto']; ?>"
+                                class="btn btn-danger btn-sm w-100 btn-custom delete">
                                 🗑 Excluir
                             </button>
+
                         </td>
                     </tr>
                 <?php } while ($row = $lista->fetch_assoc()); ?>
