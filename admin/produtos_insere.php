@@ -1,62 +1,115 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-/* ====== CONSULTAS PARA OS SELECTS ====== */
-$marcas  = $conn_produtos->query("SELECT id_marca, nome_marca FROM tbmarcas ORDER BY nome_marca ASC");
-$generos = $conn_produtos->query("SELECT id_genero, nome_genero FROM tbgeneros ORDER BY nome_genero ASC");
-$tipos   = $conn_produtos->query("SELECT id_tipo, nome_tipo FROM tbtipos ORDER BY nome_tipo ASC");
+if($_POST){
+    // Selecionar o banco de dados (USE)
+    mysqli_select_db($conn_produtos,$database_conn);
 
-/* ====== INSERT ====== */
-if ($_POST) {
+    // Variáveis para acrescentar dados no banco
+    $tabela_insert  =   "tbprodutos";
+    $campos_insert  =   "
+                           id_marca_produto,
+                           id_genero_produto,
+                           id_tipo_produto,
+                           nome_produto,
+                           resumo_produto,
+                           valor_produto,
+                           imagem_produto,
+                           promoção_produto,
+                           sneakers_produto
+                        ";
 
-    if (isset($_POST['enviar'])) {
+    // Guardar o nome da imagem no banco e o arquivo no diretório
+    if (isset($_POST['enviar']) && isset($_FILES['imagem_produto'])) {
         $nome_img = $_FILES['imagem_produto']['name'];
         $tmp_img  = $_FILES['imagem_produto']['tmp_name'];
-        $dir_img  = "../imagens/exclusivo/" . $nome_img;
-        move_uploaded_file($tmp_img, $dir_img);
-    }
 
-    $nome_produto     = $_POST['nome_produto'];
-    $resumo_produto   = $_POST['resumo_produto'];
-    $valor_produto    = $_POST['valor_produto'];
-    $imagem_produto   = $_FILES['imagem_produto']['name'];
-    $promocao_produto = $_POST['promocao_produto'];
-    $sneakers_produto = $_POST['sneakers_produto'];
+        if(!empty($nome_img)){
+            $dir_img  = "../imagens/exclusivo/" . $nome_img;
+            move_uploaded_file($tmp_img, $dir_img);
+        }
+    };
 
-    $id_marca_produto  = $_POST['id_marca_produto'];
-    $id_genero_produto = $_POST['id_genero_produto'];
-    $id_tipo_produto   = $_POST['id_tipo_produto'];
+    // Receber os dados do formulário
+    $id_marca_produto    = $_POST['id_marca_produto'];
+    $id_genero_produto   = $_POST['id_genero_produto'];
+    $id_tipo_produto     = $_POST['id_tipo_produto'];
+    $nome_produto        = $_POST['nome_produto'];
+    $resumo_produto      = $_POST['resumo_produto'];
+    $valor_produto       = $_POST['valor_produto'];
+    $promoção_produto    = $_POST['promoção_produto'];
+    $sneakers_produto    = $_POST['sneakers_produto'];
+    $imagem_produto      = $_FILES['imagem_produto']['name'];
 
-    $insertSQL = "
-        INSERT INTO tbprodutos (
-            id_marca_produto,
-            id_genero_produto,
-            id_tipo_produto,
-            nome_produto,
-            resumo_produto,
-            valor_produto,
-            imagem_produto,
-            promoção_produto,
-            sneakers_produto
-        ) VALUES (
-            '$id_marca_produto',
-            '$id_genero_produto',
-            '$id_tipo_produto',
-            '$nome_produto',
-            '$resumo_produto',
-            '$valor_produto',
-            '$imagem_produto',
-            '$promocao_produto',
-            '$sneakers_produto'
-        )
-    ";
+    // Reunir os valores a serem inseridos
+    $valores_insert = "
+                        '$id_marca_produto',
+                        '$id_genero_produto',
+                        '$id_tipo_produto',
+                        '$nome_produto',
+                        '$resumo_produto',
+                        '$valor_produto',
+                        '$imagem_produto',
+                        '$promoção_produto',
+                        '$sneakers_produto'
+                    ";
 
-    $conn_produtos->query($insertSQL);
+    // Consulta SQL para inserção dos dados
+    $insertSQL  =   "
+                    INSERT INTO ".$tabela_insert."
+                        (".$campos_insert.")
+                    VALUES
+                        (".$valores_insert.");
+                    ";
 
-    header("Location: produtos_lista.php");
+    $resultado  =   $conn_produtos->query($insertSQL);
+
+    // Após a ação a página será redirecionada
+    $destino    =   "produtos_lista.php";
+    header("Location: $destino");
     exit;
-}
+};
+
+// Selecionar o banco de dados (USE)
+mysqli_select_db($conn_produtos,$database_conn);
+
+/* ====== SELECT TIPOS ====== */
+$tabela_tipos      = "tbtipos";
+$ordenar_tipos     = "nome_tipo ASC";
+$consulta_tipos    = "
+                    SELECT *
+                    FROM ".$tabela_tipos."
+                    ORDER BY ".$ordenar_tipos.";
+                    ";
+$lista_tipos       = $conn_produtos->query($consulta_tipos);
+$row_tipos         = $lista_tipos->fetch_assoc();
+$totalRows_tipos   = $lista_tipos->num_rows;
+
+/* ====== SELECT MARCAS ====== */
+$tabela_marcas      = "tbmarcas";
+$ordenar_marcas     = "nome_marca ASC";
+$consulta_marcas    = "
+                    SELECT *
+                    FROM ".$tabela_marcas."
+                    ORDER BY ".$ordenar_marcas.";
+                    ";
+$lista_marcas       = $conn_produtos->query($consulta_marcas);
+$row_marcas         = $lista_marcas->fetch_assoc();
+$totalRows_marcas   = $lista_marcas->num_rows;
+
+/* ====== SELECT GENEROS ====== */
+$tabela_generos      = "tbgeneros";
+$ordenar_generos     = "nome_genero ASC";
+$consulta_generos    = "
+                    SELECT *
+                    FROM ".$tabela_generos."
+                    ORDER BY ".$ordenar_generos.";
+                    ";
+$lista_generos       = $conn_produtos->query($consulta_generos);
+$row_generos         = $lista_generos->fetch_assoc();
+$totalRows_generos   = $lista_generos->num_rows;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -103,7 +156,8 @@ if ($_POST) {
 
 <div class="alert alert-warning">
 
-<form action="produtos_lista.php" method="post" enctype="multipart/form-data">
+<form action="" method="post" enctype="multipart/form-data">
+
 
 <!-- Nome -->
 <div class="mb-3">
@@ -130,31 +184,52 @@ if ($_POST) {
     <label class="form-label fw-semibold">Marca</label>
     <select name="id_marca_produto" class="form-select" required>
         <option value="">Selecione</option>
-        <?php while($m = $marcas->fetch_assoc()) { ?>
-            <option value="<?= $m['id_marca'] ?>"><?= $m['nome_marca'] ?></option>
+
+        <?php if($totalRows_marcas > 0){ ?>
+            <?php do { ?>
+                <option value="<?php echo $row_marcas['id_marca']; ?>">
+                    <?php echo $row_marcas['nome_marca']; ?>
+                </option>
+            <?php } while($row_marcas = $lista_marcas->fetch_assoc()); ?>
         <?php } ?>
+
     </select>
 </div>
+
 
 <div class="col-md-4 mb-3">
     <label class="form-label fw-semibold">Gênero</label>
     <select name="id_genero_produto" class="form-select" required>
         <option value="">Selecione</option>
-        <?php while($g = $generos->fetch_assoc()) { ?>
-            <option value="<?= $g['id_genero'] ?>"><?= $g['nome_genero'] ?></option>
+
+        <?php if($totalRows_generos > 0){ ?>
+            <?php do { ?>
+                <option value="<?php echo $row_generos['id_genero']; ?>">
+                    <?php echo $row_generos['nome_genero']; ?>
+                </option>
+            <?php } while($row_generos = $lista_generos->fetch_assoc()); ?>
         <?php } ?>
+
     </select>
 </div>
+
 
 <div class="col-md-4 mb-3">
     <label class="form-label fw-semibold">Tipo</label>
     <select name="id_tipo_produto" class="form-select" required>
         <option value="">Selecione</option>
-        <?php while($t = $tipos->fetch_assoc()) { ?>
-            <option value="<?= $t['id_tipo'] ?>"><?= $t['nome_tipo'] ?></option>
+
+        <?php if($totalRows_tipos > 0){ ?>
+            <?php do { ?>
+                <option value="<?php echo $row_tipos['id_tipo']; ?>">
+                    <?php echo $row_tipos['nome_tipo']; ?>
+                </option>
+            <?php } while($row_tipos = $lista_tipos->fetch_assoc()); ?>
         <?php } ?>
+
     </select>
 </div>
+
 
 </div>
 
@@ -163,7 +238,7 @@ if ($_POST) {
 
 <div class="col-md-6 mb-3">
     <label class="form-label fw-semibold">Promoção</label>
-    <select name="promocao_produto" class="form-select">
+    <select name="promoção_produto" class="form-select">
         <option value="Pro">Pro</option>
         <option value="Não">Não</option>
     </select>
