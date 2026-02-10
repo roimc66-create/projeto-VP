@@ -7,17 +7,18 @@ include("helpfun.php");
 $consulta = "
             SELECT *
             FROM vw_tbprodutos
+                WHERE id_tipo_produto = 1   
             ORDER BY id_produto ASC;
             ";
 
-
-$lista = $conn_produtos->query($consulta);
+$lista = $conn_produtos->query($consulta);      
 if(!$lista){
     die("Erro na consulta: " . $conn_produtos->error);
 }
 
 $row        = $lista->fetch_assoc();
-$totalRows  = $lista->num_rows;
+$totalRows  = $lista->num_rows; 
+
 ?>
 
 <!DOCTYPE html>
