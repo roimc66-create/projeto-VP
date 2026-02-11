@@ -66,7 +66,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href=".php">Promoções</a>
+                    <a class="nav-link text-dark" href="promocoes.php">Promoções</a>
                 </li>
 
                 <li class="nav-item">

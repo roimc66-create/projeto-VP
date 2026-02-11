@@ -35,89 +35,71 @@ $totalRows  = $lista->num_rows;
             <link rel="stylesheet" href="CSS/exclusivo.css">
 </head>
 <body>
-    <?php include('menu.php')  ?>
-    
-    
-    <a name="">&nbsp; </a>
-         <!-- TÍTULO  -->
-    <h1 class="brand-title">
-           <h1 class="text-center"> Produtos </h1>
-        
-    </h1>
-   
+    <?php include('menu.php') ?>
+
+    <h1 class="text-center brand-title my-4">Produtos</h1>
 
     <!-- BARRA DE CONTROLES -->
-    <div class="toolbar">
-        <div class="left">
-            <?php echo $totalRows; ?> produtos
-        </div>
-
-        <div class="right">
-            <div>
-                <strong>Visualizar</strong>
-                <button type="button" title="Grade">...</button>
-                <button type="button" title="Lista">....</button>
+    <div class="container mb-3">
+        <div class="toolbar d-flex justify-content-between align-items-center">
+            <div class="left">
+                <?php echo $totalRows; ?> Produtos
             </div>
 
-            <div>
-                <strong>Filtrar</strong>
-                <button type="button" title="Filtrar">.....</button>
-            </div>
+            <div class="right d-flex gap-4">
+                <div>
+                    <strong>Visualizar</strong>
+                    <button type="button">...</button>
+                    <button type="button">...</button>
+                </div>
 
-            <div class="d-flex align-items-center gap-2">
-                <strong>Ordenar por</strong>
-                <!-- <select class="form-select form-select-sm" style="width:auto;">
-                    <option selected>Mais recentes</option>
-                    <option>Menor preço</option>
-                    <option>Maior preço</option>
-                    <option>A-Z</option>
-                </select> -->
+                <div>
+                    <strong>Filtrar</strong>
+                    <button type="button">...</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- GRID DE PRODUTOS -->
-    <div class="row g-3">
-        <?php if($totalRows > 0){ ?>
-            <?php do { ?>
+    <div class="container my-4">
+        <div class="row g-4">
+            <?php if($totalRows > 0){ ?>
+                <?php do { ?>
+                    <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
+                        <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="text-decoration-none text-dark">
+                            <div class="product-card card h-100">
+                                <img
+                                    src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
+                                    class="card-img-top img-fluid"
+                                    alt="<?php echo e($row['nome_produto']); ?>"
+                                >
 
-                
+                                <div class="card-body">
+                                    <div class="product-brand"><?php echo e($row['nome_marca']); ?></div>
+                                    <p class="card-title fw-bold"><?php echo e($row['nome_produto']); ?></p>
 
-                <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
-                    <a href="produto.php?id_produto=<?php echo $id_produto; ?>" class="text-decoration-none text-dark">
-                        <div class="product-card card">
-                            <img
-                             src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
-                            class="product-img card-img-top img-fluid"
-                             alt="<?php echo e($row['nome_produto']); ?>"
-                              >
+                                    <p class="product-price">
+                                        <?php echo dinheiro($row['valor_produto']); ?>
+                                    </p>
 
-                            <div class="product-meta card-body">
-                                <div class="product-brand card-text"><?php echo e($row['nome_marca']); ?></div>
-                                <p class="product-name card-title"><?php echo e($row['nome_produto']); ?></p>
-
-                                <p class="product-price">
-                                    <?php echo dinheiro($row['valor_produto']); ?>
-                                        </p>                                 
-                                </p>
-                                <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="btn btn-dark w-100" role="button">Comprar</a>
+                                    <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="btn btn-dark w-100">
+                                        Comprar
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                <?php } while($row = $lista->fetch_assoc()); ?>
+            <?php } else { ?>
+                <div class="col-12">
+                    <div class="alert alert-warning">
+                        Nenhum produto encontrado.
+                    </div>
                 </div>
-
-            <?php } while($row = $lista->fetch_assoc()); ?>
-        <?php } else { ?>
-            <div class="col-12">
-                <div class="alert alert-warning">
-                    Nenhum produto encontrado para esta marca.
-                </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
-
-</div>
-
 
 <script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
