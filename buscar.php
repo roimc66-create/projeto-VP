@@ -1,8 +1,7 @@
 <?php
 include("Connections/conn_produtos.php");
+include("helpfun.php");
 
-
-// verifica busca
 if (!isset($_GET['q']) || empty($_GET['q'])) {
     echo "Digite algo para buscar.";
     exit;
@@ -10,7 +9,6 @@ if (!isset($_GET['q']) || empty($_GET['q'])) {
 
 $busca = $_GET['q'];
 
-// consulta geral
 $sql = "
     SELECT *
     FROM vw_tbprodutos
@@ -22,64 +20,76 @@ $sql = "
 
 $resultado = $conn_produtos->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Busca</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MESMOS CSS DO PRODUTOS -->
+    <link rel="stylesheet" href="CSS/pro_marca.css">
+    <link rel="stylesheet" href="CSS/exclusivo.css">
 </head>
 
-<body class="container mt-4">
+<body>
+<?php include('menu.php') ?>
 
-<h4>Resultados para: <strong><?= htmlspecialchars($busca) ?></strong></h4>
-<hr>
+<h4 class="text-center my-4">
+    Resultados para: <strong><?= e($busca) ?></strong>
+</h4>
 
-<?php if ($resultado->num_rows > 0) { ?>
-    <div class="row">
-        <?php while ($row = $resultado->fetch_assoc()) { ?>
+<div class="container my-4">
+    <div class="row g-4">
 
-            <?php
-            // imagem segura
-            $img = (!empty($row['imagem_produto']))
-                ? "imagens/exclusivo/" . $row['imagem_produto']
-                : "imagens/exclusivo/";
-            ?>
+        <?php if ($resultado->num_rows > 0) { ?>
+            <?php while ($row = $resultado->fetch_assoc()) { ?>
 
-            <div class="col-md-3 mb-4">
-                <a href="produto_detalhe.php?id=<?= $row['id_produto'] ?>" 
-                   class="text-decoration-none text-dark">
+                <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
+                    <a href="produto_detalhe.php?id_produto=<?= $row['id_produto'] ?>"
+                       class="text-decoration-none text-dark">
 
-                    <div class="card h-100 shadow-sm">
+                        <div class="product-card card h-100">
+                            <img
+                                src="imagens/exclusivo/<?= e($row['imagem_produto']) ?>"
+                                class="product-img card-img-top img-fluid"
+                                alt="<?= e($row['nome_produto']) ?>">
 
-                        <img src="<?= $img ?>"
-                             class="card-img-top"
-                             style="height:200px; object-fit:cover;">
+                            <div class="product-meta card-body">
+                                <div class="product-brand">
+                                    <?= e($row['nome_marca']) ?>
+                                </div>
 
-                        <div class="card-body">
-                            <h6 class="card-title mb-1">
-                                <?= $row['nome_produto'] ?>
-                            </h6>
+                                <p class="product-name">
+                                    <?= e($row['nome_produto']) ?>
+                                </p>
 
-                            <small class="text-muted">
-                                <?= $row['nome_marca'] ?> • <?= $row['nome_tipo'] ?>
-                            </small>
+                                <p class="product-price">
+                                    <?= dinheiro($row['valor_produto']) ?>
+                                </p>
 
-                            <p class="fw-bold mt-2 mb-0">
-                                R$ <?= number_format($row['valor_produto'], 2, ',', '.') ?>
-                            </p>
+                                <a href="produto_detalhe.php?id_produto=<?= $row['id_produto'] ?>"
+                                   class="btn btn-dark w-100">
+                                    Comprar
+                                </a>
+                            </div>
                         </div>
 
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
 
+            <?php } ?>
+        <?php } else { ?>
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    Nenhum resultado encontrado.
+                </div>
+            </div>
         <?php } ?>
+
     </div>
-<?php } else { ?>
-    <p>Nenhum resultado encontrado.</p>
-<?php } ?>
+</div>
 
 </body>
 </html>
