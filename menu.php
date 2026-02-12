@@ -1,3 +1,35 @@
+<?php
+include("Connections/conn_produtos.php");
+include("helpfun.php");
+
+/* TIPOS (Produtos) */
+$sql_tipos = "
+  SELECT id_tipo, nome_tipo
+  FROM tbtipos
+  ORDER BY nome_tipo ASC;
+";
+$lista_tipos = $conn_produtos->query($sql_tipos)
+  or die("Erro tipos: ".$conn_produtos->error);
+
+
+/* MARCAS */
+$sql_marcas = "
+  SELECT DISTINCT id_marca_produto, nome_marca
+  FROM vw_tbprodutos
+  ORDER BY nome_marca ASC;
+";
+$lista_marcas = $conn_produtos->query($sql_marcas) or die("Erro marcas: ".$conn_produtos->error);
+
+/* GENEROS */
+$sql_generos = "
+  SELECT DISTINCT id_genero_produto, nome_genero
+  FROM vw_tbprodutos
+  ORDER BY nome_genero ASC;
+";
+$lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$conn_produtos->error);
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,138 +41,11 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
     />
-
-    <style>
-        /* --- CORREÇÃO DEFINITIVA --- */
-
-        /* Navbar padrão fixa no topo */
-        nav.navbar {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            transition: background-color 0.3s ease;
-            padding: 12px 20px !important;
-        }
-
-        /* Transparente APENAS quando sobre a imagem */
-        .navbar-transparent {
-            background-color: transparent !important;
-        }
-
-        /* Navbar sólida para páginas normais */
-        .navbar-solid {
-            background-color: white !important;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Garante que o conteúdo abaixo não seja invadido */
-        body {
-            padding-top: 75px !important;
-        }
-        /* Mega dropdown ocupa a largura toda */
-.dropdown-mega { position: static; }
-
-.mega-menu{
-  width: 100%;
-  left: 0;
-  right: 0;
-  top: 100%;
-  border: 0;
-  border-top: 1px solid #eee;
-  border-radius: 0;
-  margin-top: 0;
-}
-
-/* Títulos e links */
-.mega-title{
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.mega-link{
-  display: block;
-  padding: 6px 0;
-  text-decoration: none;
-  color: #333;
-}
-
-.mega-link:hover{ text-decoration: underline; }
-
-.mega-all{
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* Grid de tamanhos */
-.size-grid{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.size{
-  display: grid;
-  place-items: center;
-  border: 1px solid #eee;
-  height: 38px;
-  text-decoration: none;
-  color: #111;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.size:hover{ border-color: #111; }
-#mainNav{
-  position: relative;
-}
-
-.nav-center{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#mainNav{
-  min-height: 60px;   /* ajusta como quiser */
-  display: flex;
-  align-items: center;
-}
-@media (min-width: 992px){
-  #mainNav{ position: relative; }
-
-  #mainNav .nav-center{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-  }
-}
-
-/* MOBILE: corrige o “erro” e centraliza normal */
-@media (max-width: 991.98px){
-  #mainNav .nav-center{
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    padding: 10px 0;
-  }
-}
-
-     
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+              <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+              <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="CSS/menu.css">
+    <link rel="stylesheet" href="CSS/font-potta.css">
 
 </head>
 <body>
@@ -158,7 +63,7 @@
 
         <!-- MEGA MENU: TÊNIS -->
         <li class="nav-item dropdown dropdown-mega">
-          <a class="nav-link fw-semibold navbar-brand text-dark fw-bold nav-center"
+          <a class="nav-link fw-semibold navbar-brand text-dark fw-bold nav-center title-font"
    href="index.php"
    id="megaTenis"
    role="button"
@@ -171,34 +76,55 @@
             <div class="row g-4">
 
               <div class="col-12 col-lg-3">
-                <div class="mega-title">Produtos</div>
-                <a class="mega-link" href="#">Tenis</a>
-                <a class="mega-link" href="#">Camisa</a>
-                <a class="mega-link" href="#">Chinelo</a>               
-                
-              </div>
+  <div class="mega-title subtitle-font">Produtos</div>
+
+<a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
+
+<div class="mega-more" style="display:none;">
+  <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
+    <a class="mega-link"
+       href="produtos.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
+       <?php echo $tipo['nome_tipo']; ?>
+    </a>
+  <?php } ?>
+</div>
+
+
+
+</div>
+
+
+                      <div class="col-12 col-lg-3">
+  <div class="mega-title subtitle-font">Marcas</div>
+
+<a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
+
+<div class="mega-more" style="display:none;">
+  <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
+    <a class="mega-link" href="produtos.php?id_marca=<?php echo $marca['id_marca_produto']; ?>">
+      <?php echo $marca['nome_marca']; ?>
+    </a>
+  <?php } ?>
+</div>
+
+</div>
+                  <div class="col-12 col-lg-3">
+  <div class="mega-title subtitle-font">Gênero</div>
+
+<a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
+
+<div class="mega-more" style="display:none;">
+  <?php while($gen = $lista_generos->fetch_assoc()){ ?>
+    <a class="mega-link" href="produtos.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
+      <?php echo $gen['nome_genero']; ?>
+    </a>
+  <?php } ?>
+</div>
+
+</div>
 
               <div class="col-12 col-lg-3">
-                <div class="mega-title">Marcas</div>
-                <a class="mega-link" href="#">Nike</a>
-                <a class="mega-link" href="#">Jordan</a>
-                <a class="mega-link" href="#">Adidas</a>
-                <a class="mega-link" href="#">New Balance</a>
-                <a class="mega-link" href="#">Vans</a>
-                
-              </div>
-
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Infantil</div>
-                <a class="mega-link" href="#">Nike</a>
-                <a class="mega-link" href="#">Adidas</a>
-                <a class="mega-link" href="#">Vans</a>
-                <a class="mega-link" href="#">Converse</a>
-                
-              </div>
-
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Tamanho do tênis</div>
+                <div class="mega-title subtitle-font">Tamanho do tênis</div>
                 <div class="size-grid">
                   <a href="#" class="size">34</a><a href="#" class="size">35</a><a href="#" class="size">36</a>
                   <a href="#" class="size">37</a><a href="#" class="size">38</a><a href="#" class="size">39</a>
@@ -305,6 +231,24 @@
     window.addEventListener('resize', closeMenu);
   })();
 </script>
+<script>
+
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('[data-toggle="mega-more"]');
+  if(!btn) return;
+
+  e.preventDefault();
+
+  const col = btn.closest('.col-12, [class*="col-"]'); // pega a coluna atual
+  const lista = col.querySelector('.mega-more');      // pega só a lista dessa coluna
+
+  lista.style.display = 'block';
+  btn.style.display = 'none'; // some o "Ver mais..."
+});
+</script>
+
+</script>
+
 
 
 </body>

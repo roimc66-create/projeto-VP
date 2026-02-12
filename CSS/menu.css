@@ -1,0 +1,147 @@
+ nav.navbar {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+            padding: 12px 20px !important;
+        }
+
+        /* Transparente APENAS quando sobre a imagem */
+        .navbar-transparent {
+            background-color: transparent !important;
+        }
+
+        /* Navbar sólida para páginas normais */
+        .navbar-solid {
+            background-color: white !important;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Garante que o conteúdo abaixo não seja invadido */
+        body {
+            padding-top: 75px !important;
+        }
+        /* Mega dropdown ocupa a largura toda */
+.dropdown-mega { position: static; }
+
+.mega-menu{
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 100%;
+  border: 0;
+  border-top: 1px solid #eee;
+  border-radius: 0;
+  margin-top: 0;
+}
+
+/* Títulos e links */
+.mega-title{
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.mega-link{
+  display: block;
+  padding: 6px 0;
+  text-decoration: none;
+  color: #333;
+}
+
+.mega-link:hover{ text-decoration: underline; }
+
+.mega-all{
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Grid de tamanhos */
+.size-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.size{
+  display: grid;
+  place-items: center;
+  border: 1px solid #eee;
+  height: 38px;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.size:hover{ border-color: #111; }
+#mainNav{
+  position: relative;
+}
+
+.nav-center{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#mainNav{
+  min-height: 60px;   /* ajusta como quiser */
+  display: flex;
+  align-items: center;
+}
+@media (min-width: 992px){
+  #mainNav{ position: relative; }
+
+  #mainNav .nav-center{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+}
+
+/* MOBILE: corrige o “erro” e centraliza normal */
+@media (max-width: 991.98px){
+  #mainNav .nav-center{
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 10px 0;
+  }
+}
+.mega-vermais{
+  display: block;
+  padding: 6px 0;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mega-vermais:hover{
+  text-decoration: underline;
+}
+.title-font{
+  font-family: "Potta One", sans-serif;
+  font-size: clamp(64px, 10vw, 170px);
+  line-height: 1;
+  margin: 0;
+  color: #fff;
+}
+.subtitle-font{
+  font-family: "Potta One", sans-serif;
+    
+}

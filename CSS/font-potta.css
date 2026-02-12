@@ -1,0 +1,11 @@
+.title-font{
+  font-family: "Potta One", sans-serif;
+  font-size: clamp(64px, 10vw, 170px);
+  line-height: 1;
+  margin: 0;
+  color: #fff;
+}
+.subtitle-font{
+  font-family: "Potta One", sans-serif;
+    
+}
