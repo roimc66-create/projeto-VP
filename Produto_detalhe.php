@@ -153,7 +153,8 @@ if (!$srcImg) {
     <div class="selo-icon">
       <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
                                  class="img-fluid"
-                                 alt="<?php echo $row['nome_marca']; ?>">
+                                 alt="<?php echo $row['nome_marca']; ?>
+                                 ">
     </div>
 
     <div class="selo-text">

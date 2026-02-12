@@ -52,11 +52,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" id="mainNav">
   <div class="container-fluid">
-
-    
-
-    
-
     <div class="" id="navMain">
      
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -76,14 +71,14 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
             <div class="row g-4">
 
               <div class="col-12 col-lg-3">
-  <div class="mega-title subtitle-font">Produtos</div>
+  <div class="mega-title subtitle-font" ><a class="mega-link" href="index_produtos.php">Produtos</a></div>
 
 <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
 
 <div class="mega-more" style="display:none;">
   <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
     <a class="mega-link"
-       href="produtos.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
+       href="produtos_por_tipo.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
        <?php echo $tipo['nome_tipo']; ?>
     </a>
   <?php } ?>
@@ -101,7 +96,8 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 
 <div class="mega-more" style="display:none;">
   <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
-    <a class="mega-link" href="produtos.php?id_marca=<?php echo $marca['id_marca_produto']; ?>">
+    <a href="produtos_por_marca.php?id_marca=<?php echo $marca['id_marca_produto']; ?>"
+           class="mega-link">
       <?php echo $marca['nome_marca']; ?>
     </a>
   <?php } ?>
@@ -115,7 +111,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 
 <div class="mega-more" style="display:none;">
   <?php while($gen = $lista_generos->fetch_assoc()){ ?>
-    <a class="mega-link" href="produtos.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
+    <a class="mega-link" href="produtos_por_genero.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
       <?php echo $gen['nome_genero']; ?>
     </a>
   <?php } ?>

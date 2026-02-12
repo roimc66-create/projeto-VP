@@ -14,12 +14,10 @@
             crossorigin="anonymous"/>
     </head>
     <body>
-        <header>
+    
              <?php include('menu_publico.php')  ?>
     <a name="">&nbsp; </a>
-       
-        </header>       
-        
+                      
            <?php include('marcas.php')  ?>
     <a name="">&nbsp; </a>
     <?php include('promocoes.php')  ?>
@@ -27,7 +25,7 @@
      <?php include('exclusivo.php')  ?>
     <a name="">&nbsp; </a>
     
-        </main>
+       
        <?php include('rodapé.php')  ?>
     <a name="">&nbsp; </a>
         <script
