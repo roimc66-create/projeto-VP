@@ -30,54 +30,65 @@
         main {
             padding-top: 75px;
         }
+        @media (max-width: 991px) {
+    .navbar-brand {
+        position: static !important;
+        transform: none !important;
+    }
+    #mainNav .navbar-toggler { 
+  position: relative;
+  z-index: 2000;
+}
+#mainNav .navbar-brand {
+  z-index: 1;
+}
+    }
+
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-    <div class="container-fluid">
-        
-        <!-- LOGO DO SITE -->
-        <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
+<nav class="navbar navbar-expand-lg navbar-light navbar-transparent" id="mainNav">
+  <div class="container-fluid">
 
-        <!-- BOTÃO CELULAR-->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!-- ESQUERDA: Botão mobile -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- MENU -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- CENTRO: TEXTO -->
+    <a class="navbar-brand text-dark fw-bold mx-auto" href="index.php">
+      VP STREET
+    </a>
 
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <!-- (um "espaçador" invisível pra manter o centro certinho) -->
+    <div class="d-lg-none" style="width: 42px;"></div>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="index_tenis.php">Tenis</a>
-                </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="promocoes.php">Promoções</a>
-                </li>
+      <!-- LINKS: ESQUERDA -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link text-dark" href="index_tenis.php">Tenis</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="promocoes.php">Promoções</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="index_produtos.php">Produtos</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="contato.php">Contato</a></li>
+      </ul>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="index_produtos.php">Produtos</a>
-                </li>
+      <!-- BUSCA: DIREITA -->
+      <form class="d-flex" action="buscar.php" method="GET">
+        <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
+        <button class="btn btn-outline-dark" type="submit">Ok</button>
+      </form>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="contato.php">Contato</a>
-                </li>
-
-            </ul>
-
-            <!-- CAIXA DE PESQUISA -->
-            <form class="d-flex" action="buscar.php" method="GET">
-                <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
-                <button class="btn btn-outline-dark" type="submit">Ok</button>
-            </form>
-
-        </div>
     </div>
+  </div>
 </nav>
+
 
 <img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png"
      class="img-fluid w-100"

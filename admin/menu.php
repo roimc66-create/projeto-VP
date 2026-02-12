@@ -48,7 +48,7 @@
     <div class="container-fluid">
         
         <!-- LOGO / NOME DO SITE -->
-        <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
+        <a class="navbar-brand text-dark fw-bold" href="../index.php">VP STREET</a>
 
         <!-- Botão mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
