@@ -42,9 +42,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-transparent" id="mainNav">
     <div class="container-fluid">
-
-        <!-- Logo -->
-        <a class="navbar-brand text-dark fw-bold" href="../index.php">VP STREET</a>
+        
+        <!-- LOGO / NOME DO SITE -->
+        <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
 
         <!-- Botão mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
