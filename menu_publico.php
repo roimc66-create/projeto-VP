@@ -116,12 +116,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
     </a>
   <?php } ?>
 </div>
-
-
-
 </div>
-
-
                       <div class="col-12 col-lg-3">
   <div class="mega-title subtitle-font">Marcas</div>
 
