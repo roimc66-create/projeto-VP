@@ -6,15 +6,14 @@
     <title>Modelo</title>
 
    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"/>
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* --- CORREÇÃO DEFINITIVA --- */
-
-        /* Navbar padrão fixa no topo */
         nav.navbar {
             position: fixed !important;
             top: 0;
@@ -25,18 +24,15 @@
             padding: 12px 20px !important;
         }
 
-        /* Transparente APENAS quando sobre a imagem */
         .navbar-transparent {
             background-color: transparent !important;
         }
 
-        /* Navbar sólida para páginas normais */
         .navbar-solid {
             background-color: white !important;
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Garante que o conteúdo abaixo não seja invadido */
         body {
             padding-top: 75px !important;
         }
@@ -46,9 +42,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-transparent" id="mainNav">
     <div class="container-fluid">
-        
-        <!-- LOGO / NOME DO SITE -->
-        <a class="navbar-brand text-dark fw-bold" href="index.php">VP STREET</a>
+
+        <!-- Logo -->
+        <a class="navbar-brand text-dark fw-bold" href="../index.php">VP STREET</a>
 
         <!-- Botão mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -56,46 +52,26 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <!-- LINKS PRINCIPAIS -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Espaço à esquerda -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-bold" href=".php">Marcas</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="promocoes.php">Promoções</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="index_tenis.php">Produtos</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="contato.php">Contato</a>
-                </li>
-
-            </ul>
-
-            <!-- BARRA DE PESQUISA -->
-            <form class="d-flex" action="buscar.php" method="GET">
-                <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
-                <button class="btn btn-outline-dark" type="submit">Ok</button>
-            </form>
+            <!-- Ícone ADM (onde era a busca) -->
+            <a class="nav-link text-dark fw-bold fs-2" href="../admin/adm_options.php"title="Painel Administrativo">
+                <i class="bi bi-house-gear-fill"></i>
+            </a>
 
         </div>
     </div>
 </nav>
 
 <script>
-    // Torna a navbar sólida automaticamente quando não há imagem de fundo
+    // Navbar sólida
     document.addEventListener("DOMContentLoaded", () => {
         const navbar = document.getElementById("mainNav");
 
-        // SE a página NÃO tiver banner, ativa navbar sólida
+        // Quando a página não tem banner, ativa a sólida
         const hasBanner = document.querySelector(".banner-principal");
 
         if (!hasBanner) {
