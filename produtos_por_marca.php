@@ -50,12 +50,13 @@ $totalRows  = $lista->num_rows;
     
     <a name="">&nbsp; </a>
          <!-- TÍTULO  -->
-    <h1 class="brand-title">
+    <h1 class="text-center brand-title my-4">
         <?php   echo $row['nome_marca'];?>
         
     </h1>
 
     <!-- BARRA DE CONTROLES -->
+     <div class="container mb-3">
     <div class="toolbar">
         <div class="left">
             <?php echo $totalRows; ?> produtos
@@ -84,9 +85,11 @@ $totalRows  = $lista->num_rows;
             </div>
         </div>
     </div>
+    </div>
 
     <!-- GRID DE PRODUTOS -->
-    <div class="row g-3">
+  <div class="container my-4">
+    <div class="row g-4">
         <?php if($totalRows > 0){ ?>
             <?php do { ?>
 
@@ -124,10 +127,10 @@ $totalRows  = $lista->num_rows;
             </div>
         <?php } ?>
     </div>
-
+</div>
 </div>
 
-
+<?php include('rodapé.php')  ?>
 <script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
            crossorigin="anonymous"
