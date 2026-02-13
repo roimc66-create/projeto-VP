@@ -35,32 +35,17 @@ $totalRows  = $lista->num_rows;
 <?php include('menu.php') ?>
 
 <!-- TÍTULO -->
-<h1 class="text-center brand-title my-4">Tênis</h1>
+
 
 <!-- BARRA DE CONTROLES -->
-<div class="container mb-3">
+
     <div class="toolbar">
-        <div class="left">
-            <?php echo $totalRows; ?> produtos
-        </div>
-
-        <div class="right">
-            <div>
-                <strong>Visualizar</strong>
-                <button type="button" title="Grade">...</button>
-                <button type="button" title="Lista">...</button>
-            </div>
-
-            <div>
-                <strong>Filtrar</strong>
-                <button type="button">...</button>
-            </div>
-        </div>
+       
     </div>
-</div>
 
+<h1 class="text-center  my-4">Outras opções</h1>
 <!-- GRID DE PRODUTOS -->
-<div class="container my-4">
+
     <div class="row g-4">
 
         <?php if($totalRows > 0){ ?>
@@ -108,7 +93,9 @@ $totalRows  = $lista->num_rows;
         <?php } ?>
 
     </div>
-</div>
+
+    <br><br>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
