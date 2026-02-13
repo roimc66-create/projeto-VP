@@ -129,7 +129,7 @@ $totalRows = $lista->num_rows;
 
                         <td class="text-center">
                             <a
-                                href="marca_atualiza.php?id_marca=<?php echo $row['id_marca']; ?>"
+                                href="marcas_atualiza.php?id_marca=<?php echo $row['id_marca']; ?>"
                                 class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>

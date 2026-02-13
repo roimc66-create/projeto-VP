@@ -1,7 +1,6 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-/* ===== VALIDAR ID ===== */
 if (!isset($_GET['id_usuario'])) {
     header("Location: usuario_lista.php");
     exit;
@@ -9,77 +8,55 @@ if (!isset($_GET['id_usuario'])) {
 
 $id_usuario = (int) $_GET['id_usuario'];
 
-/* ===== BUSCAR usuario ===== */
-$sqlProduto = "SELECT * FROM tbusuarios WHERE id_usuario = $id_usuario";
-$result = $conn_produtos->query($sqlUsuario);
+$r = $conn_produtos->query(
+    "SELECT * FROM tbusuarios WHERE id_usuario = $id_usuario"
+);
 
-if ($result->num_rows == 0) {
+if ($r->num_rows == 0) {
     header("Location: usuario_lista.php");
     exit;
 }
 
-$usuario = $result->fetch_assoc();
+$usuario = $r->fetch_assoc();
 
-/* ===== BUSCAR MARCAS ===== */
-$marcas = $conn_produtos->query("
-    SELECT id_usuario, login_usuario 
-    FROM tbusuarios
-    ORDER BY login_usuario
-");
+if ($_POST) {
 
-/* ===== UPDATE ===== */
-if (isset($_POST['salvar'])) {
+    $login = $_POST['login_usuario'];
+    $nivel = $_POST['nivel_usuario'];
 
-    $login   = $_POST['login_usuario'];
-    $resumo = $_POST['resumo_produto'];
-    $valor  = $_POST['valor_produto'];
-    $marca  = $_POST['id_marca_produto'];
+    // se senha foi preenchida, atualiza
+    if (!empty($_POST['senha_usuario'])) {
 
-    // SE TROCOU A IMAGEM
-    if (!empty($_FILES['imagem_produto']['name'])) {
+        $senha = $_POST['senha_usuario'];
 
-        $imagem = $_FILES['imagem_produto']['name'];
-        move_uploaded_file(
-            $_FILES['imagem_produto']['tmp_name'],
-            "../imagens/exclusivo/" . $imagem
+        $conn_produtos->query(
+            "UPDATE tbusuarios 
+             SET login_usuario = '$login',
+                 senha_usuario = '$senha',
+                 nivel_usuario = '$nivel'
+             WHERE id_usuario = $id_usuario"
         );
 
-        $sqlUpdate = "
-            UPDATE tbprodutos SET
-                nome_produto = '$nome',
-                resumo_produto = '$resumo',
-                valor_produto = '$valor',
-                id_marca_produto = '$marca',
-                imagem_produto = '$imagem'
-            WHERE id_produto = $id_produto
-        ";
-
     } else {
 
-        $sqlUpdate = "
-            UPDATE tbprodutos SET
-                nome_produto = '$nome',
-                resumo_produto = '$resumo',
-                valor_produto = '$valor',
-                id_marca_produto = '$marca'
-            WHERE id_produto = $id_produto
-        ";
+        $conn_produtos->query(
+            "UPDATE tbusuarios 
+             SET login_usuario = '$login',
+                 nivel_usuario = '$nivel'
+             WHERE id_usuario = $id_usuario"
+        );
     }
 
-    if ($conn_produtos->query($sqlUpdate)) {
-        header("Location: produtos_lista.php");
-        exit;
-    } else {
-        echo "ERRO AO SALVAR: " . $conn_produtos->error;
-    }
+    header("Location: usuario_lista.php");
+    exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Produto</title>
+    <title>Editar Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -88,47 +65,44 @@ if (isset($_POST['salvar'])) {
 <?php include("menu.php"); ?>
 
 <div class="container mt-5">
-    <div class="card p-4 shadow">
+    <div class="card p-4 shadow" style="max-width:420px;margin:auto">
 
-        <h3 class="text-warning fw-bold mb-4">✏ Editar Produto</h3>
+        <div class="d-flex align-items-center mb-3">
+            <a href="usuario_lista.php" class="btn btn-warning me-3">←</a>
+            <h4 class="mb-0 text-warning fw-bold">Editar Usuário</h4>
+        </div>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form method="post">
 
-            <label class="fw-bold">Nome</label>
-            <input type="text" name="nome_produto"
-                   value="<?= $produto['nome_produto']; ?>"
-                   class="form-control mb-3" required>
+            <label class="fw-semibold">Login</label>
+            <input
+                type="text"
+                name="login_usuario"
+                value="<?= $usuario['login_usuario']; ?>"
+                class="form-control mb-3"
+                required
+            >
 
-            <label class="fw-bold">Resumo</label>
-            <textarea name="resumo_produto"
-                      class="form-control mb-3"
-                      required><?= $produto['resumo_produto']; ?></textarea>
+            <label class="fw-semibold">Nova Senha (opcional)</label>
+            <input
+                type="password"
+                name="senha_usuario"
+                class="form-control mb-3"
+                placeholder="Deixe em branco para não alterar"
+            >
 
-            <label class="fw-bold">Valor</label>
-            <input type="number" step="0.01"
-                   name="valor_produto"
-                   value="<?= $produto['valor_produto']; ?>"
-                   class="form-control mb-3" required>
-
-            <label class="fw-bold">Marca</label>
-            <select name="id_marca_produto" class="form-select mb-3">
-                <?php while ($m = $marcas->fetch_assoc()) { ?>
-                    <option value="<?= $m['id_marca']; ?>"
-                        <?= $m['login_'] == $produto['id_marca_produto'] ? 'selected' : '' ?>>
-                        <?= $m['nome_marca']; ?>
-                    </option>
-                <?php } ?>
+            <label class="fw-semibold">Nível</label>
+            <select name="nivel_usuario" class="form-select mb-4">
+                <option value="admin" <?= $usuario['nivel_usuario']=='admin'?'selected':'' ?>>
+                    Admin
+                </option>
+                <option value="usuario" <?= $usuario['nivel_usuario']=='usuario'?'selected':'' ?>>
+                    Usuário
+                </option>
             </select>
 
-            <label class="fw-bold">Imagem Atual</label><br>
-            <img src="../imagens/exclusivo/<?= $produto['imagem_produto']; ?>"
-                 width="120" class="mb-3 rounded shadow">
-
-            <input type="file" name="imagem_produto" class="form-control mb-4">
-
-            <button type="submit" name="salvar"
-                    class="btn btn-warning w-100 fw-bold">
-                💾 Salvar Alterações
+            <button class="btn btn-warning w-100 fw-semibold">
+                💾 Salvar
             </button>
 
         </form>

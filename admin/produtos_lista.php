@@ -85,7 +85,7 @@ $totalRows  =   ($lista)->num_rows;
                         </td>
                         <td class="text-center">
 
-                            <a href="produto_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
+                            <a href="produtos_atualiza.php?id_produto=<?php echo $row['id_produto']; ?>"
                             class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                 ✏ Editar
                             </a>
