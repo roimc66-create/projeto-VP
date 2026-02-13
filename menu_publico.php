@@ -178,12 +178,11 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
   </div>
 </nav>
 
-
-<img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png"
-     class="img-fluid w-100"
-     alt="Banner Puma">
-
-
+<main>
+    <img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png"
+         class="img-fluid w-100 banner-principal"
+         alt="Banner Puma">
+</main>
 
 <script>
     // Torna a navbar sólida automaticamente quando não há imagem de fundo
