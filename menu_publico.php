@@ -104,7 +104,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
             <div class="row g-4">
 
               <div class="col-12 col-lg-3">
-  <div class="mega-title subtitle-font" ><a class="mega-link" href="index_produtos.php">Produtos</a></div>
+  <div class="mega-title " ><a class="mega-link" href="index_produtos.php">Produtos</a></div>
 
 <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
 
@@ -123,7 +123,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 
 
                       <div class="col-12 col-lg-3">
-  <div class="mega-title subtitle-font">Marcas</div>
+  <div class="mega-title ">Marcas</div>
 
 <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
 
@@ -138,7 +138,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 
 </div>
                   <div class="col-12 col-lg-3">
-  <div class="mega-title subtitle-font">Gênero</div>
+  <div class="mega-title ">Gênero</div>
 
 <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
 
@@ -153,7 +153,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 </div>
 
               <div class="col-12 col-lg-3">
-                <div class="mega-title subtitle-font">Tamanho do tênis</div>
+                <div class="mega-title ">Tamanho do tênis</div>
                 <div class="size-grid">
                   <a href="#" class="size">34</a><a href="#" class="size">35</a><a href="#" class="size">36</a>
                   <a href="#" class="size">37</a><a href="#" class="size">38</a><a href="#" class="size">39</a>

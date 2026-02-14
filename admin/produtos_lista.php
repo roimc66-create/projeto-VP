@@ -1,18 +1,37 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-// --- CONSULTA VIA VIEW ---
+// --- CONSULTA VIA VIEW (AJUSTADA) ---
 $consulta = "
-    SELECT *
+    SELECT DISTINCT
+        id_produto,
+        id_marca_produto,
+        id_genero_produto,
+        id_tipo_produto,
+        nome_tipo,
+        nome_marca,
+        nome_genero,
+        imagem_marca,
+        nome_produto,
+        resumo_produto,
+        valor_produto,
+        imagem_produto,
+        promoção_produto,
+        sneakers_produto
     FROM vw_tbprodutos
     ORDER BY id_produto ASC;
 ";
 
 $lista = $conn_produtos->query($consulta);
-$row        =   $lista->fetch_assoc();
+if(!$lista){
+    die("Erro na consulta: " . $conn_produtos->error);
+}
+
+$row        = $lista->fetch_assoc();
 // Contar o total de linhas
-$totalRows  =   ($lista)->num_rows;
+$totalRows  = $lista->num_rows;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

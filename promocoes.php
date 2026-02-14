@@ -8,12 +8,30 @@ $campo_filtro           = "promoção_produto";
 $ordenar_por            = "resumo_produto ASC";
 $filtro_select_promoçao = "Pro";
 
+// ===================== CONSULTA AJUSTADA =====================
+// DISTINCT evita duplicar produto por causa dos tamanhos
+
 $consulta_promoçao = "
-    SELECT *
-    FROM {$tabela_promoçao}
-    WHERE {$campo_filtro} = '{$filtro_select_promoçao}'
+    SELECT DISTINCT
+        id_produto,
+        id_marca_produto,
+        id_genero_produto,
+        id_tipo_produto,
+        nome_tipo,
+        nome_marca,
+        nome_genero,
+        imagem_marca,
+        nome_produto,
+        resumo_produto,
+        valor_produto,
+        imagem_produto,
+        promoção_produto,
+        sneakers_produto
+    FROM    {$tabela_promoçao}
+    WHERE   {$campo_filtro} = '{$filtro_select_promoçao}'
     ORDER BY {$ordenar_por};
 ";
+
 
 $lista_promoçao = $conn_produtos->query($consulta_promoçao);
 

@@ -15,8 +15,25 @@ if ($filtro_select <= 0) {
     die("tipo inválida.");
 }
 
+// ===================== CONSULTA AJUSTADA =====================
+// DISTINCT evita duplicar produto por causa dos tamanhos
+
 $consulta = "
-    SELECT  *
+    SELECT DISTINCT
+        id_produto,
+        id_marca_produto,
+        id_genero_produto,
+        id_tipo_produto,
+        nome_tipo,
+        nome_marca,
+        nome_genero,
+        imagem_marca,
+        nome_produto,
+        resumo_produto,
+        valor_produto,
+        imagem_produto,
+        promoção_produto,
+        sneakers_produto
     FROM    ".$tabela."
     WHERE   ".$campo_filtro." = ".$filtro_select."
     ORDER BY ".$ordenar_por.";
@@ -30,6 +47,7 @@ if(!$lista){
 $row        = $lista->fetch_assoc();
 $totalRows  = $lista->num_rows;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -45,6 +63,7 @@ $totalRows  = $lista->num_rows;
             <link rel="stylesheet" href="CSS/pro_marca.css">
             <link rel="stylesheet" href="CSS/exclusivo.css">
 </head>
+
 <body>
     <?php include('menu.php')  ?>
     

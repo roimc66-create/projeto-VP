@@ -6,12 +6,28 @@ $campo_filtro_exclusivo  = "sneakers_produto";
 $ordenar_por_exclusivo   = "resumo_produto ASC";
 $filtro_select_exclusivo = "Sne";
 
+
 $consulta_exclusivo = "
-    SELECT *
-    FROM {$tabela_exclusivo}
-    WHERE {$campo_filtro_exclusivo} = '{$filtro_select_exclusivo}'
+    SELECT DISTINCT
+        id_produto,
+        id_marca_produto,
+        id_genero_produto,
+        id_tipo_produto,
+        nome_tipo,
+        nome_marca,
+        nome_genero,
+        imagem_marca,
+        nome_produto,
+        resumo_produto,
+        valor_produto,
+        imagem_produto,
+        promoção_produto,
+        sneakers_produto
+    FROM    {$tabela_exclusivo}
+    WHERE   {$campo_filtro_exclusivo} = '{$filtro_select_exclusivo}'
     ORDER BY {$ordenar_por_exclusivo};
 ";
+
 
 $lista_exclusivo = $conn_produtos->query($consulta_exclusivo);
 

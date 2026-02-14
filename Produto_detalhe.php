@@ -31,6 +31,20 @@ if ($totalRows == 0) {
 }
 
 $row = $lista->fetch_assoc();
+// ===================== TAMANHOS DO PRODUTO =====================
+$sql_tamanhos = "
+    SELECT ta.id_tamanho, ta.numero_tamanho, pt.estoque
+    FROM tbproduto_tamanho pt
+    JOIN tbtamanhos ta ON ta.id_tamanho = pt.id_tamanho
+    WHERE pt.id_produto = {$id}
+    ORDER BY ta.numero_tamanho
+";
+
+$lista_tamanhos = $conn_produtos->query($sql_tamanhos);
+if(!$lista_tamanhos){
+    die("Erro na consulta tamanhos: " . $conn_produtos->error);
+}
+
 
 //  montar caminho da imagem 
 $fotoBanco = $row['imagem_produto']; 
@@ -122,22 +136,53 @@ if (!$srcImg) {
             </div>
           </div>
 
-          <div class="mt-4">
-            <div class="sec-title">Tamanho</div>
-            <div class="tamanhos">
-              <button class="tam " type="">34</button>
-              <button class="tam" type="button">35</button>
-              <button class="tam" type="button">36</button>
-              <button class="tam" type="button">37</button>
-              <button class="tam" type="button">38</button>
-              <button class="tam" type="button">39</button>
-              <button class="tam" type="button">40</button>
-            </div>
-          </div>
+          <div class="sec-title">Tamanho</div>
+<div class="tamanhos">
+  <?php if($lista_tamanhos->num_rows > 0){ ?>
+    
+    <?php while($t = $lista_tamanhos->fetch_assoc()){ 
+        $num = (int)$t['numero_tamanho'];
+        $estoque = (int)$t['estoque'];
+        $disabled = ($estoque <= 0) ? 'disabled' : '';
+    ?>
+      <button
+        class="tam"
+        type="button"
+        data-tamanho="<?php echo $num; ?>"
+        data-id-tamanho="<?php echo (int)$t['id_tamanho']; ?>"
+        <?php echo $disabled; ?>
+        title="<?php echo ($estoque <= 0) ? 'Esgotado' : 'Disponível'; ?>"
+      >
+        <?php echo $num; ?>
+      </button>
+    <?php } ?>
 
-          <div class="mt-4 d-grid gap-2">
-            <button class="btn btn-comprar btn-danger" type="button">COMPRAR AGORA</button>
-            <button class="btn btn-carrinho border " type="button">ADICIONAR AO CARRINHO</button>
+  <?php } else { ?>
+    <small class="text-muted">Sem tamanhos cadastrados para este produto.</small>
+  <?php } ?>
+</div>
+<input type="hidden" id="tamanhoSelecionado" name="tamanhoSelecionado" value="">
+<input type="hidden" id="idTamanhoSelecionado" name="idTamanhoSelecionado" value="">
+
+
+          <div class="mt-4 d-grid gap-2">            
+            <form action="carrinho_add.php" method="POST">
+
+  <input type="hidden" name="id_produto" value="<?php echo $id; ?>">
+  <input type="hidden" name="id_tamanho" id="idTamanhoSelecionadoForm">
+
+  <div class="mt-4 d-grid gap-2">
+    <button class="btn btn-comprar btn-danger" type="button">
+      COMPRAR AGORA
+    </button>
+
+    <button class="btn btn-carrinho border" type="submit">
+      ADICIONAR AO CARRINHO
+    </button>
+  </div>
+
+</form>
+
           </div>
           
           <!-- DESCRIÇÃO DO PRODUTO (embaixo dos botões) -->
@@ -193,5 +238,32 @@ if (!$srcImg) {
         ></script>
 
 </body>
+
+<script>
+  document.querySelectorAll('.tamanhos .tam').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+
+      document.querySelectorAll('.tamanhos .tam')
+        .forEach(b => b.classList.remove('ativo'));
+
+      btn.classList.add('ativo');
+
+      document.getElementById('tamanhoSelecionado').value =
+        btn.dataset.tamanho;
+
+      document.getElementById('idTamanhoSelecionado').value =
+        btn.dataset.idTamanho;
+
+      // envia pro form
+      document.getElementById('idTamanhoSelecionadoForm').value =
+        btn.dataset.idTamanho;
+    });
+  });
+</script>
+
+
 </html>
-<?php mysqli_free_result($lista); ?>
+<?php mysqli_free_result($lista);
+if(isset($lista_tamanhos)) mysqli_free_result($lista_tamanhos);
+ ?>

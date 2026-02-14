@@ -5,10 +5,20 @@ include("helpfun.php");
 
 // --- CONSULTA VIA VIEW ---
 $consulta = "
-            SELECT *
-            FROM vw_tbprodutos
-            ORDER BY id_produto ASC;
-            ";
+    SELECT DISTINCT id_produto,
+           nome_produto,
+           valor_produto,
+           imagem_produto,
+           nome_marca,
+           imagem_marca,
+           nome_tipo,
+           nome_genero,
+           promoção_produto,
+           sneakers_produto
+    FROM vw_tbprodutos
+    ORDER BY id_produto ASC
+";
+
 
 
 $lista = $conn_produtos->query($consulta);
@@ -37,7 +47,7 @@ $totalRows  = $lista->num_rows;
 <body>
     <?php include('menu.php') ?>
 
-    <h1 class="text-center brand-title my-4">Produtos</h1>
+    <h1 class="text-center brand-title my-4 ">Produtos</h1>
 
     <!-- BARRA DE CONTROLES -->
     <div class="container mb-3">
@@ -101,6 +111,7 @@ $totalRows  = $lista->num_rows;
         </div>
     </div>
 
+    <?php include('rodapé.php') ?>
 <script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
            crossorigin="anonymous"
