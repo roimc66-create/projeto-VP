@@ -290,12 +290,70 @@
   color: #666;
 }
 
-/* Só pra miniatura não estourar */
-.img-thumb{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* ===== tamanhos ===== */
+.tamanhos{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
 }
-.tam.ativo{
-  outline: 2px solid #000;
+
+.tamanhos .tam{
+  width: 52px !important;
+  height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 1px solid #cfcfcf !important;
+  background: #fff !important;
+  color: #111 !important;
+
+  cursor: pointer !important;
+  user-select: none !important;
+  border-radius: 2px !important;
+  font-weight: 600 !important;
+  padding: 0 !important;
+}
+
+.tamanhos .tam.ativo{
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #111 !important;
+}
+
+.tamanhos .tam:disabled{
+  opacity: .45 !important;
+  cursor: not-allowed !important;
+}
+/* tamanhos - visual garantido */
+.tamanhos{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.tamanhos .tam{
+  width: 56px;
+  height: 40px;
+  border: 1px solid #cfcfcf;
+  background: #ffffff;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tamanhos .tam[aria-pressed="true"]{
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #111 !important;
+}
+
+.tamanhos .tam:disabled{
+  opacity: .45;
+  cursor: not-allowed;
 }
