@@ -5,12 +5,10 @@ $tabela       = "vw_tbprodutos";
 $campo_filtro = "id_produto";
 $ordenar_por  = "resumo_produto ASC";
 
-
 $id = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
 if ($id <= 0) {
     die("ID do produto inválido ou não informado.");
 }
-
 
 $consulta = "
     SELECT *
@@ -31,6 +29,7 @@ if ($totalRows == 0) {
 }
 
 $row = $lista->fetch_assoc();
+
 // ===================== TAMANHOS DO PRODUTO =====================
 $sql_tamanhos = "
     SELECT ta.id_tamanho, ta.numero_tamanho, pt.estoque
@@ -45,7 +44,6 @@ if(!$lista_tamanhos){
     die("Erro na consulta tamanhos: " . $conn_produtos->error);
 }
 
-
 //  montar caminho da imagem 
 $fotoBanco = $row['imagem_produto']; 
 
@@ -56,11 +54,11 @@ if ($fotoBanco && strpos($fotoBanco, "/") === false) {
     $srcImg = $fotoBanco; 
 }
 
-
 if (!$srcImg) {
     $srcImg = "imagens/sem-foto.png";
 }
-
+$valorOriginal = (float)$row['valor_produto'];
+$valorComAumento = $valorOriginal * 1.10;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -73,13 +71,12 @@ if (!$srcImg) {
             rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"/>
-            <link rel="stylesheet" href="CSS/produto.css">
-
-
+    <link rel="stylesheet" href="CSS/produto.css">
 </head>
 <body>
-    <?php include('menu.php')  ?>
-    <a name="">&nbsp; </a>
+<?php include('menu.php')  ?>
+<a name="">&nbsp; </a>
+
 <section class="produto-wrap">
   <div class="container-fluid px-4">
     <div class="row g-4">
@@ -89,10 +86,10 @@ if (!$srcImg) {
           <!-- imagem principal -->
           <div class="produto-main">
             <img
-  id="imgPrincipal"
-  src="<?php echo $srcImg; ?>"
-  alt="<?php echo htmlspecialchars($row['nome_produto'] ?? 'Produto'); ?>"
-/>
+              id="imgPrincipal"
+              src="<?php echo $srcImg; ?>"
+              alt="<?php echo htmlspecialchars($row['nome_produto'] ?? 'Produto'); ?>"
+            />
           </div>         
         </div>
       </div>
@@ -102,126 +99,104 @@ if (!$srcImg) {
         <aside class="produto-box">
 
           <h1 class="produto-titulo"><?php echo $row['nome_produto']; ?></h1>
+
           <div class="produto-preco">
             <div class="preco-linha">
-               <div class="preco-atual"><?php echo $row['valor_produto']; ?> <!--<small>no pix à vista</small>  --></div>
-              <div class="preco-de"><?php echo $row['valor_produto']; ?></div>
-              <!-- <span class="badge-desconto">5%Off</span> -->
-            </div>
-            <div class="preco-parcela">ou R$ 999,99 10x de R$ 99,99 sem juros</div>
+              <div class="preco-atual">R$<?php echo $row['valor_produto']; ?></div>
+              <div class="preco-de"> R$ <?php echo number_format($valorComAumento, 2, ',', '.'); ?></div>
+              </div>
+
+            <div class="preco-parcela"> Cartão: até 3x sem juros, a vista 5% e no pix 10%</div>
           </div>
 
-          <div class="produto-info">
-            <div class="info-item">
-              <span class="info-dot">✓</span>
-              <div>
-                Use o cupom de primeira compra no site:<br>
-                <b>PRIMEIRACOMPRA</b>
-              </div>
-            </div>
-            
-          </div>
-
-          <div class="mt-4">
-            <div class="sec-title"></div>
-            <div class="opcoes">
-              <div class="opcao-card">
-                 <img
-  id="imgPrincipal"
-  src="<?php echo $srcImg; ?>"
-  alt="<?php echo htmlspecialchars($row['nome_produto'] ?? 'Produto'); ?>"
-/>
-              </div>
-              
-            </div>
-          </div>
+         
 
           <div class="sec-title">Tamanho</div>
-<div class="tamanhos">
-  <?php if($lista_tamanhos->num_rows > 0){ ?>
-    
-    <?php while($t = $lista_tamanhos->fetch_assoc()){ 
-        $num = (int)$t['numero_tamanho'];
-        $estoque = (int)$t['estoque'];
-        $disabled = ($estoque <= 0) ? 'disabled' : '';
-    ?>
-      <button
-        class="tam"
-        type="button"
-        data-tamanho="<?php echo $num; ?>"
-        data-id-tamanho="<?php echo (int)$t['id_tamanho']; ?>"
-        <?php echo $disabled; ?>
-        title="<?php echo ($estoque <= 0) ? 'Esgotado' : 'Disponível'; ?>"
-      >
-        <?php echo $num; ?>
-      </button>
-    <?php } ?>
 
-  <?php } else { ?>
-    <small class="text-muted">Sem tamanhos cadastrados para este produto.</small>
-  <?php } ?>
-</div>
-<input type="hidden" id="tamanhoSelecionado" name="tamanhoSelecionado" value="">
-<input type="hidden" id="idTamanhoSelecionado" name="idTamanhoSelecionado" value="">
+          <div class="tamanhos">
+            <?php if($lista_tamanhos->num_rows > 0){ ?>
+              <?php while($t = $lista_tamanhos->fetch_assoc()){ 
+                  $num = (int)$t['numero_tamanho'];
+                  $estoque = (int)$t['estoque'];
+                  $disabled = ($estoque <= 0) ? 'disabled' : '';
+              ?>
+                <button
+                  class="tam btn"
+                  type="button"
+                  data-tamanho="<?php echo $num; ?>"
+                  data-id-tamanho="<?php echo (int)$t['id_tamanho']; ?>"
+                  <?php echo $disabled; ?>
+                  title="<?php echo ($estoque <= 0) ? 'Esgotado' : 'Disponível'; ?>"
+                >
+                  <?php echo $num; ?>
+                </button>
+              <?php } ?>
+            <?php } else { ?>
+              <small class="text-muted">Sem tamanhos cadastrados para este produto.</small>
+            <?php } ?>
+          </div>
 
+          <input type="hidden" id="tamanhoSelecionado" name="tamanhoSelecionado" value="">
+          <input type="hidden" id="idTamanhoSelecionado" name="idTamanhoSelecionado" value="">
 
-          <div class="mt-4 d-grid gap-2">            
-            <form action="carrinho_add.php" method="POST">
+          <!-- ✅ AQUI: DOIS FORMS (um pro checkout e outro pro carrinho) -->
+          <div class="mt-4 d-grid gap-2">
 
+            <!-- COMPRAR AGORA -> checkout.php -->
+            <form action="carrinho_add.php" method="POST" id="formCompra">
   <input type="hidden" name="id_produto" value="<?php echo $id; ?>">
   <input type="hidden" name="id_tamanho" id="idTamanhoSelecionadoForm">
 
-  <div class="mt-4 d-grid gap-2">
-    <button class="btn btn-comprar btn-danger" type="button">
+ <div class="mt-4 d-grid gap-2">
+
+  <form id="formCompraAgora" action="checkout.php" method="POST" class="m-0">
+    <input type="hidden" name="id_produto" value="<?php echo $id; ?>">
+    <input type="hidden" name="id_tamanho" id="idTamanhoCompraAgora">
+    <button class="btn btn-comprar btn-danger w-100" type="submit">
       COMPRAR AGORA
     </button>
+  </form>
 
-    <button class="btn btn-carrinho border" type="submit">
+  <form id="formCarrinho" action="carrinho_add.php" method="POST" class="m-0">
+    <input type="hidden" name="id_produto" value="<?php echo $id; ?>">
+    <input type="hidden" name="id_tamanho" id="idTamanhoCarrinho">
+    <button class="btn btn-carrinho border w-100" type="submit">
       ADICIONAR AO CARRINHO
     </button>
-  </div>
+  </form>
 
-</form>
+  <small id="msgTamanho" class="text-danger" style="display:none;">
+    Selecione um tamanho para continuar.
+  </small>
 
-          </div>
-          
-          <!-- DESCRIÇÃO DO PRODUTO (embaixo dos botões) -->
-<div class="produto-desc">
-  <h3 class="desc-title">Características</h3>
-  <p class="desc-text">
-    <?php echo $row['resumo_produto'] ?? 'Escreva aqui as características do produto.'; ?>
-  </p>
-
-  
-
-  <div class="desc-selo">
-    <div class="selo-icon">
-      <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
-                                 class="img-fluid"
-                                 alt="<?php echo $row['nome_marca']; ?>
-                                 ">
-    </div>
-
-    <div class="selo-text">
-      <strong>Produto original <?php echo $row['nome_marca']; ?></strong><br>
-      <span>Vendido por VP STREET</span>
-    </div>
-  </div>
 </div>
 
+            <small id="msgTamanho" class="text-danger" style="display:none;">
+              Selecione um tamanho para continuar.
+            </small>
 
-          <!-- <div class="mt-4">
-            <div class="cep-top">
-              <div class="sec-title mb-0">Insira seu CEP</div>
-              <a class="cep-link" href="#">NÃO SEI MEU CEP</a>
+          </div>
+
+          <!-- DESCRIÇÃO DO PRODUTO -->
+          <div class="produto-desc">
+            <h3 class="desc-title">Características</h3>
+            <p class="desc-text">
+              <?php echo $row['resumo_produto'] ?? 'Escreva aqui as características do produto.'; ?>
+            </p>
+
+            <div class="desc-selo">
+              <div class="selo-icon">
+                <img src="imagens/tenis/<?php echo $row['imagem_marca']; ?>"
+                     class="img-fluid"
+                     alt="<?php echo $row['nome_marca']; ?>">
+              </div>
+
+              <div class="selo-text">
+                <strong>Produto original <?php echo $row['nome_marca']; ?></strong><br>
+                <span>Vendido por VP STREET</span>
+              </div>
             </div>
-
-            <div class="cep-row">
-              <input class="cep-input" placeholder="00000-000" />
-              <button class="cep-btn" type="button">CALCULAR</button>
-            </div>
-          </div> -->
-
+          </div>
 
         </aside>
       </div>
@@ -232,38 +207,63 @@ if (!$srcImg) {
 
 <?php include('index_tenis.php')  ?>
 <?php include('rodapé.php')  ?>
-<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-           crossorigin="anonymous"
-        ></script>
 
-</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
 
 <script>
-  document.querySelectorAll('.tamanhos .tam').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.disabled) return;
+document.addEventListener('DOMContentLoaded', () => {
+  const wrap = document.querySelector('.tamanhos');
+  if (!wrap) return;
 
-      document.querySelectorAll('.tamanhos .tam')
-        .forEach(b => b.classList.remove('ativo'));
+  const msg = document.getElementById('msgTamanho');
 
-      btn.classList.add('ativo');
+  const inputCompraAgora = document.getElementById('idTamanhoCompraAgora');
+  const inputCarrinho    = document.getElementById('idTamanhoCarrinho');
 
-      document.getElementById('tamanhoSelecionado').value =
-        btn.dataset.tamanho;
+  const formCompraAgora  = document.getElementById('formCompraAgora');
+  const formCarrinho     = document.getElementById('formCarrinho');
 
-      document.getElementById('idTamanhoSelecionado').value =
-        btn.dataset.idTamanho;
+  function validaTamanho(){
+    const ok = inputCompraAgora.value && inputCarrinho.value;
+    if (!ok) msg.style.display = 'block';
+    else msg.style.display = 'none';
+    return ok;
+  }
 
-      // envia pro form
-      document.getElementById('idTamanhoSelecionadoForm').value =
-        btn.dataset.idTamanho;
-    });
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tam');
+    if (!btn || btn.disabled) return;
+
+    wrap.querySelectorAll('.tam').forEach(b => b.classList.remove('ativo'));
+    btn.classList.add('ativo');
+    btn.blur();
+
+    const idTam = btn.dataset.idTamanho;
+
+    // preenche os dois forms
+    inputCompraAgora.value = idTam;
+    inputCarrinho.value = idTam;
+
+    if (msg) msg.style.display = 'none';
   });
+
+  // valida nos dois submits
+  formCompraAgora.addEventListener('submit', (e) => {
+    if (!validaTamanho()) e.preventDefault();
+  });
+
+  formCarrinho.addEventListener('submit', (e) => {
+    if (!validaTamanho()) e.preventDefault();
+  });
+});
 </script>
 
-
+</body>
 </html>
-<?php mysqli_free_result($lista);
+
+<?php
+mysqli_free_result($lista);
 if(isset($lista_tamanhos)) mysqli_free_result($lista_tamanhos);
- ?>
+?>

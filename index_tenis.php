@@ -4,19 +4,33 @@ include("helpfun.php");
 
 $id_atual = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
 
+// pegar o tipo do produto atual
+$tipoAtual = 0;
+if($id_atual > 0){
+  $qTipo = $conn_produtos->query("SELECT id_tipo_produto FROM tbprodutos WHERE id_produto = $id_atual LIMIT 1");
+  if($qTipo && $qTipo->num_rows > 0){
+    $tipoAtual = (int)$qTipo->fetch_assoc()['id_tipo_produto'];
+  }
+}
+
+// buscar 6 produtos do mesmo tipo, sem repetir por tamanho
 $consulta = "
-    SELECT *
+    SELECT DISTINCT
+        id_produto,
+        nome_produto,
+        valor_produto,
+        imagem_produto,
+        nome_marca
     FROM vw_tbprodutos
-    WHERE id_tipo_produto 
-      AND id_produto <> $id_atual
+    WHERE id_produto <> $id_atual
+      AND ($tipoAtual = 0 OR id_tipo_produto = $tipoAtual)
     ORDER BY RAND()
     LIMIT 6;
 ";
 
-
 $lista = $conn_produtos->query($consulta);
 if(!$lista){
-    die("Erro na consulta: " . $conn_produtos->error);
+    die('Erro na consulta: ' . $conn_produtos->error);
 }
 
 $row        = $lista->fetch_assoc();
