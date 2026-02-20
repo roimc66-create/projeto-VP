@@ -51,7 +51,7 @@
         </div>
 
         <div class="col-md-4 mb-4">
-          <h6 class="fw-bold mb-3 text-center">FORMAS DE PAGAMENTO\</h6>
+          <h6 class="fw-bold mb-3 text-center">FORMAS DE PAGAMENTO</h6>
           <div class="d-flex flex-wrap justify-content-center gap-2">
             <img src="imagens/rodapé/pagamento/elo.svg" alt="">
             <img src="imagens/rodapé/pagamento/amex.svg" alt="">
