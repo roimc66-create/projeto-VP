@@ -1,4 +1,5 @@
 <?php
+include("session.php");
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
@@ -49,19 +50,55 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
   <title>Modelo</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- BOOTSTRAP ICONS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/menu.css">
   <link rel="stylesheet" href="CSS/font-potta.css">
+
+  <style>
+    /* ícones */
+    .nav-icon{
+      font-size: 1.6rem;
+      color: #111;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 8px;
+    }
+    .nav-icon:hover{
+      opacity: .75;
+      color:#000;
+    }
+
+    /* garante alinhamento do centro e direita */
+    #navMain{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" id="mainNav">
-  <div class="container-fluid">
-    <div id="navMain">
+  <div class="container-fluid d-flex align-items-center">
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <!-- ESQUERDA: CARRINHO -->
+    <div class="d-flex align-items-center">
+      <a class="nav-icon" href="carrinho.php" aria-label="Carrinho">
+        <i class="bi bi-cart3"></i>
+      </a>
+    </div>
+
+    <!-- CENTRO: SEU MENU -->
+    <div id="navMain">
+      <ul class="navbar-nav mb-2 mb-lg-0">
 
         <!-- MEGA MENU: TÊNIS -->
         <li class="nav-item dropdown dropdown-mega">
@@ -70,7 +107,7 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
              id="megaTenis"
              role="button"
              aria-expanded="false">
-            <h3>VP STREET</h3>
+            <h3 class="m-0">VP STREET</h3>
           </a>
 
           <div class="dropdown-menu mega-menu p-4" aria-labelledby="megaTenis">
@@ -148,8 +185,21 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
         </li>
 
       </ul>
-
     </div>
+
+    <!-- DIREITA: ADMIN (se for admin) + LOGIN -->
+    <div class="d-flex align-items-center ms-auto gap-2">
+      <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
+        <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
+          <i class="bi bi-house-door"></i>
+        </a>
+      <?php } ?>
+
+      <a class="nav-icon" href="login.php" aria-label="Login">
+        <i class="bi bi-person-circle"></i>
+      </a>
+    </div>
+
   </div>
 </nav>
 

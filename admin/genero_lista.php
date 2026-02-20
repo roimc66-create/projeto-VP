@@ -1,4 +1,5 @@
 <?php
+ include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 $consulta = "

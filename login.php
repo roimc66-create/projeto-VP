@@ -98,7 +98,7 @@ body{
 
 <div class="login-box">
 
-<h3 class="text-center mb-4">Login Admin</h3>
+<h3 class="text-center mb-4">Login </h3>
 
 <form action="login_valida.php" method="POST">
 
