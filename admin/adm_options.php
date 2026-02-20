@@ -34,8 +34,7 @@
                     <h5 class="card-title mt-2">USUÁRIOS</h5>
 
                     <div class="d-grid gap-2 mt-3">
-                        <a href="usuario_lista.php" class="btn btn-outline-secondary">Listar</a>
-                        <a href="usuario_insere.php" class="btn btn-secondary">Inserir</a>
+                        <a href="usuario_lista.php" class="btn btn-secondary">Listar</a>
                     </div>
                 </div>
             </div>
@@ -49,8 +48,7 @@
                     <h5 class="card-title mt-2">TIPOS</h5>
 
                     <div class="d-grid gap-2 mt-3">
-                        <a href="tipos_lista.php" class="btn btn-outline-secondary">Listar</a>
-                        <a href="tipos_insere.php" class="btn btn-secondary">Inserir</a>
+                        <a href="tipos_lista.php" class="btn btn-secondary">Listar</a>
                     </div>
                 </div>
             </div>
@@ -64,8 +62,7 @@
                     <h5 class="card-title mt-2">PRODUTOS</h5>
 
                     <div class="d-grid gap-2 mt-3">
-                        <a href="produtos_lista.php" class="btn btn-outline-secondary">Listar</a>
-                        <a href="produtos_insere.php" class="btn btn-secondary">Inserir</a>
+                        <a href="produtos_lista.php" class="btn btn-secondary">Listar</a>
                     </div>
                 </div>
             </div>
@@ -79,8 +76,23 @@
                     <h5 class="card-title mt-2">MARCAS</h5>
 
                     <div class="d-grid gap-2 mt-3">
-                        <a href="marcas_lista.php" class="btn btn-outline-secondary">Listar</a>
-                        <a href="marcas_insere.php" class="btn btn-secondary">Inserir</a>
+                        <a href="marcas_lista.php" class="btn btn-secondary">Listar</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAMANHOS -->
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <i class="bi bi-rulers fs-1 text-secondary"></i>
+                    <h5 class="card-title mt-2">TAMANHOS</h5>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="tamanhos_lista.php" class="btn btn-secondary">Listar</a>
+
                     </div>
                 </div>
             </div>
