@@ -25,12 +25,14 @@ if($_POST){
         $_SESSION['login_usuario'] = $dados['login_usuario'];
         $_SESSION['nivel_usuario'] = $dados['nivel_usuario'];
 
-        // Redireciona pro admin
+        // Redireciona pro index
         header("Location: index.php");
         exit;
 
     }else{
-        echo "Login ou senha inválidos";
+        // VOLTA PRO LOGIN COM ERRO
+        header("Location: login.php?erro=1");
+        exit;
     }
 }
 ?>

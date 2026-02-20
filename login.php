@@ -98,10 +98,15 @@ body{
 
 <div class="login-box">
 
-<h3 class="text-center mb-4">Login </h3>
+<h3 class="text-center mb-4">Login</h3>
+
+<?php if(isset($_GET['erro'])){ ?>
+    <div class="alert alert-danger text-center py-2" style="font-size:14px;">
+        Login ou senha inválidos
+    </div>
+<?php } ?>
 
 <form action="login_valida.php" method="POST">
-
     <div class="mb-3">
         <label>Login</label>
         <input type="text" name="login_usuario" class="form-control" required>
