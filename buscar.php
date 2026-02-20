@@ -2,23 +2,57 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-if (!isset($_GET['q']) || empty($_GET['q'])) {
+if (!isset($_GET['q']) || trim($_GET['q']) === '') {
     echo "Digite algo para buscar.";
     exit;
 }
 
-$busca = $_GET['q'];
+$busca = trim($_GET['q']);
+$busca_esc = $conn_produtos->real_escape_string($busca);
 
+/* Se digitou número, usamos como tamanho também */
+$busca_numero = (int)$busca;
+
+/* CONSULTA (1 produto por tênis + filtro por tamanho) */
 $sql = "
-    SELECT *
-    FROM vw_tbprodutos
-    WHERE 
-        nome_produto LIKE '%$busca%'
-        OR nome_marca LIKE '%$busca%'
-        OR nome_tipo LIKE '%$busca%'
+    SELECT DISTINCT
+        p.id_produto,
+        p.id_marca_produto,
+        p.id_genero_produto,
+        p.id_tipo_produto,
+        p.nome_tipo,
+        p.nome_marca,
+        p.nome_genero,
+        p.imagem_marca,
+        p.nome_produto,
+        p.resumo_produto,
+        p.valor_produto,
+        p.imagem_produto,
+        p.promoção_produto,
+        p.sneakers_produto
+    FROM vw_tbprodutos p
+    WHERE
+        p.nome_produto LIKE '%{$busca_esc}%'
+        OR p.nome_marca LIKE '%{$busca_esc}%'
+        OR p.nome_tipo  LIKE '%{$busca_esc}%'
+        OR (
+            {$busca_numero} > 0
+            AND EXISTS (
+                SELECT 1
+                FROM tbproduto_tamanho pt
+                JOIN tbtamanhos ta ON ta.id_tamanho = pt.id_tamanho
+                WHERE pt.id_produto = p.id_produto
+                  AND ta.numero_tamanho = {$busca_numero}
+                  AND pt.estoque > 0
+            )
+        )
 ";
 
 $resultado = $conn_produtos->query($sql);
+
+if(!$resultado){
+    die('Erro na busca: '.$conn_produtos->error);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
