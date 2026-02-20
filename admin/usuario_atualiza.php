@@ -24,7 +24,6 @@ if ($_POST) {
     $login = $_POST['login_usuario'];
     $nivel = $_POST['nivel_usuario'];
 
-    // se senha foi preenchida, atualiza
     if (!empty($_POST['senha_usuario'])) {
 
         $senha = $_POST['senha_usuario'];
@@ -57,58 +56,131 @@ if ($_POST) {
     <meta charset="UTF-8">
     <title>Editar Usuário</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+
+    <style>
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        .card-custom {
+            border-radius: 18px;
+            padding: 30px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-top: 50px;
+        }
+    </style>
 </head>
 
 <body>
 
 <?php include("menu.php"); ?>
 
-<div class="container mt-5">
-    <div class="card p-4 shadow" style="max-width:420px;margin:auto">
+<main class="container">
 
-        <div class="d-flex align-items-center mb-3">
-            <a href="usuario_lista.php" class="btn btn-warning me-3">←</a>
-            <h4 class="mb-0 text-warning fw-bold">Editar Usuário</h4>
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+            <div class="card-custom">
+
+                <div class="d-flex align-items-center mb-3">
+                    <a href="usuario_lista.php" class="btn btn-warning me-3">
+                        ←
+                    </a>
+                    <h4 class="mb-0 text-warning fw-bold">Editar Usuário</h4>
+                </div>
+
+                <div class="alert alert-warning">
+
+                    <form method="post">
+
+                        <!-- Login -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Login:
+                            </label>
+
+                            <input
+                                type="text"
+                                name="login_usuario"
+                                class="form-control"
+                                maxlength="30"
+                                required
+                                value="<?= $usuario['login_usuario']; ?>"
+                            >
+                        </div>
+
+                        <!-- Senha -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Nova senha (opcional):
+                            </label>
+
+                            <input
+                                type="password"
+                                name="senha_usuario"
+                                class="form-control"
+                                maxlength="8"
+                                placeholder="Deixe em branco para não alterar"
+                            >
+                        </div>
+
+                        <!-- Nível -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Nível do usuário:
+                            </label>
+
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="nivel_usuario"
+                                    value="user"
+                                    <?= $usuario['nivel_usuario']=='user'?'checked':'' ?>
+                                >
+                                <label class="form-check-label">
+                                    User
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="nivel_usuario"
+                                    value="admin"
+                                    <?= $usuario['nivel_usuario']=='admin'?'checked':'' ?>
+                                >
+                                <label class="form-check-label">
+                                    Admin
+                                </label>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100 fw-semibold"
+                        >
+                            💾 Salvar
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
         </div>
-
-        <form method="post">
-
-            <label class="fw-semibold">Login</label>
-            <input
-                type="text"
-                name="login_usuario"
-                value="<?= $usuario['login_usuario']; ?>"
-                class="form-control mb-3"
-                required
-            >
-
-            <label class="fw-semibold">Nova Senha (opcional)</label>
-            <input
-                type="password"
-                name="senha_usuario"
-                class="form-control mb-3"
-                placeholder="Deixe em branco para não alterar"
-            >
-
-            <label class="fw-semibold">Nível</label>
-            <select name="nivel_usuario" class="form-select mb-4">
-                <option value="admin" <?= $usuario['nivel_usuario']=='admin'?'selected':'' ?>>
-                    Admin
-                </option>
-                <option value="usuario" <?= $usuario['nivel_usuario']=='usuario'?'selected':'' ?>>
-                    Usuário
-                </option>
-            </select>
-
-            <button class="btn btn-warning w-100 fw-semibold">
-                💾 Salvar
-            </button>
-
-        </form>
-
     </div>
-</div>
 
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

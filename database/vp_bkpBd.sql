@@ -50,7 +50,7 @@ CREATE TABLE tbtipos(
 -- criaçao tabela tbprodutos
 CREATE TABLE tbprodutos(
     id_produto INT(11) NOT NULL,
-    id_marca_produto INT(11) NOT NULL,
+    id_marca_produto INT(11) NULL,
     id_genero_produto INT(11) NOT NULL,
     id_tipo_produto INT(11) NOT NULL,
     nome_produto VARCHAR(100) NOT NULL,
@@ -126,23 +126,26 @@ ALTER TABLE tbtamanhos
 
 -- limitadores e referencias da chave estrangeira
 ALTER TABLE tbprodutos
-   ADD CONSTRAINT id_marca_produto_fk FOREIGN KEY (id_marca_produto)
+   ADD CONSTRAINT id_marca_produto_fk
+   FOREIGN KEY (id_marca_produto)
    REFERENCES tbmarcas(id_marca)
-   ON DELETE NO ACTION
-   ON UPDATE NO ACTION;
+   ON DELETE SET NULL
+   ON UPDATE CASCADE;
 
 ALTER TABLE tbprodutos
-   ADD CONSTRAINT id_genero_produto_fk FOREIGN KEY (id_genero_produto)
+   ADD CONSTRAINT id_genero_produto_fk
+   FOREIGN KEY (id_genero_produto)
    REFERENCES tbgeneros(id_genero)
-   ON DELETE NO ACTION
-   ON UPDATE NO ACTION;
+   ON DELETE RESTRICT
+   ON UPDATE CASCADE;
 
 ALTER TABLE tbprodutos
-   ADD CONSTRAINT id_tipo_produto_fk FOREIGN KEY (id_tipo_produto)
+   ADD CONSTRAINT id_tipo_produto_fk
+   FOREIGN KEY (id_tipo_produto)
    REFERENCES tbtipos(id_tipo)
-   ON DELETE NO ACTION
-   ON UPDATE NO ACTION;
-
+   ON DELETE RESTRICT
+   ON UPDATE CASCADE;
+   
 -- foreign keys tamanhos
 ALTER TABLE tbproduto_tamanho
    ADD CONSTRAINT fk_pt_produto FOREIGN KEY (id_produto)
