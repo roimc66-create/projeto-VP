@@ -3,7 +3,7 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-// Consulta
+// Consulta para trazer os dados e SE necessário filtrar
 $tabela         = "vw_tbprodutos";
 $campo_filtro   = "id_marca_produto";
 $ordenar_por    = "resumo_produto ASC";
@@ -14,6 +14,9 @@ $filtro_select  = isset($_GET['id_marca']) ? (int)$_GET['id_marca'] : 0;
 if ($filtro_select <= 0) {
     die("Marca inválida.");
 }
+
+// ===================== CONSULTA AJUSTADA =====================
+// DISTINCT evita duplicar produto por causa dos tamanhos
 
 $consulta = "
     SELECT DISTINCT
@@ -41,93 +44,113 @@ if(!$lista){
     die("Erro na consulta: " . $conn_produtos->error);
 }
 
-$totalRows = $lista->num_rows;
-$row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
+$row        = $lista->fetch_assoc();
+$totalRows  = $lista->num_rows;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marca</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="CSS/pro_marca.css">
-<link rel="stylesheet" href="CSS/exclusivo.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marca</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"/>
+            <link rel="stylesheet" href="CSS/pro_marca.css">
+            <link rel="stylesheet" href="CSS/exclusivo.css">
 </head>
 
 <body>
-<?php include('menu.php') ?>
+    <?php include('menu.php')  ?>
+    
+    <a name="">&nbsp; </a>
+         <!-- TÍTULO  -->
+    <h1 class="text-center brand-title my-4">
+        <?php   echo $row['nome_marca'];?>
+        
+    </h1>
 
-<!-- TÍTULO -->
-<h1 class="text-center brand-title my-4">
-    <?php echo ($row) ? e($row['nome_marca']) : 'Marca'; ?>
-</h1>
-
-<!-- BARRA -->
-<div class="container mb-3">
+    <!-- BARRA DE CONTROLES -->
+     <div class="container mb-3">
     <div class="toolbar">
         <div class="left">
             <?php echo $totalRows; ?> produtos
         </div>
-    </div>
-</div>
 
-<!-- GRID -->
-<div class="container my-4">
-    <div class="row g-4">
-
-<?php if($totalRows > 0){ ?>
-
-<?php do { ?>
-    <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
-        <a href="produto.php?id_produto=<?php echo $row['id_produto']; ?>" class="text-decoration-none text-dark">
-
-            <div class="product-card card">
-                <img
-                    src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
-                    class="product-img card-img-top img-fluid"
-                    alt="<?php echo e($row['nome_produto']); ?>"
-                >
-
-                <div class="product-meta card-body">
-                    <div class="product-brand card-text">
-                        <?php echo e($row['nome_marca']); ?>
-                    </div>
-
-                    <p class="product-name card-title">
-                        <?php echo e($row['nome_produto']); ?>
-                    </p>
-
-                    <p class="product-price">
-                        <?php echo dinheiro($row['valor_produto']); ?>
-                    </p>
-
-                    <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="btn btn-dark w-100">
-                        Comprar
-                    </a>
-                </div>
+        <div class="right">
+            <div>
+                <strong>Visualizar</strong>
+                <button type="button" title="Grade">...</button>
+                <button type="button" title="Lista">....</button>
             </div>
 
-        </a>
-    </div>
-<?php } while($row = $lista->fetch_assoc()); ?>
+            <div>
+                <strong>Filtrar</strong>
+                <button type="button" title="Filtrar">.....</button>
+            </div>
 
-<?php } else { ?>
-
-    <div class="col-12">
-        <div class="alert alert-warning">
-            Nenhum produto encontrado para esta marca.
+            <div class="d-flex align-items-center gap-2">
+                <strong>Ordenar por</strong>
+                <!-- <select class="form-select form-select-sm" style="width:auto;">
+                    <option selected>Mais recentes</option>
+                    <option>Menor preço</option>
+                    <option>Maior preço</option>
+                    <option>A-Z</option>
+                </select> -->
+            </div>
         </div>
     </div>
+    </div>
 
-<?php } ?>
+    <!-- GRID DE PRODUTOS -->
+  <div class="container my-4">
+    <div class="row g-4">
+        <?php if($totalRows > 0){ ?>
+            <?php do { ?>
 
+                
+
+                <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
+                    <a href="produto.php?id_produto=<?php echo $id_produto; ?>" class="text-decoration-none text-dark">
+                        <div class="product-card card">
+                            <img
+                             src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
+                            class="product-img card-img-top img-fluid"
+                             alt="<?php echo e($row['nome_produto']); ?>"
+                              >
+
+                            <div class="product-meta card-body">
+                                <div class="product-brand card-text"><?php echo e($row['nome_marca']); ?></div>
+                                <p class="product-name card-title"><?php echo e($row['nome_produto']); ?></p>
+
+                                <p class="product-price">
+                                    <?php echo dinheiro($row['valor_produto']); ?>
+                                        </p>                                 
+                                </p>
+                                <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="btn btn-dark w-100" role="button">Comprar</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            <?php } while($row = $lista->fetch_assoc()); ?>
+        <?php } else { ?>
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    Nenhum produto encontrado para esta marca.
+                </div>
+            </div>
+        <?php } ?>
     </div>
 </div>
+</div>
 
-<?php include('rodapé.php') ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<?php include('rodapé.php')  ?>
+<script           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+           crossorigin="anonymous"
+        ></script>
 </body>
 </html>
