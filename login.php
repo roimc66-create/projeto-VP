@@ -47,10 +47,6 @@ Bem-vindo,<br>
 <!-- BOTÃO SÓ PRA ADMIN -->
 <?php if($_SESSION['nivel_usuario'] == 'admin'){ ?>
 
-<a href="admin/index.php" class="btn btn-dark w-100 mb-2">
-Ir para o Admin
-</a>
-
 <?php } ?>
 
 <a href="logout.php" class="btn btn-outline-danger w-100">
