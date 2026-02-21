@@ -216,7 +216,7 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
 
       <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
         <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
-          <i class="bi bi-house-door"></i>
+          <i class="bbi bi-house-gear-fill"></i>
         </a>
       <?php } ?>
 

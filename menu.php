@@ -191,7 +191,7 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
     <div class="d-flex align-items-center ms-auto gap-2">
       <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
         <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
-          <i class="bi bi-house-door"></i>
+          <i class="bi bi-house-gear-fill"></i>
         </a>
       <?php } ?>
 
