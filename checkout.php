@@ -2,8 +2,50 @@
 session_start();
 include("Connections/conn_produtos.php");
 
+/*
+  CHECKOUT.PHP (aceita 2 fluxos)
+  1) Carrinho normal: $_SESSION['carrinho']
+  2) Comprar agora: POST id_produto + id_tamanho (cria carrinho temporário com qtd=1)
+*/
+
+// ===================== 1) TRATAR "COMPRAR AGORA" =====================
+$id_produto_post = (int)($_POST['id_produto'] ?? 0);
+$id_tamanho_post = (int)($_POST['id_tamanho'] ?? 0);
+
+if ($id_produto_post > 0 && $id_tamanho_post > 0) {
+  // valida se esse tamanho pertence ao produto e existe no estoque (>=1)
+  $sqlValida = "
+    SELECT pt.estoque
+    FROM tbproduto_tamanho pt
+    WHERE pt.id_produto = {$id_produto_post}
+      AND pt.id_tamanho = {$id_tamanho_post}
+    LIMIT 1
+  ";
+  $resValida = $conn_produtos->query($sqlValida);
+  if (!$resValida) {
+    die("Erro ao validar comprar agora: " . $conn_produtos->error);
+  }
+  if ($resValida->num_rows == 0) {
+    die("Produto/tamanho inválido.");
+  }
+  $v = $resValida->fetch_assoc();
+  if ((int)$v['estoque'] <= 0) {
+    die("Sem estoque para esse tamanho.");
+  }
+
+  // cria/atualiza carrinho com apenas esse item (qtd 1)
+  $_SESSION['carrinho'] = [];
+  $key = $id_produto_post . "-" . $id_tamanho_post;
+  $_SESSION['carrinho'][$key] = [
+    'id_produto' => $id_produto_post,
+    'id_tamanho' => $id_tamanho_post,
+    'qtd' => 1
+  ];
+}
+
+// ===================== 2) CARRINHO =====================
 $carrinho = $_SESSION['carrinho'] ?? [];
-if(count($carrinho) == 0){
+if (count($carrinho) == 0) {
   header("Location: carrinho.php");
   exit;
 }
@@ -11,7 +53,7 @@ if(count($carrinho) == 0){
 // montar mapa de produtos/tamanhos pra buscar no banco
 $produtosIds = [];
 $tamanhosIds = [];
-foreach($carrinho as $item){
+foreach ($carrinho as $item) {
   $produtosIds[] = (int)$item['id_produto'];
   $tamanhosIds[] = (int)$item['id_tamanho'];
 }
@@ -39,11 +81,11 @@ $sql = "
 ";
 
 $res = $conn_produtos->query($sql);
-if(!$res) die("Erro checkout: " . $conn_produtos->error);
+if (!$res) die("Erro checkout: " . $conn_produtos->error);
 
 // indexar por chave "produto-tamanho"
 $map = [];
-while($r = $res->fetch_assoc()){
+while ($r = $res->fetch_assoc()) {
   $k = $r['id_produto'] . "-" . $r['id_tamanho'];
   $map[$k] = $r;
 }
@@ -53,17 +95,19 @@ $itens = [];
 $total = 0;
 $errosEstoque = [];
 
-foreach($carrinho as $k => $item){
-  if(!isset($map[$k])) continue;
+foreach ($carrinho as $k => $item) {
+  if (!isset($map[$k])) continue;
 
   $p = $map[$k];
   $qtd = (int)$item['qtd'];
+  if ($qtd < 1) $qtd = 1;
+
   $preco = (float)$p['valor_produto'];
   $subtotal = $preco * $qtd;
   $total += $subtotal;
 
   $estoqueAtual = (int)$p['estoque'];
-  if($qtd > $estoqueAtual){
+  if ($qtd > $estoqueAtual) {
     $errosEstoque[] = $p['nome_produto'] . " (tam " . $p['numero_tamanho'] . ")";
   }
 
@@ -74,7 +118,7 @@ foreach($carrinho as $k => $item){
   } else {
     $img = $foto;
   }
-  if(!$img) $img = "imagens/sem-foto.png";
+  if (!$img) $img = "imagens/sem-foto.png";
 
   $itens[] = [
     'chave' => $k,
@@ -101,30 +145,30 @@ $descontoPix    = 0.10;   // 10% OFF
 // forma de pagamento selecionada
 // opcoes: cartao | avista | pix
 $pagamento = isset($_POST['pagamento']) ? strtolower(trim($_POST['pagamento'])) : 'cartao';
-if(!in_array($pagamento, ['cartao','avista','pix'])) $pagamento = 'cartao';
+if (!in_array($pagamento, ['cartao', 'avista', 'pix'])) $pagamento = 'cartao';
 
 // parcela selecionada
 $parcelasSelecionadas = isset($_POST['parcelas']) ? (int)$_POST['parcelas'] : 1;
-if($parcelasSelecionadas < 1) $parcelasSelecionadas = 1;
-if($parcelasSelecionadas > $maxParcelas) $parcelasSelecionadas = $maxParcelas;
+if ($parcelasSelecionadas < 1) $parcelasSelecionadas = 1;
+if ($parcelasSelecionadas > $maxParcelas) $parcelasSelecionadas = $maxParcelas;
 
 // calcula total final conforme pagamento
 $totalFinal = $total;
 $valorParcela = $total;
 
-if($pagamento === 'avista'){
+if ($pagamento === 'avista') {
   $totalFinal = $total * (1 - $descontoAvista);
   $parcelasSelecionadas = 1;
   $valorParcela = $totalFinal;
 
-} elseif($pagamento === 'pix'){
+} elseif ($pagamento === 'pix') {
   $totalFinal = $total * (1 - $descontoPix);
   $parcelasSelecionadas = 1;
   $valorParcela = $totalFinal;
 
 } else {
   // cartao parcelado
-  if($parcelasSelecionadas <= $semJurosAte){
+  if ($parcelasSelecionadas <= $semJurosAte) {
     $fator = 1;
   } else {
     $meses = ($parcelasSelecionadas - 1);
@@ -149,10 +193,10 @@ if($pagamento === 'avista'){
 <div class="container py-5">
   <h1 class="mb-4">Checkout</h1>
 
-  <?php if(count($errosEstoque) > 0){ ?>
+  <?php if (count($errosEstoque) > 0) { ?>
     <div class="alert alert-danger">
       <b>Sem estoque suficiente para:</b><br>
-      <?php foreach($errosEstoque as $e){ echo "• " . htmlspecialchars($e) . "<br>"; } ?>
+      <?php foreach ($errosEstoque as $e) { echo "• " . htmlspecialchars($e) . "<br>"; } ?>
       <div class="mt-2">
         <a href="carrinho.php" class="btn btn-dark btn-sm">Voltar ao carrinho</a>
       </div>
@@ -161,7 +205,7 @@ if($pagamento === 'avista'){
 
   <div class="row g-4">
     <div class="col-lg-8">
-      <?php foreach($itens as $item){ ?>
+      <?php foreach ($itens as $item) { ?>
         <div class="card mb-3">
           <div class="card-body d-flex gap-3 align-items-center">
             <img src="<?php echo $item['img']; ?>" style="width:90px;height:90px;object-fit:cover;border-radius:8px;">
@@ -227,16 +271,16 @@ if($pagamento === 'avista'){
           </form>
 
           <!-- ===================== PARCELAS (só aparece no cartão) ===================== -->
-          <?php if($pagamento === 'cartao'){ ?>
+          <?php if ($pagamento === 'cartao') { ?>
             <form class="mt-3" method="POST" action="checkout.php">
               <input type="hidden" name="pagamento" value="cartao">
               <label class="form-label fw-bold">Parcelamento</label>
               <select name="parcelas" class="form-select" onchange="this.form.submit()"
                       <?php echo (count($errosEstoque) > 0 ? 'disabled' : ''); ?>>
-                <?php for($i=1;$i<=$maxParcelas;$i++){
+                <?php for ($i=1; $i<=$maxParcelas; $i++) {
                   $sel = ($i == $parcelasSelecionadas) ? 'selected' : '';
 
-                  if($i <= $semJurosAte){
+                  if ($i <= $semJurosAte) {
                     $f = 1;
                     $labelJuros = "sem juros";
                   } else {
@@ -256,7 +300,7 @@ if($pagamento === 'avista'){
             </form>
           <?php } else { ?>
             <div class="alert alert-success mt-3 mb-0">
-              <?php if($pagamento === 'avista'){ ?>
+              <?php if ($pagamento === 'avista') { ?>
                 Pagamento à vista: <b>5% de desconto</b> aplicado.
               <?php } else { ?>
                 Pagamento no Pix: <b>10% de desconto</b> aplicado.
@@ -272,14 +316,14 @@ if($pagamento === 'avista'){
           </div>
 
           <div class="text-muted small">
-            <?php if($pagamento === 'cartao'){ ?>
+            <?php if ($pagamento === 'cartao') { ?>
               <?php echo $parcelasSelecionadas; ?>x de R$ <?php echo number_format($valorParcela, 2, ',', '.'); ?>
             <?php } else { ?>
               À vista: R$ <?php echo number_format($totalFinal, 2, ',', '.'); ?>
             <?php } ?>
           </div>
 
-          <!-- ===================== FINALIZAR: manda pagamento, parcelas e total_final ===================== -->
+          <!-- ===================== FINALIZAR ===================== -->
           <form class="mt-4 d-grid gap-2" action="checkout_finalizar.php" method="POST">
             <input type="hidden" name="pagamento" value="<?php echo htmlspecialchars($pagamento); ?>">
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">

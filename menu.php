@@ -12,10 +12,10 @@ $sql_tipos = "
 $lista_tipos = $conn_produtos->query($sql_tipos)
   or die("Erro tipos: ".$conn_produtos->error);
 
-/* MARCAS */
+/* MARCAS (TODAS DA TABELA tbmarcas) */
 $sql_marcas = "
-  SELECT DISTINCT id_marca_produto, nome_marca
-  FROM vw_tbprodutos
+  SELECT id_marca AS id_marca_produto, nome_marca
+  FROM tbmarcas
   ORDER BY nome_marca ASC;
 ";
 $lista_marcas = $conn_produtos->query($sql_marcas)
@@ -62,6 +62,24 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
   <link rel="stylesheet" href="CSS/font-potta.css">
 
   <style>
+    /* ======= ESTILO FIXO (MOBILE IGUAL O OUTRO) ======= */
+    nav.navbar {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+      padding: 12px 20px !important;
+      background-color: white !important;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      padding-top: 75px; /* <<< PRA NÃO FICAR EMBAIXO DA NAVBAR */
+    }
+
     /* ícones */
     .nav-icon{
       font-size: 1.6rem;
@@ -82,6 +100,28 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
       display: flex;
       justify-content: center;
     }
+
+    /* garante que a lista do "ver mais" mostre tudo sem estourar o menu */
+    .mega-more{
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    @media (max-width: 991px) {
+      .navbar-brand{
+        position: static !important;
+        transform: none !important;
+      }
+      #mainNav .navbar-toggler{
+        position: relative;
+        z-index: 2000;
+      }
+      #mainNav .navbar-brand{
+        z-index: 1;
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -121,14 +161,14 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
 
                 <div class="mega-more" style="display:none;">
                   <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
-                    <a class="mega-link" href="produtos_por_tipo.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
-                      <?php echo $tipo['nome_tipo']; ?>
+                    <a class="mega-link" href="produtos_por_tipo.php?id_tipo=<?php echo (int)$tipo['id_tipo']; ?>">
+                      <?php echo htmlspecialchars($tipo['nome_tipo']); ?>
                     </a>
                   <?php } ?>
                 </div>
               </div>
 
-              <!-- MARCAS -->
+              <!-- MARCAS (TODAS) -->
               <div class="col-12 col-lg-3">
                 <div class="mega-title">Marcas</div>
 
@@ -136,9 +176,9 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
 
                 <div class="mega-more" style="display:none;">
                   <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
-                    <a href="produtos_por_marca.php?id_marca=<?php echo $marca['id_marca_produto']; ?>"
+                    <a href="produtos_por_marca.php?id_marca=<?php echo (int)$marca['id_marca_produto']; ?>"
                        class="mega-link">
-                      <?php echo $marca['nome_marca']; ?>
+                      <?php echo htmlspecialchars($marca['nome_marca']); ?>
                     </a>
                   <?php } ?>
                 </div>
@@ -153,8 +193,8 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
                 <div class="mega-more" style="display:none;">
                   <?php while($gen = $lista_generos->fetch_assoc()){ ?>
                     <a class="mega-link"
-                       href="produtos_por_genero.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
-                      <?php echo $gen['nome_genero']; ?>
+                       href="produtos_por_genero.php?id_genero=<?php echo (int)$gen['id_genero_produto']; ?>">
+                      <?php echo htmlspecialchars($gen['nome_genero']); ?>
                     </a>
                   <?php } ?>
                 </div>
@@ -166,9 +206,9 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
 
                 <div class="size-grid">
                   <?php while($tam = $lista_tamanhos_menu->fetch_assoc()){ ?>
-                    <a href="produtos_por_tamanho.php?tamanho=<?php echo $tam['numero_tamanho']; ?>"
+                    <a href="produtos_por_tamanho.php?tamanho=<?php echo (int)$tam['numero_tamanho']; ?>"
                        class="size">
-                      <?php echo $tam['numero_tamanho']; ?>
+                      <?php echo (int)$tam['numero_tamanho']; ?>
                     </a>
                   <?php } ?>
                 </div>
@@ -202,19 +242,6 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
 
   </div>
 </nav>
-
-<script>
-  // Torna a navbar sólida automaticamente quando não há imagem de fundo
-  document.addEventListener("DOMContentLoaded", () => {
-    const navbar = document.getElementById("mainNav");
-    const hasBanner = document.querySelector(".banner-principal");
-
-    if (!hasBanner) {
-      navbar.classList.remove("navbar-transparent");
-      navbar.classList.add("navbar-solid");
-    }
-  });
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -287,8 +314,9 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
     if(!btn) return;
 
     e.preventDefault();
+    e.stopPropagation(); // NÃO FECHA O MENU
 
-    const col = btn.closest('.col-12, [class*="col-"]');
+    const col = btn.closest('.col-lg-3') || btn.parentElement;
     const lista = col.querySelector('.mega-more');
 
     lista.style.display = 'block';

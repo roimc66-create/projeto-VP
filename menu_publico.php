@@ -13,13 +13,14 @@ $lista_tipos = $conn_produtos->query($sql_tipos)
   or die("Erro tipos: ".$conn_produtos->error);
 
 
-/* MARCAS */
+/* MARCAS (TODAS DA TABELA tbmarcas) */
 $sql_marcas = "
-  SELECT DISTINCT id_marca_produto, nome_marca
-  FROM vw_tbprodutos
+  SELECT id_marca AS id_marca_produto, nome_marca
+  FROM tbmarcas
   ORDER BY nome_marca ASC;
 ";
-$lista_marcas = $conn_produtos->query($sql_marcas) or die("Erro marcas: ".$conn_produtos->error);
+$lista_marcas = $conn_produtos->query($sql_marcas)
+  or die("Erro marcas: ".$conn_produtos->error);
 
 /* GENEROS */
 $sql_generos = "
@@ -97,6 +98,13 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
             opacity: 0.75;
         }
 
+        /* deixa a lista do ver mais com scroll (pra caber no mega menu) */
+        .mega-more{
+          max-height: 260px;
+          overflow: auto;
+          padding-right: 6px;
+        }
+
         @media (max-width: 991px) {
             .navbar-brand {
                 position: static !important;
@@ -150,13 +158,14 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
                   <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
                     <a class="mega-link"
                        href="produtos_por_tipo.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
-                       <?php echo $tipo['nome_tipo']; ?>
+                       <?php echo htmlspecialchars($tipo['nome_tipo']); ?>
                     </a>
                   <?php } ?>
                 </div>
               </div>
 
 
+              <!-- MARCAS (TODAS) -->
               <div class="col-12 col-lg-3">
                 <div class="mega-title">Marcas</div>
 
@@ -164,9 +173,9 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
 
                 <div class="mega-more" style="display:none;">
                   <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
-                    <a href="produtos_por_marca.php?id_marca=<?php echo $marca['id_marca_produto']; ?>"
+                    <a href="produtos_por_marca.php?id_marca=<?php echo (int)$marca['id_marca_produto']; ?>"
                        class="mega-link">
-                      <?php echo $marca['nome_marca']; ?>
+                      <?php echo htmlspecialchars($marca['nome_marca']); ?>
                     </a>
                   <?php } ?>
                 </div>
@@ -180,7 +189,7 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
                 <div class="mega-more" style="display:none;">
                   <?php while($gen = $lista_generos->fetch_assoc()){ ?>
                     <a class="mega-link" href="produtos_por_genero.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
-                      <?php echo $gen['nome_genero']; ?>
+                      <?php echo htmlspecialchars($gen['nome_genero']); ?>
                     </a>
                   <?php } ?>
                 </div>
@@ -216,7 +225,7 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
 
       <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
         <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
-          <i class="bbi bi-house-gear-fill"></i>
+          <i class="bi bi-house-gear-fill"></i>
         </a>
       <?php } ?>
 
@@ -314,6 +323,7 @@ document.addEventListener('click', function(e){
   if(!btn) return;
 
   e.preventDefault();
+  e.stopPropagation(); // <- não deixa fechar o mega menu ao clicar
 
   const col = btn.closest('.col-12, [class*="col-"]');
   const lista = col.querySelector('.mega-more');

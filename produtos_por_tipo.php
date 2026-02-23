@@ -130,7 +130,7 @@ $totalRows = $lista->num_rows;
       <?php do { ?>
         <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
           <!-- CORRIGIDO: usar id do row -->
-          <a href="produto.php?id_produto=<?php echo (int)$row['id_produto']; ?>" class="text-decoration-none text-dark">
+          <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>" class="text-decoration-none text-dark">
             <div class="product-card card">
               <img
                 src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"

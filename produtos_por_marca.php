@@ -81,7 +81,7 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
 
 <?php do { ?>
     <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
-        <a href="produto.php?id_produto=<?php echo $row['id_produto']; ?>" class="text-decoration-none text-dark">
+        <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>" class="text-decoration-none text-dark">
 
             <div class="product-card card">
                 <img
