@@ -142,11 +142,11 @@ $totalRows = $lista->num_rows;
               >
 
               <div class="product-meta card-body">
-                <div class="product-brand card-text"><?php echo e($row['nome_genero']); ?></div>
+                <div class="product-name card-text"><?php echo e($row['nome_genero']); ?></div>
                 <p class="product-name card-title"><?php echo e($row['nome_produto']); ?></p>
 
                 <p class="product-price">
-                  <?php echo dinheiro($row['valor_produto']); ?>
+                  R$ <?php echo dinheiro($row['valor_produto']); ?>
                 </p>
 
                 <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>"

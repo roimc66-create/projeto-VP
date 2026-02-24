@@ -91,7 +91,7 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
                 >
 
                 <div class="product-meta card-body">
-                    <div class="product-brand card-text">
+                    <div class="product-name card-text">
                         <?php echo e($row['nome_marca']); ?>
                     </div>
 
@@ -100,7 +100,7 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
                     </p>
 
                     <p class="product-price">
-                        <?php echo dinheiro($row['valor_produto']); ?>
+                        R$ <?php echo dinheiro($row['valor_produto']); ?>
                     </p>
 
                     <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>" class="btn btn-dark w-100">

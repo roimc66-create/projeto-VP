@@ -109,8 +109,17 @@ if (count($keys) > 0) {
 
 
     <div class="container py-5">
-        <div class="mb-3">
-    <a href="javascript:history.back()" 
+     <div class="mb-3">
+    <a href="#"
+       onclick="
+           if (document.referrer && 
+               !document.referrer.includes('checkout.php')) {
+               history.back();
+           } else {
+               window.location.href='index.php';
+           }
+           return false;
+       "
        class="btn btn-outline-dark d-inline-flex align-items-center gap-2">
        
         <i class="bi bi-arrow-left"></i>

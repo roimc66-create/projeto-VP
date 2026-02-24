@@ -18,9 +18,9 @@
         </div>
 
         <div class="col-md-4 mb-3">
-          <h6 class="fw-bold">CUPONS</h6>
-          <p class="mb-0">USE NOSSOS CUPONS PARA GARANTIR</p>
-          <p>DESCONTOS INCRÍVEIS</p>
+          <h6 class="fw-bold">Parcelamentos</h6>
+          <p class="mb-0">Parcelamentos com juros apartir de 3 parcelamentos</p>
+          
         </div>
 
       </div>
