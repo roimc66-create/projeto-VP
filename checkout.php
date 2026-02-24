@@ -203,6 +203,12 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
 <?php include('menu.php'); ?>
 
 <div class="container py-5">
+    <div class="mb-3 ">
+    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center ">
+      <i class="bi bi-arrow-left"></i>
+      Voltar para o carrinho
+    </a>
+  </div>
   <h1 class="mb-4">Checkout</h1>
 
   <?php if (count($errosEstoque) > 0) { ?>
