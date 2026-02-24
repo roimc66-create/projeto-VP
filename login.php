@@ -49,6 +49,10 @@ Bem-vindo,<br>
 
 <?php } ?>
 
+<a href="index.php" class="btn btn-dark w-100 mb-2">
+Voltar para a loja
+</a>
+
 <a href="logout.php" class="btn btn-outline-danger w-100">
 Sair da conta
 </a>
@@ -113,7 +117,12 @@ body{
         <input type="password" name="senha_usuario" class="form-control" required>
     </div>
 
-    <button class="btn btn-dark w-100">Entrar</button>
+    <button class="btn btn-dark w-100 mb-2">Entrar</button>
+
+<a href="index.php" class="btn btn-outline-secondary w-100">
+Voltar para a loja
+</a>
+    
 
     <!-- CADASTRO -->
     <div class="text-center mt-3">
