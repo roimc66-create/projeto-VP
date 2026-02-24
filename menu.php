@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
@@ -54,75 +54,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
     <link rel="stylesheet" href="CSS/font-potta.css">
 
     <style>
-        nav.navbar {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding: 12px 20px !important;
-            background-color: white !important;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-        }
-
-        body { margin: 0; padding: 0; }
-        main { padding-top: 75px; }
-
-        /* ícones */
-        .nav-icon {
-            font-size: 1.6rem;
-            color: #111;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 8px;
-        }
-        .nav-icon:hover {
-            color: #000;
-            opacity: 0.75;
-        }
-
-        /* ✅ CORREÇÃO DO "TORTO": centraliza o miolo de verdade */
-        #navMain{
-          flex: 1;
-          display: flex;
-          justify-content: center;
-        }
-
-        /* deixa a lista com scroll (pra caber no mega menu) */
-        .mega-more{
-          max-height: 260px;
-          overflow: auto;
-          padding-right: 6px;
-          display: block !important;
-        }
-
-        /* ✅ CORREÇÃO DA BUSCA ESTOURANDO */
-        .mega-search{
-          width: 100%;
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;          /* quebra no mobile */
-          margin-top: 10px;
-        }
-        .mega-search input{
-          flex: 1;
-          min-width: 220px;         /* não esmagar */
-        }
-        .mega-search button{
-          white-space: nowrap;
-        }
-
-        @media (max-width: 991px) {
-            .navbar-brand { position: static !important; transform: none !important; }
-            #mainNav .navbar-toggler { position: relative; z-index: 2000; }
-            #mainNav .navbar-brand { z-index: 1; }
-
-            /* no mobile, botão ocupa linha inteira (não estoura) */
-            .mega-search button{
-              width: 100%;
-            }
-        }
+       
     </style>
 </head>
 <body>
@@ -136,12 +68,18 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
         <i class="bi bi-cart3"></i>
       </a>
     </div>
+    <!-- Esquerda casa -->
+    <div class="d-flex align-items-center d-block d-lg-none">
+      <a class="nav-icon" href="index.php" aria-label="Carrinho">
+        <i class="bi bi-house"></i>
+      </a>
+    </div>
 
-    <!-- CENTRO: SEU MENU -->
+    <!-- CENTRO MENU -->
     <div id="navMain">
       <ul class="navbar-nav mb-2 mb-lg-0">
 
-        <!-- MEGA MENU: TÊNIS -->
+        <!-- TÊNIS -->
         <li class="nav-item dropdown dropdown-mega">
           <a class="nav-link fw-semibold navbar-brand text-dark fw-bold nav-center title-font"
              href="index.php"
