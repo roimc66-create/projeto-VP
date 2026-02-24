@@ -92,7 +92,6 @@ if ($_POST) {
                         name="form_insere_marca"
                     >
 
-                        <!-- Nome -->
                         <div class="mb-3">
                             <label for="nome_marca" class="form-label fw-semibold">
                                 Rótulo:
@@ -110,7 +109,6 @@ if ($_POST) {
                             >
                         </div>
 
-                        <!-- Imagem -->
                         <div class="mb-3">
                             <label for="imagem_marca" class="form-label fw-semibold">
                                 Imagem:

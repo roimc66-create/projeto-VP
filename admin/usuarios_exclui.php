@@ -2,23 +2,21 @@
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-// ID alvo
 $idDel = isset($_GET['id_usuario']) ? (int)$_GET['id_usuario'] : 0;
 if ($idDel <= 0) {
     header("Location: usuario_lista.php?erro=notfound");
     exit;
 }
 
-// ID logado (ajuste se sua sessão usar outro nome)
 $idLogado = isset($_SESSION['id_usuario']) ? (int)$_SESSION['id_usuario'] : 0;
 
-// 1) Bloquear auto-exclusão
+// Bloquear se excluir
 if ($idLogado > 0 && $idDel === $idLogado) {
     header("Location: usuario_lista.php?erro=self");
     exit;
 }
 
-// 2) Bloquear excluir o último usuário
+// Bloquear excluir o último usuário que restou
 $rTotal = $conn_produtos->query("SELECT COUNT(*) AS total FROM tbusuarios");
 $total = (int)$rTotal->fetch_assoc()['total'];
 if ($total <= 1) {
@@ -26,7 +24,7 @@ if ($total <= 1) {
     exit;
 }
 
-// 3) (Recomendado) Bloquear excluir o último ADMIN
+// Bloquear excluir o último ADMIN
 $rNivel = $conn_produtos->query("SELECT nivel_usuario FROM tbusuarios WHERE id_usuario = $idDel");
 if ($rNivel->num_rows == 0) {
     header("Location: usuario_lista.php?erro=notfound");
@@ -44,7 +42,6 @@ if ($nivelDel === 'admin') {
     }
 }
 
-// 4) Deletar (mais seguro: prepared)
 $stmt = $conn_produtos->prepare("DELETE FROM tbusuarios WHERE id_usuario = ?");
 $stmt->bind_param("i", $idDel);
 $stmt->execute();

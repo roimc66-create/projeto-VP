@@ -109,7 +109,7 @@ thead { background:#0d6efd; color:white; }
     </div>
 </div>
 
-<!-- MODAL EXCLUIR -->
+<!-- Modal exacluir -->
 <div class="modal fade" id="myModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

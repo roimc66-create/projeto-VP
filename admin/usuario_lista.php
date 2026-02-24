@@ -52,7 +52,7 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
     </style>
 </head>
 
-<!-- MODAL EXCLUIR -->
+<!-- Modal Excluir -->
 <div class="modal fade" id="myModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -116,7 +116,6 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
                         <?php
                             $idLinha = (int)$row['id_usuario'];
 
-                            // Regras do botão excluir
                             $bloqSelf = ($idLinha === $idLogado);
                             $bloqLast = ($totalRows <= 1);
                             $bloqueado = ($bloqSelf || $bloqLast);

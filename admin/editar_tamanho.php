@@ -2,7 +2,7 @@
  include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-/* ===== VALIDA ID ===== */
+/* Validar o ID */
 if (!isset($_GET['id_tamanho'])) {
     header("Location: tamanhos_lista.php");
     exit;
@@ -11,7 +11,7 @@ if (!isset($_GET['id_tamanho'])) {
 $id_tamanho = (int) $_GET['id_tamanho'];
 $mensagem = "";
 
-/* ===== ATUALIZAR ===== */
+/* Atualizar */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['numero_tamanho']) && $_POST['numero_tamanho'] !== "") {
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* ===== BUSCAR DADOS ===== */
+/* Aparecer os dados antigos */
 $stmt = $conn_produtos->prepare("
     SELECT *
     FROM tbtamanhos
@@ -55,6 +55,7 @@ if (!$row) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

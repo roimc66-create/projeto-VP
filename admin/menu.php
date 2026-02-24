@@ -43,10 +43,9 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-transparent" id="mainNav">
     <div class="container-fluid">
         
-        <!-- LOGO / NOME DO SITE -->
         <a class="navbar-brand text-dark fw-bold" href="../index.php">VP STREET</a>
 
-        <!-- Botão mobile -->
+        <!-- Botão da tela de mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
@@ -54,10 +53,10 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <!-- Espaço à esquerda -->
+            <!-- Espaçoamento -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
-            <!-- Ícone ADM (onde era a busca) -->
+            <!-- Ícone ADM -->
             <a class="nav-link text-dark fw-bold fs-2" href="../admin/adm_options.php"title="Painel Administrativo">
                 <i class="bi bi-house-gear-fill"></i>
             </a>
@@ -71,7 +70,7 @@
     document.addEventListener("DOMContentLoaded", () => {
         const navbar = document.getElementById("mainNav");
 
-        // Quando a página não tem banner, ativa a sólida
+        // Quando a página não tem banner, isso ativa a navbar sólida e deixa certinho
         const hasBanner = document.querySelector(".banner-principal");
 
         if (!hasBanner) {
