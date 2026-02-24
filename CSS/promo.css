@@ -206,4 +206,75 @@
 }
 
 
+/* ===================== MOBILE: 2 por linha + sidebar esquerda + sem featured ===================== */
+@media (max-width: 991px){
 
+  /* mantém layout lado a lado (sidebar na esquerda) */
+  .snkr-container{
+    display: flex !important;
+  }
+
+  /* sidebar menor, mas continua na esquerda */
+  .snkr-sidebar{
+    display: flex !important;
+    width: 22% !important;          /* ajusta a largura da barra */
+    min-width: 64px;                /* não deixa sumir */
+  }
+
+  /* texto continua vertical, só reduz */
+  .snkr-sidebar h1{
+    font-size: 24px !important;
+  }
+
+  /* some com o card grande no mobile */
+  .snkr-featured{
+    display: none !important;
+  }
+
+  /* main ocupa o resto e vira bloco */
+  .snkr-main{
+    width: 78% !important;
+    padding: 12px !important;
+    display: block !important;
+  }
+
+  /* grid: 2 por linha */
+  .snkr-grid{
+    width: 100% !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* cards um pouco maiores e mais “cheios” */
+  .snkr-item{
+    padding: 12px !important;
+  }
+
+  .snkr-item img{
+    width: 95% !important;          /* imagem maior sem estourar */
+    max-width: 160px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .snkr-item h4{
+    font-size: 13px;
+    margin: 8px 0 4px;
+  }
+
+  .snkr-item p{
+    font-size: 13px;
+  }
+
+  .snkr-item .snkr-date.small{
+    font-size: 11px;
+  }
+
+  /* tira o zoom no mobile pra não “quebrar” o grid no toque */
+  .snkr-item:hover,
+  .snkr-featured:hover{
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
