@@ -12,7 +12,7 @@ $sql_tipos = "
 $lista_tipos = $conn_produtos->query($sql_tipos)
   or die("Erro tipos: ".$conn_produtos->error);
 
-/* MARCAS (TODAS DA TABELA tbmarcas) */
+/* MARCAS */
 $sql_marcas = "
   SELECT id_marca AS id_marca_produto, nome_marca
   FROM tbmarcas
@@ -29,17 +29,6 @@ $sql_generos = "
 ";
 $lista_generos = $conn_produtos->query($sql_generos)
   or die("Erro generos: ".$conn_produtos->error);
-
-/* TAMANHOS (menu) */
-$sql_tamanhos_menu = "
-  SELECT DISTINCT ta.numero_tamanho
-  FROM tbproduto_tamanho pt
-  JOIN tbtamanhos ta ON ta.id_tamanho = pt.id_tamanho
-  WHERE pt.estoque > 0
-  ORDER BY ta.numero_tamanho ASC;
-";
-$lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
-  or die("Erro tamanhos menu: ".$conn_produtos->error);
 ?>
 
 <!DOCTYPE html>
@@ -50,37 +39,32 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
   <title>Modelo</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- BOOTSTRAP ICONS -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="CSS/menu.css">
   <link rel="stylesheet" href="CSS/font-potta.css">
 
   <style>
-    /* ======= ESTILO FIXO (MOBILE IGUAL O OUTRO) ======= */
-    nav.navbar {
+    nav.navbar{
       position: fixed !important;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       z-index: 9999;
-      padding: 12px 20px !important;
-      background-color: white !important;
+      padding: 12px 18px !important;
+      background-color: #fff !important;
       box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
     }
 
-    body {
+    body{
       margin: 0;
       padding: 0;
-      padding-top: 75px; /* <<< PRA NÃO FICAR EMBAIXO DA NAVBAR */
+      padding-top: 75px;
     }
 
-    /* ícones */
     .nav-icon{
       font-size: 1.6rem;
       color: #111;
@@ -89,157 +73,173 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
       align-items: center;
       padding: 6px 8px;
     }
-    .nav-icon:hover{
-      opacity: .75;
-      color:#000;
-    }
+    .nav-icon:hover{ opacity: .75; color:#000; }
 
-    /* garante alinhamento do centro e direita */
-    #navMain{
-      flex: 1;
+    /* ====== ALINHAMENTO CERTO (não fica torto) ====== */
+    .nav-wrap{
+      width: 100%;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .nav-left, .nav-center, .nav-right{
+      display: flex;
+      align-items: center;
+    }
+    .nav-center{
+      flex: 1;
       justify-content: center;
+      min-width: 0;
     }
 
-    /* garante que a lista do "ver mais" mostre tudo sem estourar o menu */
+    /* ====== MEGA MENU ====== */
     .mega-more{
       max-height: 260px;
       overflow: auto;
       padding-right: 6px;
+      display: block;
     }
 
-    @media (max-width: 991px) {
-      .navbar-brand{
-        position: static !important;
-        transform: none !important;
+    /* busca não estoura */
+    .mega-search{
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 420px;   /* limita no desktop */
+      margin-left: auto;  /* joga pra direita */
+      flex-wrap: nowrap;
+    }
+    .mega-search input{
+      min-width: 0;
+      flex: 1;
+    }
+
+    /* ====== MOBILE ====== */
+    @media (max-width: 991px){
+      body{ padding-top: 70px; }
+
+      /* no mobile, o centro não tenta “forçar” e fica ok */
+      .nav-center{ justify-content: center; }
+
+      /* colunas ficam 100% (sem ficar esmagado) */
+      .mega-menu .col-12{
+        flex: 0 0 100%;
+        max-width: 100%;
       }
-      #mainNav .navbar-toggler{
-        position: relative;
-        z-index: 2000;
+
+      /* busca 100% e quebra bonito */
+      .mega-search{
+        max-width: 100%;
+        margin-left: 0;
+        flex-wrap: wrap;
       }
-      #mainNav .navbar-brand{
-        z-index: 1;
+      .mega-search button{
+        width: 100%;
       }
     }
-    
   </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" id="mainNav">
-  <div class="container-fluid d-flex align-items-center">
+<nav class="navbar navbar-light bg-white border-bottom" id="mainNav">
+  <div class="container-fluid">
+    <div class="nav-wrap">
 
-    <!-- ESQUERDA: CARRINHO -->
-    <div class="d-flex align-items-center">
-      <a class="nav-icon" href="carrinho.php" aria-label="Carrinho">
-        <i class="bi bi-cart3"></i>
-      </a>
-    </div>
-
-    <!-- CENTRO: SEU MENU -->
-    <div id="navMain">
-      <ul class="navbar-nav mb-2 mb-lg-0">
-
-        <!-- MEGA MENU: TÊNIS -->
-        <li class="nav-item dropdown dropdown-mega">
-          <a class="nav-link fw-semibold navbar-brand text-dark fw-bold nav-center title-font"
-             href="index.php"
-             id="megaTenis"
-             role="button"
-             aria-expanded="false">
-            <h3 class="m-0">VP STREET</h3>
-          </a>
-
-          <div class="dropdown-menu mega-menu p-4" aria-labelledby="megaTenis">
-            <div class="row g-4">
-
-              <!-- PRODUTOS (TIPOS) -->
-              <div class="col-12 col-lg-3">
-                <div class="mega-title"><a class="mega-link" href="index_produtos.php">Produtos</a></div>
-
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
-                  <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
-                    <a class="mega-link" href="produtos_por_tipo.php?id_tipo=<?php echo (int)$tipo['id_tipo']; ?>">
-                      <?php echo htmlspecialchars($tipo['nome_tipo']); ?>
-                    </a>
-                  <?php } ?>
-                </div>
-              </div>
-
-              <!-- MARCAS (TODAS) -->
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Marcas</div>
-
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
-                  <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
-                    <a href="produtos_por_marca.php?id_marca=<?php echo (int)$marca['id_marca_produto']; ?>"
-                       class="mega-link">
-                      <?php echo htmlspecialchars($marca['nome_marca']); ?>
-                    </a>
-                  <?php } ?>
-                </div>
-              </div>
-
-              <!-- GÊNERO -->
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Gênero</div>
-
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
-                  <?php while($gen = $lista_generos->fetch_assoc()){ ?>
-                    <a class="mega-link"
-                       href="produtos_por_genero.php?id_genero=<?php echo (int)$gen['id_genero_produto']; ?>">
-                      <?php echo htmlspecialchars($gen['nome_genero']); ?>
-                    </a>
-                  <?php } ?>
-                </div>
-              </div>
-
-              <!-- TAMANHOS -->
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Tamanho do tênis</div>
-
-                <div class="size-grid">
-                  <?php while($tam = $lista_tamanhos_menu->fetch_assoc()){ ?>
-                    <a href="produtos_por_tamanho.php?tamanho=<?php echo (int)$tam['numero_tamanho']; ?>"
-                       class="size">
-                      <?php echo (int)$tam['numero_tamanho']; ?>
-                    </a>
-                  <?php } ?>
-                </div>
-              </div>
-
-              <!-- BUSCA -->
-              <form class="d-flex" action="buscar.php" method="GET">
-                <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
-                <button class="btn btn-outline-dark" type="submit">Ok</button>
-              </form>
-
-            </div>
-          </div>
-        </li>
-
-      </ul>
-    </div>
-
-    <!-- DIREITA: ADMIN (se for admin) + LOGIN -->
-    <div class="d-flex align-items-center ms-auto gap-2">
-      <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
-        <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
-          <i class="bi bi-house-gear-fill"></i>
+      <!-- ESQUERDA -->
+      <div class="nav-left">
+        <a class="nav-icon" href="carrinho.php" aria-label="Carrinho">
+          <i class="bi bi-cart3"></i>
         </a>
-      <?php } ?>
+      </div>
 
-      <a class="nav-icon" href="login.php" aria-label="Login">
-        <i class="bi bi-person-circle"></i>
-      </a>
+      <!-- CENTRO -->
+      <div class="nav-center">
+        <ul class="navbar-nav mb-0">
+          <li class="nav-item dropdown dropdown-mega">
+            <a class="nav-link fw-semibold navbar-brand text-dark fw-bold title-font mb-0"
+               href="index.php"
+               id="megaTenis"
+               role="button"
+               aria-expanded="false">
+              <h3 class="m-0">VP STREET</h3>
+            </a>
+
+            <div class="dropdown-menu mega-menu p-4" aria-labelledby="megaTenis">
+              <div class="row g-4">
+
+                <!-- PRODUTOS -->
+                <div class="col-12 col-lg-4">
+                  <div class="mega-title">
+                    <a class="mega-link" href="index_produtos.php">Produtos</a>
+                  </div>
+
+                  <div class="mega-more">
+                    <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
+                      <a class="mega-link" href="produtos_por_tipo.php?id_tipo=<?php echo (int)$tipo['id_tipo']; ?>">
+                        <?php echo htmlspecialchars($tipo['nome_tipo']); ?>
+                      </a>
+                    <?php } ?>
+                  </div>
+                </div>
+
+                <!-- MARCAS -->
+                <div class="col-12 col-lg-4">
+                  <div class="mega-title">Marcas</div>
+
+                  <div class="mega-more">
+                    <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
+                      <a href="produtos_por_marca.php?id_marca=<?php echo (int)$marca['id_marca_produto']; ?>"
+                         class="mega-link">
+                        <?php echo htmlspecialchars($marca['nome_marca']); ?>
+                      </a>
+                    <?php } ?>
+                  </div>
+                </div>
+
+                <!-- GÊNERO -->
+                <div class="col-12 col-lg-4">
+                  <div class="mega-title">Gênero</div>
+
+                  <div class="mega-more">
+                    <?php while($gen = $lista_generos->fetch_assoc()){ ?>
+                      <a class="mega-link"
+                         href="produtos_por_genero.php?id_genero=<?php echo (int)$gen['id_genero_produto']; ?>">
+                        <?php echo htmlspecialchars($gen['nome_genero']); ?>
+                      </a>
+                    <?php } ?>
+                  </div>
+                </div>
+
+                <!-- BUSCA -->
+                <div class="col-12">
+                  <form class="mega-search" action="buscar.php" method="GET">
+                    <input class="form-control" type="search" name="q" placeholder="Buscar...">
+                    <button class="btn btn-outline-dark" type="submit">Ok</button>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- DIREITA -->
+      <div class="nav-right gap-2">
+        <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>
+          <a class="nav-icon" href="admin/adm_options.php" aria-label="Admin">
+            <i class="bi bi-house-gear-fill"></i>
+          </a>
+        <?php } ?>
+
+        <a class="nav-icon" href="login.php" aria-label="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
+      </div>
+
     </div>
-
   </div>
 </nav>
 
@@ -288,7 +288,7 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
       if (window.innerWidth >= 992) scheduleClose();
     });
 
-    // Mobile: click
+    // Mobile: click abre/fecha
     toggle.addEventListener('click', (e) => {
       if (window.innerWidth >= 992) return;
       e.preventDefault();
@@ -306,22 +306,6 @@ $lista_tamanhos_menu = $conn_produtos->query($sql_tamanhos_menu)
 
     window.addEventListener('resize', closeMenu);
   })();
-</script>
-
-<script>
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('[data-toggle="mega-more"]');
-    if(!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation(); // NÃO FECHA O MENU
-
-    const col = btn.closest('.col-lg-3') || btn.parentElement;
-    const lista = col.querySelector('.mega-more');
-
-    lista.style.display = 'block';
-    btn.style.display = 'none';
-  });
 </script>
 
 </body>

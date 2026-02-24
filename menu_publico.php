@@ -12,7 +12,6 @@ $sql_tipos = "
 $lista_tipos = $conn_produtos->query($sql_tipos)
   or die("Erro tipos: ".$conn_produtos->error);
 
-
 /* MARCAS (TODAS DA TABELA tbmarcas) */
 $sql_marcas = "
   SELECT id_marca AS id_marca_produto, nome_marca
@@ -29,17 +28,6 @@ $sql_generos = "
   ORDER BY nome_genero ASC;
 ";
 $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$conn_produtos->error);
-
-
-/* TAMANHOS (do banco) */
-$sql_tamanhos = "
-  SELECT DISTINCT numero_tamanho
-  FROM tbtamanhos
-  ORDER BY numero_tamanho ASC;
-";
-$lista_tamanhos = $conn_produtos->query($sql_tamanhos)
-  or die("Erro tamanhos: ".$conn_produtos->error);
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -60,6 +48,8 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+
+    <!-- SEUS CSS ORIGINAIS -->
     <link rel="stylesheet" href="CSS/menu.css">
     <link rel="stylesheet" href="CSS/font-potta.css">
 
@@ -75,14 +65,8 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        main {
-            padding-top: 75px;
-        }
+        body { margin: 0; padding: 0; }
+        main { padding-top: 75px; }
 
         /* ícones */
         .nav-icon {
@@ -98,25 +82,18 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
             opacity: 0.75;
         }
 
-        /* deixa a lista do ver mais com scroll (pra caber no mega menu) */
+        /* deixa a lista com scroll (pra caber no mega menu) */
         .mega-more{
           max-height: 260px;
           overflow: auto;
           padding-right: 6px;
+          display: block !important;
         }
 
         @media (max-width: 991px) {
-            .navbar-brand {
-                position: static !important;
-                transform: none !important;
-            }
-            #mainNav .navbar-toggler {
-                position: relative;
-                z-index: 2000;
-            }
-            #mainNav .navbar-brand {
-                z-index: 1;
-            }
+            .navbar-brand { position: static !important; transform: none !important; }
+            #mainNav .navbar-toggler { position: relative; z-index: 2000; }
+            #mainNav .navbar-brand { z-index: 1; }
         }
     </style>
 </head>
@@ -133,7 +110,7 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
     </div>
 
     <!-- CENTRO: SEU MENU -->
-    <div class="" id="navMain">
+    <div id="navMain">
       <ul class="navbar-nav mb-2 mb-lg-0">
 
         <!-- MEGA MENU: TÊNIS -->
@@ -149,29 +126,27 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
           <div class="dropdown-menu mega-menu p-4" aria-labelledby="megaTenis">
             <div class="row g-4">
 
-              <div class="col-12 col-lg-3">
-                <div class="mega-title"><a class="mega-link" href="index_produtos.php">Produtos</a></div>
+              <!-- PRODUTOS -->
+              <div class="col-12 col-lg-4">
+                <div class="mega-title">
+                  <a class="mega-link" href="index_produtos.php">Produtos</a>
+                </div>
 
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
+                <div class="mega-more">
                   <?php while($tipo = $lista_tipos->fetch_assoc()){ ?>
                     <a class="mega-link"
-                       href="produtos_por_tipo.php?id_tipo=<?php echo $tipo['id_tipo']; ?>">
+                       href="produtos_por_tipo.php?id_tipo=<?php echo (int)$tipo['id_tipo']; ?>">
                        <?php echo htmlspecialchars($tipo['nome_tipo']); ?>
                     </a>
                   <?php } ?>
                 </div>
               </div>
 
-
-              <!-- MARCAS (TODAS) -->
-              <div class="col-12 col-lg-3">
+              <!-- MARCAS -->
+              <div class="col-12 col-lg-4">
                 <div class="mega-title">Marcas</div>
 
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
+                <div class="mega-more">
                   <?php while($marca = $lista_marcas->fetch_assoc()){ ?>
                     <a href="produtos_por_marca.php?id_marca=<?php echo (int)$marca['id_marca_produto']; ?>"
                        class="mega-link">
@@ -181,34 +156,22 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
                 </div>
               </div>
 
-              <div class="col-12 col-lg-3">
+              <!-- GÊNERO -->
+              <div class="col-12 col-lg-4">
                 <div class="mega-title">Gênero</div>
 
-                <a href="#" class="mega-vermais" data-toggle="mega-more">Ver mais...</a>
-
-                <div class="mega-more" style="display:none;">
+                <div class="mega-more">
                   <?php while($gen = $lista_generos->fetch_assoc()){ ?>
-                    <a class="mega-link" href="produtos_por_genero.php?id_genero=<?php echo $gen['id_genero_produto']; ?>">
+                    <a class="mega-link"
+                       href="produtos_por_genero.php?id_genero=<?php echo (int)$gen['id_genero_produto']; ?>">
                       <?php echo htmlspecialchars($gen['nome_genero']); ?>
                     </a>
                   <?php } ?>
                 </div>
               </div>
 
-              <div class="col-12 col-lg-3">
-                <div class="mega-title">Tamanho do tênis</div>
-
-                <div class="size-grid">
-                  <?php while($tam = $lista_tamanhos->fetch_assoc()){ ?>
-                    <a href="produtos_por_tamanho.php?tamanho=<?php echo $tam['numero_tamanho']; ?>"
-                       class="size">
-                      <?php echo $tam['numero_tamanho']; ?>
-                    </a>
-                  <?php } ?>
-                </div>
-              </div>
-
-              <form class="d-flex" action="buscar.php" method="GET">
+              <!-- BUSCA -->
+              <form class="d-flex mt-2" action="buscar.php" method="GET">
                 <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
                 <button class="btn btn-outline-dark" type="submit">Ok</button>
               </form>
@@ -238,23 +201,9 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
   </div>
 </nav>
 
-
 <img src="imagens/Banners/Banner de tênis de corrida promoção inovador preto e rosa.png"
-     class="img-fluid w-100"
+     class="img-fluid w-100 banner-principal"
      alt="Banner Puma">
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const navbar = document.getElementById("mainNav");
-        const hasBanner = document.querySelector(".banner-principal");
-
-        if (!hasBanner) {
-            navbar.classList.remove("navbar-transparent");
-            navbar.classList.add("navbar-solid");
-        }
-    });
-</script>
 
 <script>
   (function () {
@@ -317,23 +266,6 @@ $lista_tamanhos = $conn_produtos->query($sql_tamanhos)
   })();
 </script>
 
-<script>
-document.addEventListener('click', function(e){
-  const btn = e.target.closest('[data-toggle="mega-more"]');
-  if(!btn) return;
-
-  e.preventDefault();
-  e.stopPropagation(); // <- não deixa fechar o mega menu ao clicar
-
-  const col = btn.closest('.col-12, [class*="col-"]');
-  const lista = col.querySelector('.mega-more');
-
-  lista.style.display = 'block';
-  btn.style.display = 'none';
-});
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
