@@ -53,9 +53,7 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
     <link rel="stylesheet" href="CSS/menu.css">
     <link rel="stylesheet" href="CSS/font-potta.css">
 
-    <style>
-       
-    </style>
+    
 </head>
 <body>
 
