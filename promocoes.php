@@ -53,7 +53,7 @@ include("dia_mes.php");
 
 <body>
   <div class="snkr-container">
-    <aside class="snkr-sidebar">
+    <aside class="snkr-sidebar ">
       <h1><span>Calendário</span> SNEAKER</h1>
     </aside>
 
@@ -61,7 +61,7 @@ include("dia_mes.php");
 
       <?php if ($totalRows > 0 && $row_promoçao): ?>
         <!-- FEATURED (primeiro item da lista) -->
-        <section class="snkr-featured">
+        <section class="snkr-featured d-none d-lg-block">
   <a class="snkr-link-overlay"
      href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
      aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>"></a>
@@ -92,8 +92,7 @@ include("dia_mes.php");
       }
       $contador++;
   ?>
-    <div class="snkr-item " >
-      
+    <div class="snkr-item " >      
       <!-- LINK que cobre o card todo -->
       <a class="snkr-link-overlay"
          href="produto_detalhe.php?id_produto=<?php echo $row_grid['id_produto']; ?>"
