@@ -108,6 +108,12 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
         <i class="bi bi-cart3"></i>
       </a>
     </div>
+    <!-- Esquerda casa -->
+    <div class="d-flex align-items-center d-block d-lg-none">
+      <a class="nav-icon" href="index.php" aria-label="Carrinho">
+        <i class="bi bi-house"></i>
+      </a>
+    </div>
 
     <!-- CENTRO: SEU MENU -->
     <div id="navMain">
