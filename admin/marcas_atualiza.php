@@ -100,7 +100,6 @@ if ($_POST) {
 
                     <form method="post" enctype="multipart/form-data">
 
-                        <!-- Nome -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Nome:
@@ -115,7 +114,6 @@ if ($_POST) {
                             >
                         </div>
 
-                        <!-- Imagem atual -->
                         <div class="mb-3 text-center">
                             <label class="form-label fw-semibold d-block">
                                 Imagem atual:
@@ -128,7 +126,6 @@ if ($_POST) {
                             >
                         </div>
 
-                        <!-- Nova imagem -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Nova imagem (opcional):

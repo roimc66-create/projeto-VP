@@ -8,22 +8,20 @@
             padding: 12px 20px !important;
         }
 
-        /* Transparente APENAS quando sobre a imagem */
         .navbar-transparent {
             background-color: transparent !important;
         }
 
-        /* Navbar sólida para páginas normais */
         .navbar-solid {
             background-color: white !important;
             box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Garante que o conteúdo abaixo não seja invadido */
+
         body {
             padding-top: 75px !important;
         }
-        /* Mega dropdown ocupa a largura toda */
+
 .dropdown-mega { position: static; }
 
 .mega-menu{
@@ -37,7 +35,6 @@
   margin-top: 0;
 }
 
-/* Títulos e links */
 .mega-title{
   font-weight: 700;
   font-size: 12px;
@@ -60,7 +57,6 @@
   text-decoration: none;
 }
 
-/* Grid de tamanhos */
 .size-grid{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -91,7 +87,7 @@
 }
 
 #mainNav{
-  min-height: 60px;   /* ajusta como quiser */
+  min-height: 60px;  
   display: flex;
   align-items: center;
 }
@@ -107,7 +103,6 @@
   }
 }
 
-/* MOBILE: corrige o “erro” e centraliza normal */
 @media (max-width: 991.98px){
   #mainNav .nav-center{
     position: static !important;
@@ -159,7 +154,6 @@
         body { margin: 0; padding: 0; }
         main { padding-top: 75px; }
 
-        /* ícones */
         .nav-icon {
             font-size: 1.6rem;
             color: #111;
@@ -173,14 +167,12 @@
             opacity: 0.75;
         }
 
-        /* ✅ CORREÇÃO DO "TORTO": centraliza o miolo de verdade */
         #navMain{
           flex: 1;
           display: flex;
           justify-content: center;
         }
 
-        /* deixa a lista com scroll (pra caber no mega menu) */
         .mega-more{
           max-height: 260px;
           overflow: auto;
@@ -188,17 +180,16 @@
           display: block !important;
         }
 
-        /* ✅ CORREÇÃO DA BUSCA ESTOURANDO */
         .mega-search{
           width: 100%;
           display: flex;
           gap: 10px;
-          flex-wrap: wrap;          /* quebra no mobile */
+          flex-wrap: wrap;         
           margin-top: 10px;
         }
         .mega-search input{
           flex: 1;
-          min-width: 220px;         /* não esmagar */
+          min-width: 220px;       
         }
         .mega-search button{
           white-space: nowrap;
@@ -209,7 +200,6 @@
             #mainNav .navbar-toggler { position: relative; z-index: 2000; }
             #mainNav .navbar-brand { z-index: 1; }
 
-            /* no mobile, botão ocupa linha inteira (não estoura) */
             .mega-search button{
               width: 100%;
             }
@@ -229,7 +219,6 @@
         body { margin: 0; padding: 0; }
         main { padding-top: 75px; }
 
-        /* ícones */
         .nav-icon {
             font-size: 1.6rem;
             color: #111;
@@ -243,7 +232,6 @@
             opacity: 0.75;
         }
 
-        /* deixa a lista com scroll (pra caber no mega menu) */
         .mega-more{
           max-height: 260px;
           overflow: auto;

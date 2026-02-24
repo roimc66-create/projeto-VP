@@ -4,7 +4,7 @@ include("../Connections/conn_produtos.php");
 
 $mensagem = "";
 
-/* ===== CADASTRAR ===== */
+/* Cadastro */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['numero_tamanho']) && $_POST['numero_tamanho'] !== "") {

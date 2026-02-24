@@ -48,7 +48,7 @@ $totalRows = $lista->num_rows;
     </style>
 </head>
 
-<!-- MODAL EXCLUIR -->
+<!-- Modal Excluir -->
 <div class="modal fade" id="myModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

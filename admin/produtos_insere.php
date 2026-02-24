@@ -19,7 +19,7 @@ if($_POST){
         sneakers_produto
     ";
 
-    // ===== UPLOAD =====
+    // Atualiza
     if (isset($_POST['enviar']) && isset($_FILES['imagem_produto'])) {
         $nome_img = $_FILES['imagem_produto']['name'];
         $tmp_img  = $_FILES['imagem_produto']['tmp_name'];
@@ -29,8 +29,7 @@ if($_POST){
             move_uploaded_file($tmp_img, $dir_img);
         }
     }
-
-    // ===== DADOS =====
+// dados
     $id_marca_produto  = $_POST['id_marca_produto'];
     $id_genero_produto = $_POST['id_genero_produto'];
     $id_tipo_produto   = $_POST['id_tipo_produto'];
@@ -61,10 +60,10 @@ if($_POST){
 
     $resultado = $conn_produtos->query($insertSQL);
 
-    // 🔥 PEGA ID DO PRODUTO
+    // Pega o id do produto
     $id_produto_novo = $conn_produtos->insert_id;
 
-    // 🔥 INSERE TAMANHOS
+    //  Insere o tamanho
     if(isset($_POST['tamanhos'])){
         foreach($_POST['tamanhos'] as $id_tamanho){
 
@@ -85,30 +84,27 @@ if($_POST){
     exit;
 }
 
-// ===============================
-// SELECTS
-// ===============================
 mysqli_select_db($conn_produtos,$database_conn);
 
-/* TIPOS */
+/* Tipo */
 $consulta_tipos = "SELECT * FROM tbtipos ORDER BY nome_tipo ASC";
 $lista_tipos = $conn_produtos->query($consulta_tipos);
 $row_tipos = $lista_tipos->fetch_assoc();
 $totalRows_tipos = $lista_tipos->num_rows;
 
-/* MARCAS */
+/* Marcza*/
 $consulta_marcas = "SELECT * FROM tbmarcas ORDER BY nome_marca ASC";
 $lista_marcas = $conn_produtos->query($consulta_marcas);
 $row_marcas = $lista_marcas->fetch_assoc();
 $totalRows_marcas = $lista_marcas->num_rows;
 
-/* GENEROS */
+/* Genero */
 $consulta_generos = "SELECT * FROM tbgeneros ORDER BY nome_genero ASC";
 $lista_generos = $conn_produtos->query($consulta_generos);
 $row_generos = $lista_generos->fetch_assoc();
 $totalRows_generos = $lista_generos->num_rows;
 
-/* TAMANHOS */
+/* Tamanaho */
 $consulta_tamanhos = "SELECT * FROM tbtamanhos ORDER BY numero_tamanho ASC";
 $lista_tamanhos = $conn_produtos->query($consulta_tamanhos);
 ?>
@@ -160,25 +156,21 @@ body { background: #ffffff; min-height: 100vh; }
 
 <form action="" method="post" enctype="multipart/form-data">
 
-<!-- Nome -->
 <div class="mb-3">
     <label class="form-label fw-semibold">Nome do Produto</label>
     <input type="text" name="nome_produto" class="form-control" required>
 </div>
 
-<!-- Resumo -->
 <div class="mb-3">
     <label class="form-label fw-semibold">Resumo</label>
     <textarea name="resumo_produto" class="form-control" rows="3" required></textarea>
 </div>
 
-<!-- Valor -->
 <div class="mb-3">
     <label class="form-label fw-semibold">Valor</label>
     <input type="number" step="0.01" name="valor_produto" class="form-control" required>
 </div>
 
-<!-- Marca / Gênero / Tipo -->
 <div class="row">
 
 <div class="col-md-4 mb-3">
@@ -219,7 +211,6 @@ body { background: #ffffff; min-height: 100vh; }
 
 </div>
 
-<!-- Promo / Sneakers -->
 <div class="row">
 
 <div class="col-md-6 mb-3">
@@ -240,7 +231,6 @@ body { background: #ffffff; min-height: 100vh; }
 
 </div>
 
-<!-- 🔥 TAMANHOS -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Tamanhos disponíveis</label>
 <div class="row">
@@ -272,7 +262,6 @@ Tam <?php echo $row_tam['numero_tamanho']; ?>
 </div>
 </div>
 
-<!-- Imagem -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Imagem</label>
 <img id="preview" class="preview-img img-fluid">
@@ -295,7 +284,6 @@ Cadastrar Produto
 </main>
 
 <script>
-// preview imagem
 document.getElementById('imagem_produto').addEventListener('change', function (e) {
     const preview = document.getElementById('preview');
     const file = e.target.files[0];
@@ -305,7 +293,6 @@ document.getElementById('imagem_produto').addEventListener('change', function (e
     }
 });
 
-// ativa estoque
 document.querySelectorAll('.chk-tamanho').forEach(function(chk){
     chk.addEventListener('change', function(){
         const box = this.closest('.border');
@@ -320,7 +307,7 @@ document.querySelectorAll('.chk-tamanho').forEach(function(chk){
     });
 });
 
-// valida envio
+// valida o envio do tamanho caso nao selecione
 document.querySelector('form').addEventListener('submit', function(e){
     const marcados = document.querySelectorAll('.chk-tamanho:checked');
     if(marcados.length === 0){
