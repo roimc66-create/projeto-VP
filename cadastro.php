@@ -2,7 +2,7 @@
 session_start();
 include("Connections/conn_produtos.php");
 
-// Se já estiver logado, mostra opção de sair (igual login)
+// Se já estiver logado
 if(isset($_SESSION['login_usuario'])){
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,12 @@ body{background:#f5f5f5;height:100vh;display:flex;align-items:center;justify-con
 <body>
 <div class="box">
   <h4>Você já está logado</h4>
-  <p class="mb-3">Bem-vindo,<br><strong><?php echo $_SESSION['login_usuario']; ?></strong></p>
+
+  <p class="mb-3">
+    Bem-vindo,<br>
+    <strong><?php echo $_SESSION['login_usuario']; ?></strong><br>
+    <small class="text-muted"><?php echo $_SESSION['email_usuario'] ?? ''; ?></small>
+  </p>
 
   <?php if($_SESSION['nivel_usuario'] == 'admin'){ ?>
     <a href="admin/index.php" class="btn btn-dark w-100 mb-2">Ir para o Admin</a>
@@ -37,20 +42,26 @@ exit;
 $erro = "";
 $sucesso = "";
 
-// Quando enviar o formulário
+// Quando enviar
 if($_POST){
 
-    $login = trim($_POST['login_usuario'] ?? '');
-    $senha = trim($_POST['senha_usuario'] ?? '');
+    $login  = trim($_POST['login_usuario'] ?? '');
+    $email  = trim($_POST['email_usuario'] ?? '');
+    $senha  = trim($_POST['senha_usuario'] ?? '');
     $senha2 = trim($_POST['senha_confirmar'] ?? '');
 
-    if($login == "" || $senha == "" || $senha2 == ""){
+    if($login == "" || $email == "" || $senha == "" || $senha2 == ""){
         $erro = "Preencha todos os campos.";
-    }elseif($senha != $senha2){
+    }
+    elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $erro = "Digite um e-mail válido.";
+    }
+    elseif($senha != $senha2){
         $erro = "As senhas não conferem.";
-    }else{
+    }
+    else{
 
-        // Verifica se já existe login
+        // Verifica login existente
         $check = $conn_produtos->query("
             SELECT id_usuario
             FROM tbusuarios
@@ -59,28 +70,46 @@ if($_POST){
         ");
 
         if($check && $check->num_rows > 0){
-            $erro = "Esse login já existe. Tente outro.";
-        }else{
+            $erro = "Esse login já existe.";
+        }
+        else{
 
-            // Insere como USER (não deixa criar admin por aqui)
-            $insert = $conn_produtos->query("
-                INSERT INTO tbusuarios (login_usuario, senha_usuario, nivel_usuario)
-                VALUES ('$login', '$senha', 'user')
+            // Verifica email existente
+            $checkEmail = $conn_produtos->query("
+                SELECT id_usuario
+                FROM tbusuarios
+                WHERE email_usuario = '$email'
+                LIMIT 1
             ");
 
-            if($insert){
-                // Opcional: já loga o usuário e manda pro site/home
-                $novoId = $conn_produtos->insert_id;
+            if($checkEmail && $checkEmail->num_rows > 0){
+                $erro = "Esse e-mail já está cadastrado.";
+            }
+            else{
 
-                $_SESSION['id_usuario']    = $novoId;
-                $_SESSION['login_usuario'] = $login;
-                $_SESSION['nivel_usuario'] = 'user';
+                // INSERT
+                $insert = $conn_produtos->query("
+                    INSERT INTO tbusuarios
+                    (login_usuario, email_usuario, senha_usuario, nivel_usuario)
+                    VALUES
+                    ('$login', '$email', '$senha', 'user')
+                ");
 
-                header("Location: index.php"); // troque para a página que você quiser
-                exit;
+                if($insert){
 
-            }else{
-                $erro = "Erro ao cadastrar: " . $conn_produtos->error;
+                    $novoId = $conn_produtos->insert_id;
+
+                    $_SESSION['id_usuario']     = $novoId;
+                    $_SESSION['login_usuario'] = $login;
+                    $_SESSION['email_usuario'] = $email;
+                    $_SESSION['nivel_usuario'] = 'user';
+
+                    header("Location: index.php");
+                    exit;
+
+                }else{
+                    $erro = "Erro ao cadastrar: " . $conn_produtos->error;
+                }
             }
         }
     }
@@ -126,16 +155,25 @@ body{
 
 <form action="cadastro.php" method="POST">
 
+    <!-- LOGIN -->
     <div class="mb-3">
         <label>Login</label>
         <input type="text" name="login_usuario" class="form-control" required>
     </div>
 
+    <!-- EMAIL (NOVO) -->
+    <div class="mb-3">
+        <label>E-mail</label>
+        <input type="email" name="email_usuario" class="form-control" required>
+    </div>
+
+    <!-- SENHA -->
     <div class="mb-3">
         <label>Senha</label>
         <input type="password" name="senha_usuario" class="form-control" required>
     </div>
 
+    <!-- CONFIRMAR -->
     <div class="mb-3">
         <label>Confirmar senha</label>
         <input type="password" name="senha_confirmar" class="form-control" required>

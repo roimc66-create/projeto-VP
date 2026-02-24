@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
