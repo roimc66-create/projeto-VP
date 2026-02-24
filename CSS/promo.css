@@ -4,7 +4,6 @@
     padding: 0;
 }
 
-/* SIDEBAR */
 .snkr-sidebar {
     width: 18%;
     background: #e6e6e6;
@@ -26,7 +25,6 @@
     font-weight: 200;
 }
 
-/* MAIN */
 .snkr-main {
     width: 82%;
     padding: 40px;
@@ -34,7 +32,6 @@
     gap: 30px;
 }
 
-/* FEATURED */
 .snkr-featured {
     background: white;
     padding: 40px;
@@ -60,7 +57,6 @@
     color: #444;
 }
 
-/* GRID */
 .snkr-grid {
     width: 50%;
     display: grid;
@@ -107,14 +103,12 @@
     background: #333;
 }
 
-/* garante que nada vai cortar o zoom */
 .snkr-container,
 .snkr-main,
 .snkr-grid {
   overflow: visible !important;
 }
 
-/* CARD */
 .snkr-item {
   background: white;
   text-align: center;
@@ -126,14 +120,12 @@
   will-change: transform;
 }
 
-/* sobe na frente de tudo */
 .snkr-item:hover {
   transform: translateZ(0) scale(1.08);
   z-index: 999;
   box-shadow: 0 18px 40px rgba(0,0,0,.18);
 }
 
-/* overlay clicável cobre o card */
 .snkr-item .snkr-link-overlay {
   position: absolute;
   inset: 0;
@@ -141,40 +133,35 @@
   display: block;
 }
 
-/* conteúdo fica acima do overlay */
 .snkr-item > *:not(.snkr-link-overlay) {
   position: relative;
   z-index: 2;
 }
 
-/* botão sempre clicável */
 .snkr-btn-price {
   position: relative;
   z-index: 3;
 }
-/* o card precisa ser referência para o absolute */
+
 .snkr-item{
   position: relative;
 }
 
-/* overlay tem que ficar por cima de TUDO */
 .snkr-item .snkr-link-overlay{
   position: absolute;
   inset: 0;
-  z-index: 9999;     /* bem alto */
+  z-index: 9999;    
   display: block;
 }
 
-/* se algum elemento estiver "por cima" do overlay, zera isso */
 .snkr-item img,
 .snkr-item h4,
 .snkr-item p,
 .snkr-item .snkr-date{
   position: relative;
-  z-index: 1;        /* abaixo do overlay */
+  z-index: 1;      
 }
 
-/* (opcional) se você voltar com o botão Comprar depois */
 .snkr-item .snkr-btn-price{
   position: relative;
   z-index: 10000;
@@ -189,69 +176,58 @@
   z-index: 9999;
   display: block;
 }
-/* garante que o zoom do featured não vai ser cortado */
+
 .snkr-main { overflow: visible !important; }
 
-/* animação do featured */
 .snkr-featured{
   transition: transform .25s ease, box-shadow .25s ease;
   z-index: 1;
 }
 
-/* sobressair do featured */
 .snkr-featured:hover{
   transform: translateZ(0) scale(1.06);
   z-index: 999;
   box-shadow: 0 18px 40px rgba(0,0,0,.18);
 }
 
-
-/* ===================== MOBILE: 2 por linha + sidebar esquerda + sem featured ===================== */
 @media (max-width: 991px){
 
-  /* mantém layout lado a lado (sidebar na esquerda) */
   .snkr-container{
     display: flex !important;
   }
 
-  /* sidebar menor, mas continua na esquerda */
   .snkr-sidebar{
     display: flex !important;
-    width: 22% !important;          /* ajusta a largura da barra */
-    min-width: 64px;                /* não deixa sumir */
+    width: 22% !important;          
+    min-width: 64px;                
   }
 
-  /* texto continua vertical, só reduz */
   .snkr-sidebar h1{
     font-size: 24px !important;
   }
 
-  /* some com o card grande no mobile */
   .snkr-featured{
     display: none !important;
   }
 
-  /* main ocupa o resto e vira bloco */
   .snkr-main{
     width: 78% !important;
     padding: 12px !important;
     display: block !important;
   }
 
-  /* grid: 2 por linha */
   .snkr-grid{
     width: 100% !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 10px !important;
   }
 
-  /* cards um pouco maiores e mais “cheios” */
   .snkr-item{
     padding: 12px !important;
   }
 
   .snkr-item img{
-    width: 95% !important;          /* imagem maior sem estourar */
+    width: 95% !important;       
     max-width: 160px;
     height: auto;
     display: block;

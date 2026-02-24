@@ -1,4 +1,4 @@
-/* ====== CARD (alinhamento igual) ====== */
+
 .product-card{
   display: flex;
   flex-direction: column;
@@ -21,7 +21,6 @@
   border-top: 1px solid #eee;
 }
 
-/* marca 1 linha */
 .product-brand{
   font-size: 11px;
   color:#8a8a8a;
@@ -33,7 +32,6 @@
   text-overflow: ellipsis;
 }
 
-/* nome 2 linhas fixas */
 .product-name{
   font-size: 13px;
   font-weight: 600;
@@ -41,14 +39,14 @@
   text-transform: uppercase;
 
   margin: 0 0 10px;
-  min-height: 32px; /* base */
+  min-height: 32px; 
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* preço e botão sempre no fim */
 .product-price{
   margin-top: auto;
   font-size: 14px;
@@ -59,7 +57,6 @@
   margin-top: 10px;
 }
 
-/* ====== CARROSSEL (scroll + snap) ====== */
 .carousel-wrap{
   position: relative;
 }
@@ -70,7 +67,7 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 0 12px; /* respiro nas bordas */
+  padding: 0 12px;
 }
 .carousel-viewport::-webkit-scrollbar{
   display:none;
@@ -93,7 +90,6 @@
   padding: 0 !important;
 }
 
-/* 2 no celular */
 @media (max-width: 991px){
   #vitrineProdutos > .product-item{
     flex: 0 0 calc((100% - 24px) / 2);
@@ -101,7 +97,6 @@
   }
 }
 
-/* setas */
 .nav-arrow{
   width: 44px;
   height: 44px;

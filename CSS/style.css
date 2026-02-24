@@ -3,8 +3,7 @@
         section#Marcas {
             padding-top: 60px;
         }
-
-        /* Linha do título + setas */
+*/
         .marcas-header {
             display: flex;
             align-items: center;
@@ -39,7 +38,6 @@
             filter: invert(1);
         }
 
-        /* marc-Cards */
         .marc-card {
             border-radius: 15px;
             transition: transform .3s, box-shadow .3s;
@@ -53,7 +51,7 @@
             box-shadow: 0px 8px 25px #00000025;
         }
 
-        /* Colunas centralizadas */
+        /* Colunas no centro */
         .carousel-item .row {
             justify-content: center;
         }
@@ -63,5 +61,4 @@
     box-shadow: 0px 8px 25px #00000025;
 }
 
-/* opcional: cursor de clique */
 .marc-card { cursor: pointer; }
