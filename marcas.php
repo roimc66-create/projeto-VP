@@ -35,7 +35,7 @@ $lista = $conn_produtos->query($consulta);
             </button>
         </div>
 
-        <!-- CARROSSEL -->
+        <!-- CARROSSEL L-->
         <div id="carouselMarcas" class="carousel slide" data-bs-ride="false">
             <div class="carousel-inner">
 

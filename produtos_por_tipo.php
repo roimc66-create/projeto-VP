@@ -13,7 +13,7 @@ $filtro_select = isset($_GET['id_tipo']) ? (int)$_GET['id_tipo'] : 0;
 if ($filtro_select <= 0) {
     die("tipo inválida.");
 }
-
+$ordenar = $_GET['ordenar'] ?? 'recentes';
 /* ===================== ORDENAR (via GET) ===================== */
 $ordenar = $_GET['ordenar'] ?? 'recentes';
 
@@ -143,7 +143,7 @@ $totalRows = $lista->num_rows;
                 <p class="product-name card-title"><?php echo e($row['nome_produto']); ?></p>
 
                 <p class="product-price">
-                  R$ <?php echo dinheiro($row['valor_produto']); ?>
+                  <?php echo dinheiro($row['valor_produto']); ?>
                 </p>
 
                 <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>"
