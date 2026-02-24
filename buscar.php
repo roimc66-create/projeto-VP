@@ -74,23 +74,23 @@ if(!$resultado){
     Resultados para: <strong><?= e($busca) ?></strong>
 </h4>
 
-<div class="container my-4">
-    <div class="row g-4">
+<div class="container my-4"> <!-- container  -->
+    <div class="row g-4"> <!-- row  -->
 
         <?php if ($resultado->num_rows > 0) { ?>
             <?php while ($row = $resultado->fetch_assoc()) { ?>
 
-                <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
+                <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos"> <!-- colunas  -->
                     <a href="produto_detalhe.php?id_produto=<?= $row['id_produto'] ?>"
                        class="text-decoration-none text-dark">
 
-                        <div class="product-card card h-100">
+                        <div class="product-card card h-100"> <!-- card  -->
                             <img
                                 src="imagens/exclusivo/<?= e($row['imagem_produto']) ?>"
                                 class="product-img card-img-top img-fluid"
                                 alt="<?= e($row['nome_produto']) ?>">
 
-                            <div class="product-meta card-body">
+                            <div class="product-meta card-body"> <!-- corpo do card  -->
                                 <div class="product-brand">
                                     <?= e($row['nome_marca']) ?>
                                 </div>
@@ -107,11 +107,11 @@ if(!$resultado){
                                    class="btn btn-dark w-100">
                                     Comprar
                                 </a>
-                            </div>
-                        </div>
+                            </div> <!-- fecha corpo do card  -->
+                        </div> <!-- fecha card  -->
 
                     </a>
-                </div>
+                </div> <!-- fecha colunas  -->
 
             <?php } ?>
         <?php } else { ?>
