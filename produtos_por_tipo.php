@@ -86,7 +86,7 @@ $totalRows = $lista->num_rows;
 <a name="">&nbsp; </a>
 
 <h1 class="text-center brand-title my-4">
-    <?php echo e($row['nome_tipo']); ?>
+<?php echo ($totalRows > 0) ? e($row['nome_tipo']) : 'Tipo'; ?>
 </h1>
 
 <!-- BARRA DE CONTROLES -->
