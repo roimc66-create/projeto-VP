@@ -2,7 +2,6 @@
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-// --- CONSULTA VIA VIEW (AJUSTADA) ---
 $consulta = "
     SELECT DISTINCT
         id_produto,
@@ -29,7 +28,7 @@ if(!$lista){
 }
 
 $row        = $lista->fetch_assoc();
-// Contar o total de linhas
+
 $totalRows  = $lista->num_rows;
 ?>
 
@@ -127,7 +126,7 @@ $totalRows  = $lista->num_rows;
     </div>
 </div>
 
-<!-- MODAL EXCLUIR -->
+<!-- Modal excluir -->
 <div class="modal fade" id="myModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -151,11 +150,8 @@ $totalRows  = $lista->num_rows;
     </div>
 </div>
 
-
-<!-- JS BOOTSTRAP -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- SCRIPT EXCLUIR -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 

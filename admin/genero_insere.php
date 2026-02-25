@@ -1,5 +1,5 @@
 <?php
- include("protecao.php");
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 if ($_POST) {
@@ -24,6 +24,7 @@ if ($_POST) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

@@ -1,7 +1,7 @@
 <?php
 include("../Connections/conn_produtos.php");
 
-/* ===== VALIDAR ID ===== */
+/* Validar ID*/
 if (!isset($_GET['id_produto'])) {
     header("Location: produtos_lista.php");
     exit;
@@ -9,7 +9,7 @@ if (!isset($_GET['id_produto'])) {
 
 $id_produto = (int) $_GET['id_produto'];
 
-/* ===== BUSCAR PRODUTO ===== */
+/* Acha o Produto */
 $sqlProduto = "SELECT * FROM tbprodutos WHERE id_produto = $id_produto";
 $result = $conn_produtos->query($sqlProduto);
 
@@ -20,13 +20,13 @@ if ($result->num_rows == 0) {
 
 $produto = $result->fetch_assoc();
 
-/* ===== BUSCAR SELECTS ===== */
+/* Buscar */
 $lista_marcas = $conn_produtos->query("SELECT * FROM tbmarcas ORDER BY nome_marca ASC");
 $lista_generos = $conn_produtos->query("SELECT * FROM tbgeneros ORDER BY nome_genero ASC");
 $lista_tipos = $conn_produtos->query("SELECT * FROM tbtipos ORDER BY nome_tipo ASC");
 $lista_tamanhos = $conn_produtos->query("SELECT * FROM tbtamanhos ORDER BY numero_tamanho ASC");
 
-/* ===== TAMANHOS DO PRODUTO ===== */
+/* Tamnho que é o produto */
 $tamanhos_prod = [];
 $resTam = $conn_produtos->query("
     SELECT id_tamanho, estoque
@@ -38,7 +38,7 @@ while ($t = $resTam->fetch_assoc()) {
     $tamanhos_prod[$t['id_tamanho']] = $t['estoque'];
 }
 
-/* ===== UPDATE ===== */
+/* Atualizar */
 if (isset($_POST['salvar'])) {
 
     $nome   = $_POST['nome_produto'];
@@ -50,7 +50,7 @@ if (isset($_POST['salvar'])) {
     $promo  = $_POST['promoção_produto'];
     $sneak  = $_POST['sneakers_produto'];
 
-    /* ===== IMAGEM ===== */
+    /* Iamgem */
     if (!empty($_FILES['imagem_produto']['name'])) {
 
         $imagem = $_FILES['imagem_produto']['name'];
@@ -91,7 +91,7 @@ if (isset($_POST['salvar'])) {
 
     $conn_produtos->query($sqlUpdate);
 
-    /* ===== ATUALIZA TAMANHOS ===== */
+    /* Atualizar os tamanhos */
     $conn_produtos->query("DELETE FROM tbproduto_tamanho WHERE id_produto = $id_produto");
 
     if (isset($_POST['tamanhos'])) {
@@ -159,7 +159,6 @@ body { background: #ffffff; min-height: 100vh; }
 
 <form method="POST" enctype="multipart/form-data">
 
-<!-- Nome -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Nome do Produto</label>
 <input type="text" name="nome_produto"
@@ -167,7 +166,6 @@ body { background: #ffffff; min-height: 100vh; }
        class="form-control" required>
 </div>
 
-<!-- Resumo -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Resumo</label>
 <textarea name="resumo_produto"
@@ -176,7 +174,6 @@ body { background: #ffffff; min-height: 100vh; }
           required><?= $produto['resumo_produto']; ?></textarea>
 </div>
 
-<!-- Valor -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Valor</label>
 <input type="number" step="0.01"
@@ -185,7 +182,6 @@ body { background: #ffffff; min-height: 100vh; }
        class="form-control" required>
 </div>
 
-<!-- Marca / Genero / Tipo -->
 <div class="row">
 
 <div class="col-md-4 mb-3">
@@ -226,7 +222,6 @@ body { background: #ffffff; min-height: 100vh; }
 
 </div>
 
-<!-- TAMANHOS -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Tamanhos disponíveis</label>
 <div class="row">
@@ -263,7 +258,6 @@ Tam <?= $tam['numero_tamanho']; ?>
 </div>
 </div>
 
-<!-- Imagem -->
 <div class="mb-3">
 <label class="form-label fw-semibold">Imagem Atual</label><br>
 <img src="../imagens/exclusivo/<?= $produto['imagem_produto']; ?>"

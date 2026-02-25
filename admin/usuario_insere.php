@@ -81,7 +81,6 @@ if ($_POST) {
                         name="form_insere_usuario"
                     >
 
-                        <!-- Login -->
                         <div class="mb-3">
                             <label for="login_usuario" class="form-label fw-semibold">
                                 Login:
@@ -98,7 +97,6 @@ if ($_POST) {
                             >
                         </div>
 
-                        <!-- Senha -->
                         <div class="mb-3">
                             <label for="senha_usuario" class="form-label fw-semibold">
                                 Senha:
@@ -115,7 +113,6 @@ if ($_POST) {
                             >
                         </div>
 
-                        <!-- Nível -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Nível do usuário:

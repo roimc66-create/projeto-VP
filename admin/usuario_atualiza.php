@@ -28,7 +28,7 @@ if ($_POST) {
     $login = $_POST['login_usuario'];
     $nivelNovo = $_POST['nivel_usuario'];
 
-    // ===== BLOQUEIO: NÃO deixar remover o último admin =====
+    // Nao deixar remover o último admin 
     if ($usuario['nivel_usuario'] === 'admin' && $nivelNovo !== 'admin') {
 
         $rAdmins = $conn_produtos->query(
@@ -36,16 +36,14 @@ if ($_POST) {
         );
         $totalAdmin = (int) $rAdmins->fetch_assoc()['total_admin'];
 
-        // se esse usuário é admin e só existe 1 admin, não pode virar user
+        // se esse usuário é admin e só existe 1 admin, não pode trocar ele para user
         if ($totalAdmin <= 1) {
             $erroMsg = "Você não pode alterar o nível do ÚLTIMO admin para user.";
         }
     }
 
-    // se passou no bloqueio, atualiza
     if ($erroMsg === "") {
 
-        // (recomendado) escape básico pra não quebrar SQL
         $loginEsc = $conn_produtos->real_escape_string($login);
         $nivelEsc = $conn_produtos->real_escape_string($nivelNovo);
 

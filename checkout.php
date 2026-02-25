@@ -177,6 +177,18 @@ if ($pagamento === 'avista') {
   $totalFinal = $total * $fator;
   $valorParcela = $totalFinal / $parcelasSelecionadas;
 }
+
+/* ===================== FRETE ===================== */
+$fretePadrao = 40.00;
+$freteGratisAcima = 1500.00;
+
+// frete baseado no TOTAL FINAL (já com desconto/juros)
+$frete = ($totalFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
+
+$totalComFrete = $totalFinal + $frete;
+
+// valor da parcela exibida (agora considerando frete)
+$valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcelasSelecionadas) : $totalComFrete;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -191,6 +203,12 @@ if ($pagamento === 'avista') {
 <?php include('menu.php'); ?>
 
 <div class="container py-5">
+    <div class="mb-3 ">
+    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center ">
+      <i class="bi bi-arrow-left"></i>
+      Voltar para o carrinho
+    </a>
+  </div>
   <h1 class="mb-4">Checkout</h1>
 
   <?php if (count($errosEstoque) > 0) { ?>
@@ -267,7 +285,7 @@ if ($pagamento === 'avista') {
             </div>
 
             <!-- manter parcelas no post ao trocar pagamento -->
-            <input type="hidden" name="parcelas" value="<?php echo $parcelasSelecionadas; ?>">
+            <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">
           </form>
 
           <!-- ===================== PARCELAS (só aparece no cartão) ===================== -->
@@ -278,6 +296,7 @@ if ($pagamento === 'avista') {
               <select name="parcelas" class="form-select" onchange="this.form.submit()"
                       <?php echo (count($errosEstoque) > 0 ? 'disabled' : ''); ?>>
                 <?php for ($i=1; $i<=$maxParcelas; $i++) {
+
                   $sel = ($i == $parcelasSelecionadas) ? 'selected' : '';
 
                   if ($i <= $semJurosAte) {
@@ -290,13 +309,21 @@ if ($pagamento === 'avista') {
                   }
 
                   $tFinal = $total * $f;
-                  $vParc  = $tFinal / $i;
+
+                  // frete também depende do total final desse cenário
+                  $freteTmp = ($tFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
+                  $tComFreteTmp = $tFinal + $freteTmp;
+
+                  $vParc  = $tComFreteTmp / $i;
                 ?>
                   <option value="<?php echo $i; ?>" <?php echo $sel; ?>>
                     <?php echo $i; ?>x de R$ <?php echo number_format($vParc, 2, ',', '.'); ?> (<?php echo $labelJuros; ?>)
                   </option>
                 <?php } ?>
               </select>
+              <small class="text-muted d-block mt-2">
+                (parcelas exibidas já com frete)
+              </small>
             </form>
           <?php } else { ?>
             <div class="alert alert-success mt-3 mb-0">
@@ -315,28 +342,97 @@ if ($pagamento === 'avista') {
             <strong>R$ <?php echo number_format($totalFinal, 2, ',', '.'); ?></strong>
           </div>
 
+          <div class="d-flex justify-content-between mt-2">
+            <span>Frete</span>
+            <strong>
+              <?php if ($frete <= 0) { ?>
+                Grátis
+              <?php } else { ?>
+                R$ <?php echo number_format($frete, 2, ',', '.'); ?>
+              <?php } ?>
+            </strong>
+          </div>
+
+          <hr>
+
+          <div class="d-flex justify-content-between">
+            <span>Total com frete</span>
+            <strong>R$ <?php echo number_format($totalComFrete, 2, ',', '.'); ?></strong>
+          </div>
+
           <div class="text-muted small">
             <?php if ($pagamento === 'cartao') { ?>
-              <?php echo $parcelasSelecionadas; ?>x de R$ <?php echo number_format($valorParcela, 2, ',', '.'); ?>
+              <?php echo (int)$parcelasSelecionadas; ?>x de R$ <?php echo number_format($valorParcelaComFrete, 2, ',', '.'); ?>
             <?php } else { ?>
-              À vista: R$ <?php echo number_format($totalFinal, 2, ',', '.'); ?>
+              À vista: R$ <?php echo number_format($totalComFrete, 2, ',', '.'); ?>
             <?php } ?>
           </div>
 
-          <!-- ===================== FINALIZAR ===================== -->
+          <!-- ===================== FINALIZAR (com dados do cliente) ===================== -->
           <form class="mt-4 d-grid gap-2" action="checkout_finalizar.php" method="POST">
             <input type="hidden" name="pagamento" value="<?php echo htmlspecialchars($pagamento); ?>">
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">
-            <input type="hidden" name="total_final" value="<?php echo number_format($totalFinal, 2, '.', ''); ?>">
 
-            <button class="btn btn-success" type="submit" <?php echo (count($errosEstoque) > 0 ? 'disabled' : ''); ?>>
+            <input type="hidden" name="total_base" value="<?php echo number_format($total, 2, '.', ''); ?>">
+            <input type="hidden" name="total_final" value="<?php echo number_format($totalFinal, 2, '.', ''); ?>">
+            <input type="hidden" name="frete" value="<?php echo number_format($frete, 2, '.', ''); ?>">
+            <input type="hidden" name="total_com_frete" value="<?php echo number_format($totalComFrete, 2, '.', ''); ?>">
+
+            <div class="mt-2">
+              <h6 class="fw-bold mb-2">Dados do cliente</h6>
+
+              <label class="form-label">Nome completo</label>
+              <input type="text" name="nome_completo" class="form-control" required>
+
+              <label class="form-label mt-3">CPF</label>
+              <input type="text" name="cpf" class="form-control" required maxlength="14"
+                     placeholder="000.000.000-00">
+
+              <h6 class="fw-bold mt-4 mb-2">Endereço de entrega</h6>
+
+              <div class="row g-2">
+                <div class="col-12 col-md-4">
+                  <label class="form-label">CEP</label>
+                  <input type="text" name="cep" class="form-control" required maxlength="9" placeholder="00000-000">
+                </div>
+                <div class="col-12 col-md-8">
+                  <label class="form-label">Rua</label>
+                  <input type="text" name="rua" class="form-control" required>
+                </div>
+                <div class="col-6 col-md-3">
+                  <label class="form-label">Número</label>
+                  <input type="text" name="numero" class="form-control" required>
+                </div>
+                <div class="col-6 col-md-4">
+                  <label class="form-label">Bairro</label>
+                  <input type="text" name="bairro" class="form-control" required>
+                </div>
+                <div class="col-12 col-md-5">
+                  <label class="form-label">Cidade</label>
+                  <input type="text" name="cidade" class="form-control" required>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label">UF</label>
+                  <input type="text" name="uf" class="form-control" required maxlength="2" placeholder="SP">
+                </div>
+                <div class="col-12 col-md-9">
+                  <label class="form-label">Complemento (opcional)</label>
+                  <input type="text" name="complemento" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-success mt-3" type="submit" <?php echo (count($errosEstoque) > 0 ? 'disabled' : ''); ?>>
               Confirmar compra
             </button>
+
             <a href="carrinho.php" class="btn btn-outline-dark">Voltar ao carrinho</a>
           </form>
 
           <small class="text-muted d-block mt-3">
-            Cartão: até <?php echo $semJurosAte; ?>x sem juros, depois <?php echo (int)($jurosAoMes*100); ?>% ao mês.
+            Cartão: até <?php echo (int)$semJurosAte; ?>x sem juros, depois <?php echo (int)($jurosAoMes*100); ?>% ao mês.
+            <br>
+            Frete: R$ <?php echo number_format($fretePadrao, 2, ',', '.'); ?> (grátis acima de R$ <?php echo number_format($freteGratisAcima, 2, ',', '.'); ?>).
           </small>
         </div>
       </div>

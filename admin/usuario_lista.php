@@ -2,7 +2,7 @@
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-$sql = "SELECT * FROM tbusuarios ORDER BY id_usuario ASC";
+$sql = "SELECT id_usuario, login_usuario, nivel_usuario, email_usuario FROM tbusuarios ORDER BY id_usuario ASC";
 $lista = $conn_produtos->query($sql);
 if (!$lista) {
     die("Erro na consulta: " . $conn_produtos->error);
@@ -10,10 +10,8 @@ if (!$lista) {
 
 $totalRows = $lista->num_rows;
 
-// ID do usuário logado (ajuste se sua sessão usar outro nome)
 $idLogado = isset($_SESSION['id_usuario']) ? (int)$_SESSION['id_usuario'] : 0;
 
-// Mensagens simples via GET
 $erro = isset($_GET['erro']) ? $_GET['erro'] : '';
 $msg = '';
 if ($erro === 'self')  $msg = 'Você não pode excluir o usuário que está logado.';
@@ -26,9 +24,7 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
 <head>
     <meta charset="UTF-8">
     <title>Lista de Usuários</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         body { background: #ffffff; min-height: 100vh; }
         .card-custom {
@@ -52,26 +48,21 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
     </style>
 </head>
 
-<!-- MODAL EXCLUIR -->
 <div class="modal fade" id="myModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title text-danger">ATENÇÃO!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-
             <div class="modal-body text-center">
                 Deseja mesmo EXCLUIR o usuário?
                 <h5 class="nome text-danger mt-2"></h5>
             </div>
-
             <div class="modal-footer justify-content-center">
                 <a href="#" class="btn btn-danger delete-yes">Confirmar</a>
                 <button class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -87,7 +78,6 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="page-title">Catálogo de Usuários</h2>
-
             <a href="usuario_insere.php" class="btn btn-success btn-lg btn-custom shadow-sm">
                 ➕ Adicionar Novo
             </a>
@@ -106,17 +96,15 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
                         <th>ID</th>
                         <th>Login</th>
                         <th>Nível</th>
+                        <th>Email</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
-
                 <tbody>
                 <?php if ($totalRows > 0): ?>
                     <?php while ($row = $lista->fetch_assoc()): ?>
                         <?php
                             $idLinha = (int)$row['id_usuario'];
-
-                            // Regras do botão excluir
                             $bloqSelf = ($idLinha === $idLogado);
                             $bloqLast = ($totalRows <= 1);
                             $bloqueado = ($bloqSelf || $bloqLast);
@@ -125,26 +113,23 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
                             <td><strong><?= $idLinha ?></strong></td>
                             <td><?= htmlspecialchars($row['login_usuario']) ?></td>
                             <td><?= htmlspecialchars($row['nivel_usuario']) ?></td>
-
+                            <td><?= htmlspecialchars($row['email_usuario']) ?></td>
                             <td class="text-center">
-                                <a
-                                    href="usuario_atualiza.php?id_usuario=<?= $idLinha ?>"
-                                    class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
+                                <a href="usuario_atualiza.php?id_usuario=<?= $idLinha ?>"
+                                   class="btn btn-warning btn-sm w-100 mb-2 btn-custom">
                                     ✏ Editar
                                 </a>
 
                                 <?php if ($bloqueado): ?>
-                                    <button
-                                        class="btn btn-secondary btn-sm w-100 btn-custom"
-                                        disabled
-                                        title="<?= $bloqSelf ? 'Você não pode excluir você mesmo' : 'Não pode excluir o último usuário' ?>">
+                                    <button class="btn btn-secondary btn-sm w-100 btn-custom"
+                                            disabled
+                                            title="<?= $bloqSelf ? 'Você não pode excluir você mesmo' : 'Não pode excluir o último usuário' ?>">
                                         🗑 Excluir
                                     </button>
                                 <?php else: ?>
-                                    <button
-                                        class="btn btn-danger btn-sm w-100 btn-custom delete"
-                                        data-id="<?= $idLinha ?>"
-                                        data-nome="<?= htmlspecialchars($row['login_usuario']) ?>">
+                                    <button class="btn btn-danger btn-sm w-100 btn-custom delete"
+                                            data-id="<?= $idLinha ?>"
+                                            data-nome="<?= htmlspecialchars($row['login_usuario']) ?>">
                                         🗑 Excluir
                                     </button>
                                 <?php endif; ?>
@@ -153,7 +138,7 @@ if ($erro === 'notfound') $msg = 'Usuário não encontrado (talvez já foi exclu
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-muted">
+                        <td colspan="5" class="text-center py-4 text-muted">
                             Nenhum usuário cadastrado.
                         </td>
                     </tr>
