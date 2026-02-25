@@ -1,29 +1,57 @@
 <?php
- include("protecao.php");
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-if ($_POST) {
+$erroMsg = "";
 
-    mysqli_select_db($conn_produtos, $database_conn);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $tabela_insert = "tbusuarios";
-    $campos_insert = "login_usuario, senha_usuario, nivel_usuario";
-
-    $login_usuario = $_POST['login_usuario'];
-    $senha_usuario = $_POST['senha_usuario'];
+    $login_usuario = trim($_POST['login_usuario']);
+    $email_usuario = trim($_POST['email_usuario']);
+    $senha_usuario = trim($_POST['senha_usuario']);
     $nivel_usuario = $_POST['nivel_usuario'];
 
-    $valores_insert = "'$login_usuario', '$senha_usuario', '$nivel_usuario'";
+    if ($login_usuario === "" || $email_usuario === "" || $senha_usuario === "") {
+        $erroMsg = "Preencha todos os campos.";
+    } else {
 
-    $insertSQL = "
-        INSERT INTO $tabela_insert ($campos_insert)
-        VALUES ($valores_insert)
-    ";
+        $stmt = $conn_produtos->prepare(
+            "SELECT id_usuario FROM tbusuarios WHERE login_usuario = ? OR email_usuario = ?"
+        );
+        $stmt->bind_param("ss", $login_usuario, $email_usuario);
+        $stmt->execute();
+        $stmt->store_result();
 
-    $resultado = $conn_produtos->query($insertSQL);
+        if ($stmt->num_rows > 0) {
+            $erroMsg = "Login ou email já cadastrado.";
+        } else {
 
-    header("Location: usuario_lista.php");
-    exit;
+            $stmtInsert = $conn_produtos->prepare(
+                "INSERT INTO tbusuarios 
+                (login_usuario, email_usuario, senha_usuario, nivel_usuario)
+                VALUES (?, ?, ?, ?)"
+            );
+
+            $stmtInsert->bind_param(
+                "ssss",
+                $login_usuario,
+                $email_usuario,
+                $senha_usuario,
+                $nivel_usuario
+            );
+
+            if ($stmtInsert->execute()) {
+                header("Location: usuario_lista.php");
+                exit;
+            } else {
+                $erroMsg = "Erro ao cadastrar usuário.";
+            }
+
+            $stmtInsert->close();
+        }
+
+        $stmt->close();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -33,17 +61,14 @@ if ($_POST) {
     <title>Inserir Usuário</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
             background: #ffffff;
             min-height: 100vh;
         }
+
         .card-custom {
             border-radius: 18px;
             padding: 30px;
@@ -53,116 +78,86 @@ if ($_POST) {
         }
     </style>
 </head>
-
 <body>
 
 <?php include("menu.php"); ?>
 
 <main class="container">
-
     <div class="row justify-content-center">
         <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-
             <div class="card-custom">
 
                 <div class="d-flex align-items-center mb-3">
-                    <a href="usuario_lista.php" class="btn btn-warning me-3">
-                        ←
-                    </a>
+                    <a href="usuario_lista.php" class="btn btn-warning me-3">←</a>
                     <h4 class="mb-0 text-warning fw-bold">Inserir Usuário</h4>
                 </div>
 
-                <div class="alert alert-warning">
+                <?php if (!empty($erroMsg)): ?>
+                    <div class="alert alert-danger py-2">
+                        <?= htmlspecialchars($erroMsg) ?>
+                    </div>
+                <?php endif; ?>
 
-                    <form
-                        action="usuario_insere.php"
-                        method="post"
-                        id="form_insere_usuario"
-                        name="form_insere_usuario"
-                    >
+                <form method="post">
 
-                        <div class="mb-3">
-                            <label for="login_usuario" class="form-label fw-semibold">
-                                Login:
-                            </label>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Login:</label>
+                        <input type="text"
+                               name="login_usuario"
+                               class="form-control"
+                               maxlength="30"
+                               required>
+                    </div>
 
-                            <input
-                                type="text"
-                                name="login_usuario"
-                                id="login_usuario"
-                                class="form-control"
-                                maxlength="30"
-                                required
-                                placeholder="Digite o login"
-                            >
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email:</label>
+                        <input type="email"
+                               name="email_usuario"
+                               class="form-control"
+                               maxlength="150"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Senha:</label>
+                        <input type="password"
+                               name="senha_usuario"
+                               class="form-control"
+                               maxlength="60"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nível do usuário:</label>
+
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="nivel_usuario"
+                                   value="user"
+                                   checked>
+                            <label class="form-check-label">User</label>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="senha_usuario" class="form-label fw-semibold">
-                                Senha:
-                            </label>
-
-                            <input
-                                type="password"
-                                name="senha_usuario"
-                                id="senha_usuario"
-                                class="form-control"
-                                maxlength="8"
-                                required
-                                placeholder="Digite a senha"
-                            >
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="nivel_usuario"
+                                   value="admin">
+                            <label class="form-check-label">Admin</label>
                         </div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Nível do usuário:
-                            </label>
+                    <button type="submit"
+                            class="btn btn-warning w-100 fw-semibold">
+                        Cadastrar
+                    </button>
 
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="nivel_usuario"
-                                    id="nivel_user"
-                                    value="user"
-                                    checked
-                                >
-                                <label class="form-check-label" for="nivel_user">
-                                    User
-                                </label>
-                            </div>
-
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="nivel_usuario"
-                                    id="nivel_admin"
-                                    value="admin"
-                                >
-                                <label class="form-check-label" for="nivel_admin">
-                                    Admin
-                                </label>
-                            </div>
-                        </div>
-
-                        <button
-                            type="submit"
-                            name="enviar"
-                            class="btn btn-warning w-100 fw-semibold"
-                        >
-                            Cadastrar
-                        </button>
-
-                    </form>
-
-                </div>
+                </form>
 
             </div>
-
         </div>
     </div>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
