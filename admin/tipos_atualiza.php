@@ -1,4 +1,5 @@
 <?php
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 if (!isset($_GET['id_tipo'])) {
@@ -11,18 +12,56 @@ $id_tipo = (int) $_GET['id_tipo'];
 $r = $conn_produtos->query(
     "SELECT * FROM tbtipos WHERE id_tipo = $id_tipo"
 );
-$tipo = $r->fetch_assoc();
 
-if ($_POST) {
-
-    $nome = $_POST['nome_tipo'];
-
-    $conn_produtos->query(
-        "UPDATE tbtipos SET nome_tipo = '$nome' WHERE id_tipo = $id_tipo"
-    );
-
+if (!$r || $r->num_rows == 0) {
     header("Location: tipos_lista.php");
     exit;
+}
+
+$tipo = $r->fetch_assoc();
+$erroMsg = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nome = trim($_POST['nome_tipo']);
+    $nome = strtoupper($nome);
+    $nomeEsc = $conn_produtos->real_escape_string($nome);
+
+    if ($nome === "") {
+
+        $erroMsg = "O nome é obrigatório.";
+
+    } else {
+
+        $sqlDup = "
+            SELECT id_tipo 
+            FROM tbtipos 
+            WHERE UPPER(nome_tipo) = '$nomeEsc'
+            AND id_tipo != $id_tipo
+        ";
+
+        $verifica = $conn_produtos->query($sqlDup);
+
+        if ($verifica && $verifica->num_rows > 0) {
+
+            $erroMsg = "Esse tipo já existe.";
+
+        } else {
+
+            $update = "
+                UPDATE tbtipos
+                SET nome_tipo = '$nomeEsc'
+                WHERE id_tipo = $id_tipo
+            ";
+
+            if (!$conn_produtos->query($update)) {
+                $erroMsg = "Erro ao atualizar.";
+            } else {
+                header("Location: tipos_lista.php");
+                exit;
+            }
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
