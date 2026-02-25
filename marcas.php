@@ -21,7 +21,6 @@ $lista = $conn_produtos->query($consulta);
 <section class="bg-white text-center" id="Marcas">
     <div class="container">
 
-        <!-- TÍTULO + SETAS -->
         <div class="marcas-header">
 
             <button class="marc-arrow-btn" type="button" data-bs-target="#carouselMarcas" data-bs-slide="prev">
@@ -35,7 +34,6 @@ $lista = $conn_produtos->query($consulta);
             </button>
         </div>
 
-        <!-- CARROSSEL L-->
         <div id="carouselMarcas" class="carousel slide" data-bs-ride="false">
             <div class="carousel-inner">
 

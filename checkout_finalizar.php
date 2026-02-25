@@ -16,7 +16,6 @@ try {
     $id_tamanho = (int)$item['id_tamanho'];
     $qtd = (int)$item['qtd'];
 
-    // baixa estoque somente se tiver quantidade suficiente
     $sql = "
       UPDATE tbproduto_tamanho
       SET estoque = estoque - $qtd
@@ -35,7 +34,6 @@ try {
 
   mysqli_commit($conn_produtos);
 
-  // limpar carrinho
   unset($_SESSION['carrinho']);
 
   header("Location: checkout_sucesso.php");
@@ -43,6 +41,6 @@ try {
 
 } catch (Exception $e) {
   mysqli_rollback($conn_produtos);
-  // você pode melhorar isso exibindo mensagem bonita
+
   die("Falha no checkout: " . $e->getMessage() . " <a href='carrinho.php'>Voltar</a>");
 }

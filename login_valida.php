@@ -20,17 +20,15 @@ if($_POST){
 
         $dados = $resultado->fetch_assoc();
 
-        // CRIA SESSÕES
         $_SESSION['id_usuario']    = $dados['id_usuario'];
         $_SESSION['login_usuario'] = $dados['login_usuario'];
         $_SESSION['nivel_usuario'] = $dados['nivel_usuario'];
 
-        // Redireciona pro index
         header("Location: index.php");
         exit;
 
     }else{
-        // VOLTA PRO LOGIN COM ERRO
+
         header("Location: login.php?erro=1");
         exit;
     }

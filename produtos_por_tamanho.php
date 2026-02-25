@@ -2,17 +2,14 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-/* PEGA O TAMANHO DA URL */
 $tamanho_select = isset($_GET['tamanho']) ? (int)$_GET['tamanho'] : 0;
 
 if ($tamanho_select <= 0) {
     die("Tamanho inválido.");
 }
 
-/* ===================== ORDENAR (via GET) ===================== */
 $ordenar = $_GET['ordenar'] ?? 'az';
 
-// whitelist seguro
 switch ($ordenar) {
     case 'menor_preco':
         $ordenar_por = "p.valor_produto ASC";
@@ -23,7 +20,7 @@ switch ($ordenar) {
         break;
 
     case 'recentes':
-        // se tiver campo data, troque aqui (ex: p.data_produto DESC)
+
         $ordenar_por = "p.id_produto DESC";
         break;
 
@@ -33,7 +30,6 @@ switch ($ordenar) {
         break;
 }
 
-/* CONSULTA — PRODUTOS POR TAMANHO */
 $consulta = "
     SELECT DISTINCT
         p.id_produto,
@@ -85,12 +81,10 @@ $totalRows = $lista->num_rows;
 
 <?php include('menu.php') ?>
 
-<!-- TÍTULO -->
 <h1 class="text-center brand-title my-4">
     Tamanho <?php echo (int)$tamanho_select; ?>
 </h1>
 
-<!-- BARRA -->
 <div class="container mb-3">
   <div class="toolbar">
     <div class="toolbar-left">
@@ -99,7 +93,7 @@ $totalRows = $lista->num_rows;
 
     <div class="toolbar-right">
       <form method="get" class="tool-group m-0">
-        <!-- mantém o tamanho ao ordenar -->
+
         <input type="hidden" name="tamanho" value="<?php echo (int)$tamanho_select; ?>">
 
         <span class="tool-label">Ordenar por</span>
@@ -119,7 +113,6 @@ $totalRows = $lista->num_rows;
   </div>
 </div>
 
-<!-- GRID -->
 <div class="container my-4">
   <div class="row g-3">
 

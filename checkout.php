@@ -2,18 +2,11 @@
 session_start();
 include("Connections/conn_produtos.php");
 
-/*
-  CHECKOUT.PHP (aceita 2 fluxos)
-  1) Carrinho normal: $_SESSION['carrinho']
-  2) Comprar agora: POST id_produto + id_tamanho (cria carrinho temporário com qtd=1)
-*/
-
-// ===================== 1) TRATAR "COMPRAR AGORA" =====================
 $id_produto_post = (int)($_POST['id_produto'] ?? 0);
 $id_tamanho_post = (int)($_POST['id_tamanho'] ?? 0);
 
 if ($id_produto_post > 0 && $id_tamanho_post > 0) {
-  // valida se esse tamanho pertence ao produto e existe no estoque (>=1)
+
   $sqlValida = "
     SELECT pt.estoque
     FROM tbproduto_tamanho pt
@@ -33,7 +26,6 @@ if ($id_produto_post > 0 && $id_tamanho_post > 0) {
     die("Sem estoque para esse tamanho.");
   }
 
-  // cria/atualiza carrinho com apenas esse item (qtd 1)
   $_SESSION['carrinho'] = [];
   $key = $id_produto_post . "-" . $id_tamanho_post;
   $_SESSION['carrinho'][$key] = [
@@ -43,14 +35,12 @@ if ($id_produto_post > 0 && $id_tamanho_post > 0) {
   ];
 }
 
-// ===================== 2) CARRINHO =====================
 $carrinho = $_SESSION['carrinho'] ?? [];
 if (count($carrinho) == 0) {
   header("Location: carrinho.php");
   exit;
 }
 
-// montar mapa de produtos/tamanhos pra buscar no banco
 $produtosIds = [];
 $tamanhosIds = [];
 foreach ($carrinho as $item) {
@@ -63,7 +53,6 @@ $tamanhosIds = array_values(array_unique($tamanhosIds));
 $produtosIn = implode(",", $produtosIds);
 $tamanhosIn = implode(",", $tamanhosIds);
 
-// buscar dados e estoque atual
 $sql = "
   SELECT
     p.id_produto,
@@ -83,14 +72,12 @@ $sql = "
 $res = $conn_produtos->query($sql);
 if (!$res) die("Erro checkout: " . $conn_produtos->error);
 
-// indexar por chave "produto-tamanho"
 $map = [];
 while ($r = $res->fetch_assoc()) {
   $k = $r['id_produto'] . "-" . $r['id_tamanho'];
   $map[$k] = $r;
 }
 
-// montar itens
 $itens = [];
 $total = 0;
 $errosEstoque = [];
@@ -111,7 +98,6 @@ foreach ($carrinho as $k => $item) {
     $errosEstoque[] = $p['nome_produto'] . " (tam " . $p['numero_tamanho'] . ")";
   }
 
-  // imagem
   $foto = $p['imagem_produto'];
   if ($foto && strpos($foto, "/") === false) {
     $img = "imagens/exclusivo/" . $foto;
@@ -134,25 +120,21 @@ foreach ($carrinho as $k => $item) {
   ];
 }
 
-/* ===================== REGRAS: PAGAMENTO / DESCONTOS / PARCELAS ===================== */
 $maxParcelas = 12;
-$semJurosAte = 3;         // até 3x sem juros
-$jurosAoMes  = 0.02;      // 2% ao mês a partir da 4ª parcela
+$semJurosAte = 3;         
+$jurosAoMes  = 0.02;      
 
-$descontoAvista = 0.05;   // 5% OFF
-$descontoPix    = 0.10;   // 10% OFF
+$descontoAvista = 0.05;  
+$descontoPix    = 0.10;   
 
-// forma de pagamento selecionada
-// opcoes: cartao | avista | pix
+
 $pagamento = isset($_POST['pagamento']) ? strtolower(trim($_POST['pagamento'])) : 'cartao';
 if (!in_array($pagamento, ['cartao', 'avista', 'pix'])) $pagamento = 'cartao';
 
-// parcela selecionada
 $parcelasSelecionadas = isset($_POST['parcelas']) ? (int)$_POST['parcelas'] : 1;
 if ($parcelasSelecionadas < 1) $parcelasSelecionadas = 1;
 if ($parcelasSelecionadas > $maxParcelas) $parcelasSelecionadas = $maxParcelas;
 
-// calcula total final conforme pagamento
 $totalFinal = $total;
 $valorParcela = $total;
 
@@ -167,7 +149,7 @@ if ($pagamento === 'avista') {
   $valorParcela = $totalFinal;
 
 } else {
-  // cartao parcelado
+
   if ($parcelasSelecionadas <= $semJurosAte) {
     $fator = 1;
   } else {
@@ -178,16 +160,13 @@ if ($pagamento === 'avista') {
   $valorParcela = $totalFinal / $parcelasSelecionadas;
 }
 
-/* ===================== FRETE ===================== */
 $fretePadrao = 40.00;
 $freteGratisAcima = 1500.00;
 
-// frete baseado no TOTAL FINAL (já com desconto/juros)
 $frete = ($totalFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
 
 $totalComFrete = $totalFinal + $frete;
 
-// valor da parcela exibida (agora considerando frete)
 $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcelasSelecionadas) : $totalComFrete;
 ?>
 <!DOCTYPE html>
@@ -251,7 +230,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <strong>R$ <?php echo number_format($total, 2, ',', '.'); ?></strong>
           </div>
 
-          <!-- ===================== FORMA DE PAGAMENTO ===================== -->
           <form class="mt-3" method="POST" action="checkout.php" id="formPagamento">
             <label class="form-label fw-bold">Forma de pagamento</label>
 
@@ -284,11 +262,9 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
               </div>
             </div>
 
-            <!-- manter parcelas no post ao trocar pagamento -->
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">
           </form>
 
-          <!-- ===================== PARCELAS (só aparece no cartão) ===================== -->
           <?php if ($pagamento === 'cartao') { ?>
             <form class="mt-3" method="POST" action="checkout.php">
               <input type="hidden" name="pagamento" value="cartao">
@@ -310,7 +286,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
 
                   $tFinal = $total * $f;
 
-                  // frete também depende do total final desse cenário
                   $freteTmp = ($tFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
                   $tComFreteTmp = $tFinal + $freteTmp;
 
@@ -368,7 +343,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <?php } ?>
           </div>
 
-          <!-- ===================== FINALIZAR (com dados do cliente) ===================== -->
           <form class="mt-4 d-grid gap-2" action="checkout_finalizar.php" method="POST">
             <input type="hidden" name="pagamento" value="<?php echo htmlspecialchars($pagamento); ?>">
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">

@@ -8,8 +8,6 @@ $campo_filtro           = "promoção_produto";
 $ordenar_por            = "resumo_produto ASC";
 $filtro_select_promoçao = "Pro";
 
-// ===================== CONSULTA AJUSTADA =====================
-// DISTINCT evita duplicar produto por causa dos tamanhos
 
 $consulta_promoçao = "
     SELECT DISTINCT
@@ -60,7 +58,7 @@ include("dia_mes.php");
     <main class="snkr-main">
 
       <?php if ($totalRows > 0 && $row_promoçao): ?>
-        <!-- FEATURED (primeiro item da lista) -->
+
         <section class="snkr-featured d-none d-lg-block">
   <a class="snkr-link-overlay"
      href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
@@ -82,7 +80,6 @@ include("dia_mes.php");
 </section>
 
 
-        <!-- GRID (restante dos itens) -->
      <section class="snkr-grid">
   <?php
   $contador = 0;
@@ -93,7 +90,7 @@ include("dia_mes.php");
       $contador++;
   ?>
     <div class="snkr-item " >      
-      <!-- LINK que cobre o card todo -->
+
       <a class="snkr-link-overlay"
          href="produto_detalhe.php?id_produto=<?php echo $row_grid['id_produto']; ?>"
          aria-label="Ver <?php echo e($row_grid['nome_produto']); ?>"></a>
@@ -119,7 +116,7 @@ include("dia_mes.php");
 
 
       <?php else: ?>
-        <!-- SEM RESULTADOS -->
+
         <section class="snkr-featured">
           <div class="snkr-date">-- | --</div>
           <div class="p-4 bg-dark text-white rounded">

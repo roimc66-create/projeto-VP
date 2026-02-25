@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// SE JÁ ESTIVER LOGADO
 if(isset($_SESSION['login_usuario'])){
 ?>
     
@@ -44,7 +43,6 @@ Bem-vindo,<br>
 <strong><?php echo $_SESSION['login_usuario']; ?></strong>
 </p>
 
-<!-- BOTÃO SÓ PRA ADMIN -->
 <?php if($_SESSION['nivel_usuario'] == 'admin'){ ?>
 
 <?php } ?>
@@ -123,8 +121,6 @@ body{
 Voltar para a loja
 </a>
     
-
-    <!-- CADASTRO -->
     <div class="text-center mt-3">
 
         <small class="text-muted">

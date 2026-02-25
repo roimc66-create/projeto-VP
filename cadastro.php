@@ -2,7 +2,6 @@
 session_start();
 include("Connections/conn_produtos.php");
 
-// Se já estiver logado
 if (isset($_SESSION['login_usuario'])) {
 ?>
     <!DOCTYPE html>
@@ -55,11 +54,11 @@ if (isset($_SESSION['login_usuario'])) {
     exit;
 }
 
-// Mensagens
+
 $erro = "";
 $sucesso = "";
 
-// Quando enviar
+
 if ($_POST) {
 
     $login  = trim($_POST['login_usuario'] ?? '');
@@ -99,7 +98,7 @@ if ($_POST) {
                 $erro = "Esse e-mail já está cadastrado.";
             } else {
 
-                // INSERT
+             
                 $insert = $conn_produtos->query("
                     INSERT INTO tbusuarios
                     (login_usuario, email_usuario, senha_usuario, nivel_usuario)
@@ -157,7 +156,7 @@ if ($_POST) {
 
 <body>
 
-    <div class="login-box">  <!-- inicia login -->
+    <div class="login-box">
 
         <h3 class="text-center mb-4">Criar conta</h3>
 
@@ -167,25 +166,23 @@ if ($_POST) {
 
         <form action="cadastro.php" method="POST">
 
-            <!-- LOGIN -->
+        
             <div class="mb-3">
                 <label>Login</label>
                 <input type="text" name="login_usuario" class="form-control" required>
             </div>
 
-            <!-- EMAIL (NOVO) -->
+        
             <div class="mb-3">
                 <label>E-mail</label>
                 <input type="email" name="email_usuario" class="form-control" required>
             </div>
-
-            <!-- SENHA -->
             <div class="mb-3">
                 <label>Senha</label>
                 <input type="password" name="senha_usuario" class="form-control" required>
             </div>
 
-            <!-- CONFIRMAR -->
+ 
             <div class="mb-3">
                 <label>Confirmar senha</label>
                 <input type="password" name="senha_confirmar" class="form-control" required>
@@ -200,7 +197,7 @@ if ($_POST) {
 
         </form>
 
-    </div> <!-- fecha login -->
+    </div> 
 
 </body>
 

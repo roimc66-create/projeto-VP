@@ -22,7 +22,7 @@ include("helpfun.php");
     <h1 class="text-center mb-4">Contato</h1>
 
     <div class="row g-4 justify-content-center">
-        <!-- FORM -->
+      
         <div class="col-md-6">
             <div class="card p-4 h-100">
                 <h5 class="mb-3">Fale Conosco</h5>
@@ -50,7 +50,6 @@ include("helpfun.php");
             </div>
         </div>
 
-        <!-- INFO -->
         <div class="col-md-6">
             <div class="card p-4 h-100">
                 <h5 class="mb-3">Informações</h5>
@@ -70,7 +69,6 @@ include("helpfun.php");
     </div>
 </div>
 
-<!-- MODAL CONFIRMAÇÃO -->
 <div class="modal fade" id="modalConfirmacao" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -93,7 +91,6 @@ include("helpfun.php");
     </div>
 </div>
 
-<!-- ================= RODAPÉ ================= -->
 <footer>
     <section class="py-5 bg-dark text-white">
         <div class="container text-center">

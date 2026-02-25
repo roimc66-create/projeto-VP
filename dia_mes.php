@@ -1,14 +1,11 @@
 <?php
-// Garante fuso horário do Brasil
+
 date_default_timezone_set('America/Sao_Paulo');
 
-// Dia atual
 $dia = date('d');
 
-// Mês atual (numérico)
 $mes_num = date('m');
 
-// Mapa de meses em português
 $meses = [
   '01' => 'JAN',
   '02' => 'FEV',
@@ -24,6 +21,5 @@ $meses = [
   '12' => 'DEZ'
 ];
 
-// Sigla do mês
 $mes = $meses[$mes_num];
 ?>
