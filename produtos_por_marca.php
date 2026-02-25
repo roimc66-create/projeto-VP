@@ -130,6 +130,7 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
             src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
             class="product-img card-img-top img-fluid"
             alt="<?php echo e($row['nome_produto']); ?>"
+            
           >
 
           <div class="product-meta card-body">
