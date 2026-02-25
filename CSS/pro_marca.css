@@ -147,15 +147,4 @@
   width:auto;
 }
 
-@media (max-width: 576px){
-  .toolbar{
-    align-items:flex-start;
-  }
-  .toolbar-left{
-    width:100%;
-  }
-  .toolbar-right{
-    width:100%;
-    justify-content:space-between;
-  }
-}
+

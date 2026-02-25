@@ -86,7 +86,7 @@ $totalRows = $lista->num_rows;
 <a name="">&nbsp; </a>
 
 <h1 class="text-center brand-title my-4">
-    <?php echo e($row['nome_tipo']); ?>
+<?php echo ($totalRows > 0) ? e($row['nome_tipo']) : 'Tipo'; ?>
 </h1>
 
 <!-- BARRA DE CONTROLES -->
@@ -96,8 +96,8 @@ $totalRows = $lista->num_rows;
       <strong><?php echo (int)$totalRows; ?></strong> produtos
     </div>
 
-    <div class="toolbar-right">
-      <form method="get" class="tool-group m-0">
+    <div class="toolbar-right ms-auto">
+  <form method="get" class="tool-group m-0 ms-auto">
         <!-- mantém o id_tipo ao ordenar -->
         <input type="hidden" name="id_tipo" value="<?php echo (int)$filtro_select; ?>">
 

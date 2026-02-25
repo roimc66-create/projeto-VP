@@ -1,67 +1,29 @@
 <?php
 include("protecao.php");
 include("../Connections/conn_produtos.php");
-
+ 
 if (!isset($_GET['id_tipo'])) {
     header("Location: tipos_lista.php");
     exit;
 }
-
+ 
 $id_tipo = (int) $_GET['id_tipo'];
 
 $r = $conn_produtos->query(
     "SELECT * FROM tbtipos WHERE id_tipo = $id_tipo"
 );
+$tipo = $r->fetch_assoc();
 
-if (!$r || $r->num_rows == 0) {
+if ($_POST) {
+
+    $nome = $_POST['nome_tipo'];
+
+    $conn_produtos->query(
+        "UPDATE tbtipos SET nome_tipo = '$nome' WHERE id_tipo = $id_tipo"
+    );
+
     header("Location: tipos_lista.php");
     exit;
-}
-
-$tipo = $r->fetch_assoc();
-$erroMsg = "";
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $nome = trim($_POST['nome_tipo']);
-    $nome = strtoupper($nome);
-    $nomeEsc = $conn_produtos->real_escape_string($nome);
-
-    if ($nome === "") {
-
-        $erroMsg = "O nome é obrigatório.";
-
-    } else {
-
-        $sqlDup = "
-            SELECT id_tipo 
-            FROM tbtipos 
-            WHERE UPPER(nome_tipo) = '$nomeEsc'
-            AND id_tipo != $id_tipo
-        ";
-
-        $verifica = $conn_produtos->query($sqlDup);
-
-        if ($verifica && $verifica->num_rows > 0) {
-
-            $erroMsg = "Esse tipo já existe.";
-
-        } else {
-
-            $update = "
-                UPDATE tbtipos
-                SET nome_tipo = '$nomeEsc'
-                WHERE id_tipo = $id_tipo
-            ";
-
-            if (!$conn_produtos->query($update)) {
-                $erroMsg = "Erro ao atualizar.";
-            } else {
-                header("Location: tipos_lista.php");
-                exit;
-            }
-        }
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -70,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Editar Tipo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+ 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+ 
     <style>
         body { background:#fff; min-height:100vh; }
         .card-custom {
@@ -84,30 +46,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
-
+ 
 <body>
-
+ 
 <?php include("menu.php"); ?>
-
+ 
 <main class="container">
-
+ 
     <div class="row justify-content-center">
         <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-
+ 
             <div class="card-custom">
-
+ 
                 <div class="d-flex align-items-center mb-3">
                     <a href="tipos_lista.php" class="btn btn-warning me-3">←</a>
                     <h4 class="mb-0 text-warning fw-bold">Editar Tipo</h4>
                 </div>
-
-                <div class="alert alert-warning">
-
-                    <form method="post">
-
+ 
+                            <div class="alert alert-warning">
+ 
+                    <?php if (!empty($erroMsg)): ?>
+                        <div class="text-danger small mb-2">
+                            <?= htmlspecialchars($erroMsg) ?>
+                        </div>
+                    <?php endif; ?>
+ 
+                    <form
+                        action="tipos_insere.php"
+                        method="post"
+                        id="form_insere_tipo"
+                        name="form_insere_tipo"
+                    >
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nome:</label>
-
+ 
                             <div class="input-group">
                                 <span class="input-group-text">Tipo</span>
                                 <input
@@ -119,22 +91,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 >
                             </div>
                         </div>
-
+ 
                         <button class="btn btn-warning w-100 fw-semibold">
                             Salvar
                         </button>
-
+ 
                     </form>
-
+ 
                 </div>
-
+ 
             </div>
-
+ 
         </div>
     </div>
-
+ 
 </main>
-
+ 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+ 
+ 

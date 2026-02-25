@@ -3,11 +3,11 @@ session_start();
 
 if(isset($_SESSION['login_usuario'])){
 ?>
-    
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Já logado</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,10 +15,11 @@ if(isset($_SESSION['login_usuario'])){
 <style>
 body{
     background:#f5f5f5;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:15px;
 }
 
 .login-box{
@@ -26,8 +27,15 @@ body{
     padding:40px;
     border-radius:10px;
     box-shadow:0 0 20px rgba(0,0,0,0.1);
-    width:350px;
+    width:100%;
+    max-width:380px;
     text-align:center;
+}
+
+@media (max-width:576px){
+    .login-box{
+        padding:25px;
+    }
 }
 </style>
 </head>
@@ -42,10 +50,6 @@ body{
 Bem-vindo,<br>
 <strong><?php echo $_SESSION['login_usuario']; ?></strong>
 </p>
-
-<?php if($_SESSION['nivel_usuario'] == 'admin'){ ?>
-
-<?php } ?>
 
 <a href="index.php" class="btn btn-dark w-100 mb-2">
 Voltar para a loja
@@ -64,11 +68,11 @@ Sair da conta
 exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -76,10 +80,11 @@ exit;
 <style>
 body{
     background:#f5f5f5;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:15px;
 }
 
 .login-box{
@@ -87,7 +92,18 @@ body{
     padding:40px;
     border-radius:10px;
     box-shadow:0 0 20px rgba(0,0,0,0.1);
-    width:350px;
+    width:100%;
+    max-width:380px;
+}
+
+@media (max-width:576px){
+    .login-box{
+        padding:25px;
+    }
+
+    h3{
+        font-size:22px;
+    }
 }
 </style>
 </head>
@@ -99,39 +115,36 @@ body{
 <h3 class="text-center mb-4">Login</h3>
 
 <?php if(isset($_GET['erro'])){ ?>
-    <div class="alert alert-danger text-center py-2" style="font-size:14px;">
-        Login ou senha inválidos
-    </div>
+<div class="alert alert-danger text-center py-2" style="font-size:14px;">
+Login ou senha inválidos
+</div>
 <?php } ?>
 
 <form action="login_valida.php" method="POST">
-    <div class="mb-3">
-        <label>Login</label>
-        <input type="text" name="login_usuario" class="form-control" required>
-    </div>
 
-    <div class="mb-3">
-        <label>Senha</label>
-        <input type="password" name="senha_usuario" class="form-control" required>
-    </div>
+<div class="mb-3">
+<label>Login</label>
+<input type="text" name="login_usuario" class="form-control" required>
+</div>
 
-    <button class="btn btn-dark w-100 mb-2">Entrar</button>
+<div class="mb-3">
+<label>Senha</label>
+<input type="password" name="senha_usuario" class="form-control" required>
+</div>
+
+<button class="btn btn-dark w-100 mb-2">Entrar</button>
 
 <a href="index.php" class="btn btn-outline-secondary w-100">
 Voltar para a loja
 </a>
-    
-    <div class="text-center mt-3">
 
-        <small class="text-muted">
-            Não tem login?
-        </small><br>
+<div class="text-center mt-3">
+<small class="text-muted">Não tem login?</small><br>
 
-        <a href="cadastro.php" class="fw-bold text-dark text-decoration-none">
-            Cadastre-se agora
-        </a>
-
-    </div>
+<a href="cadastro.php" class="fw-bold text-dark text-decoration-none">
+Cadastre-se agora
+</a>
+</div>
 
 </form>
 

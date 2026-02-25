@@ -3,36 +3,61 @@ session_start();
 include("Connections/conn_produtos.php");
 
 $id_produto_post = (int)($_POST['id_produto'] ?? 0);
-$id_tamanho_post = (int)($_POST['id_tamanho'] ?? 0);
+$id_tamanho_post_raw = $_POST['id_tamanho'] ?? '';
 
-if ($id_produto_post > 0 && $id_tamanho_post > 0) {
+if ($id_produto_post > 0 && $id_tamanho_post_raw !== '' && $id_tamanho_post_raw !== null) {
 
-  $sqlValida = "
-    SELECT pt.estoque
-    FROM tbproduto_tamanho pt
-    WHERE pt.id_produto = {$id_produto_post}
-      AND pt.id_tamanho = {$id_tamanho_post}
-    LIMIT 1
-  ";
-  $resValida = $conn_produtos->query($sqlValida);
-  if (!$resValida) {
-    die("Erro ao validar comprar agora: " . $conn_produtos->error);
-  }
-  if ($resValida->num_rows == 0) {
-    die("Produto/tamanho inválido.");
-  }
-  $v = $resValida->fetch_assoc();
-  if ((int)$v['estoque'] <= 0) {
-    die("Sem estoque para esse tamanho.");
+  // se vier número (id_tamanho), usa direto; se vier texto (G/GG/M/38), converte pelo numero_tamanho
+  if (is_numeric($id_tamanho_post_raw)) {
+    $id_tamanho_post = (int)$id_tamanho_post_raw;
+  } else {
+    $tamTxt = trim($id_tamanho_post_raw);
+    $tamEsc = $conn_produtos->real_escape_string($tamTxt);
+
+    $sqlTam = "
+      SELECT id_tamanho
+      FROM tbtamanhos
+      WHERE numero_tamanho = '{$tamEsc}'
+      LIMIT 1
+    ";
+    $resTam = $conn_produtos->query($sqlTam);
+    if (!$resTam) die("Erro ao buscar tamanho: " . $conn_produtos->error);
+
+    $rowTam = $resTam->fetch_assoc();
+    if (!$rowTam) die("Tamanho inválido.");
+
+    $id_tamanho_post = (int)$rowTam['id_tamanho'];
   }
 
-  $_SESSION['carrinho'] = [];
-  $key = $id_produto_post . "-" . $id_tamanho_post;
-  $_SESSION['carrinho'][$key] = [
-    'id_produto' => $id_produto_post,
-    'id_tamanho' => $id_tamanho_post,
-    'qtd' => 1
-  ];
+  if ($id_tamanho_post > 0) {
+
+    $sqlValida = "
+      SELECT pt.estoque
+      FROM tbproduto_tamanho pt
+      WHERE pt.id_produto = {$id_produto_post}
+        AND pt.id_tamanho = {$id_tamanho_post}
+      LIMIT 1
+    ";
+    $resValida = $conn_produtos->query($sqlValida);
+    if (!$resValida) {
+      die("Erro ao validar comprar agora: " . $conn_produtos->error);
+    }
+    if ($resValida->num_rows == 0) {
+      die("Produto/tamanho inválido.");
+    }
+    $v = $resValida->fetch_assoc();
+    if ((int)$v['estoque'] <= 0) {
+      die("Sem estoque para esse tamanho.");
+    }
+
+    $_SESSION['carrinho'] = [];
+    $key = $id_produto_post . "-" . $id_tamanho_post;
+    $_SESSION['carrinho'][$key] = [
+      'id_produto' => $id_produto_post,
+      'id_tamanho' => $id_tamanho_post,
+      'qtd' => 1
+    ];
+  }
 }
 
 $carrinho = $_SESSION['carrinho'] ?? [];
@@ -109,7 +134,7 @@ foreach ($carrinho as $k => $item) {
   $itens[] = [
     'chave' => $k,
     'nome' => $p['nome_produto'],
-    'tam'  => (int)$p['numero_tamanho'],
+    'tam'  => $p['numero_tamanho'], // <- SEM (int) pra não virar 0 em G/GG/M
     'qtd'  => $qtd,
     'preco'=> $preco,
     'subtotal' => $subtotal,
@@ -121,12 +146,11 @@ foreach ($carrinho as $k => $item) {
 }
 
 $maxParcelas = 12;
-$semJurosAte = 3;         
-$jurosAoMes  = 0.02;      
+$semJurosAte = 3;
+$jurosAoMes  = 0.02;
 
-$descontoAvista = 0.05;  
-$descontoPix    = 0.10;   
-
+$descontoAvista = 0.05;
+$descontoPix    = 0.10;
 
 $pagamento = isset($_POST['pagamento']) ? strtolower(trim($_POST['pagamento'])) : 'cartao';
 if (!in_array($pagamento, ['cartao', 'avista', 'pix'])) $pagamento = 'cartao';
@@ -149,7 +173,6 @@ if ($pagamento === 'avista') {
   $valorParcela = $totalFinal;
 
 } else {
-
   if ($parcelasSelecionadas <= $semJurosAte) {
     $fator = 1;
   } else {
@@ -182,12 +205,13 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
 <?php include('menu.php'); ?>
 
 <div class="container py-5">
-    <div class="mb-3 ">
-    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center ">
+  <div class="mb-3">
+    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center">
       <i class="bi bi-arrow-left"></i>
       Voltar para o carrinho
     </a>
   </div>
+
   <h1 class="mb-4">Checkout</h1>
 
   <?php if (count($errosEstoque) > 0) { ?>
@@ -208,7 +232,7 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <img src="<?php echo $item['img']; ?>" style="width:90px;height:90px;object-fit:cover;border-radius:8px;">
             <div class="flex-grow-1">
               <div class="fw-bold"><?php echo htmlspecialchars($item['nome']); ?></div>
-              <div class="text-muted">Tamanho: <?php echo $item['tam']; ?> • Qtd: <?php echo $item['qtd']; ?></div>
+              <div class="text-muted">Tamanho: <?php echo htmlspecialchars($item['tam']); ?> • Qtd: <?php echo $item['qtd']; ?></div>
               <div>R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?></div>
             </div>
             <div class="text-end" style="min-width:140px;">

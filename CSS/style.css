@@ -1,64 +1,84 @@
+/* Área geral */
+section#Marcas {
+    padding-top: 60px;
+}
 
-        /* Área geral */
-        section#Marcas {
-            padding-top: 60px;
-        }
-*/
-        .marcas-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+.marcas-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 40px;
+}
 
-        .marcas-header h2 {
-            font-size: 2.3rem;
-            font-weight: 800;
-            margin: 0;
-        }
+.marcas-header h2 {
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin: 0;
+}
 
-        /* Botões laterais alinhados com o título */
-        .marc-arrow-btn {
-            background: #00000010;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-            border: none;
-        }
-        .marc-arrow-btn:hover {
-            background: #00000025;
-        }
+/* Botões */
+.marc-arrow-btn {
+    background: #00000010;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    border: none;
+}
+.marc-arrow-btn:hover { background: #00000025; }
 
-        .marc-arrow-btn span {
-            filter: invert(1);
-        }
+.marc-arrow-btn span { filter: invert(1); }
 
-        .marc-card {
-            border-radius: 15px;
-            transition: transform .3s, box-shadow .3s;
-        }
-        .marc-card img {
-            height: 100px;
-            object-fit: contain;
-        }
-        .marc-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 8px 25px #00000025;
-        }
+.marc-card {
+    border-radius: 15px;
+    transition: transform .3s, box-shadow .3s;
+    cursor: pointer;
+}
+.marc-card img {
+    height: 100px;
+    object-fit: contain;
+}
+.marc-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px #00000025;
+}
 
-        /* Colunas no centro */
-        .carousel-item .row {
-            justify-content: center;
-        }
-/* Quando o link por cima estiver em hover, aplica o efeito no card */
+/* Centralizar a row */
+.carousel-item .row { justify-content: center; }
+
 .marc-card:has(.stretched-link:hover) {
     transform: translateY(-5px);
     box-shadow: 0px 8px 25px #00000025;
 }
 
-.marc-card { cursor: pointer; }
+
+@media (max-width: 576px){
+
+  
+  #Marcas .carousel-item .col-6{
+    flex: 0 0 33.333% !important;
+    max-width: 33.333% !important;
+  }
+
+  #Marcas .carousel-item .col-6:nth-child(n+4){
+    display:none;
+  }
+
+  
+  #Marcas .marc-card{
+    padding:8px !important;
+  }
+
+  #Marcas .marc-card img{
+    height:55px !important;
+    object-fit:contain;
+  }
+
+  #Marcas .marcas-header h2{
+    font-size:1.6rem;
+  }
+}
