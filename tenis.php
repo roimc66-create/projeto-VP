@@ -1,9 +1,7 @@
 <?php
-// Incluir o arquivo para fazer a conexão
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-// --- CONSULTA VIA VIEW ---
 $consulta = "
             SELECT *
             FROM vw_tbprodutos
@@ -39,14 +37,13 @@ $totalRows  = $lista->num_rows;
     
     
     <a name="">&nbsp; </a>
-         <!-- TÍTULO  -->
+     
     <h1 class="brand-title">
            <h1 class="text-center"> Tenis </h1>
         
     </h1>
    
 
-    <!-- BARRA DE CONTROLES -->
     <div class="toolbar">
         <div class="left">
             <?php echo $totalRows; ?> produtos
@@ -76,7 +73,6 @@ $totalRows  = $lista->num_rows;
         </div>
     </div>
 
-    <!-- GRID DE PRODUTOS -->
     <div class="row g-3">
         <?php if($totalRows > 0){ ?>
             <?php do { ?>

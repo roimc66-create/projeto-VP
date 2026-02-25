@@ -4,7 +4,6 @@ include("helpfun.php");
 
 $id_atual = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
 
-// pegar o tipo do produto atual
 $tipoAtual = 0;
 if($id_atual > 0){
   $qTipo = $conn_produtos->query("SELECT id_tipo_produto FROM tbprodutos WHERE id_produto = $id_atual LIMIT 1");
@@ -13,7 +12,6 @@ if($id_atual > 0){
   }
 }
 
-// buscar 6 produtos do mesmo tipo, sem repetir por tamanho
 $consulta = "
     SELECT DISTINCT
         id_produto,
@@ -46,7 +44,6 @@ $totalRows  = $lista->num_rows;
 
 <div class="container my-4">
 
-  <!-- TÍTULO + SETAS -->
   <div class="d-flex align-items-center justify-content-between my-4">
     <button id="btnPrev" class="nav-arrow" type="button" aria-label="Anterior">
       <i class="bi bi-chevron-left"></i>
@@ -59,8 +56,6 @@ $totalRows  = $lista->num_rows;
     </button>
   </div>
 
-  <!-- CARROSSEL -->
- <!-- CARROSSEL -->
 <div class="carousel-wrap">
   <div class="carousel-viewport" id="carouselViewport">
     <div class="row flex-nowrap m-0" id="vitrineProdutos">

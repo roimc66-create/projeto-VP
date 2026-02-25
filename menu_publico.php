@@ -3,7 +3,6 @@ session_start();
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-/* TIPOS (Produtos) */
 $sql_tipos = "
   SELECT id_tipo, nome_tipo
   FROM tbtipos
@@ -12,7 +11,6 @@ $sql_tipos = "
 $lista_tipos = $conn_produtos->query($sql_tipos)
   or die("Erro tipos: ".$conn_produtos->error);
 
-/* MARCAS (TODAS DA TABELA tbmarcas) */
 $sql_marcas = "
   SELECT id_marca AS id_marca_produto, nome_marca
   FROM tbmarcas
@@ -21,7 +19,6 @@ $sql_marcas = "
 $lista_marcas = $conn_produtos->query($sql_marcas)
   or die("Erro marcas: ".$conn_produtos->error);
 
-/* GENEROS */
 $sql_generos = "
   SELECT DISTINCT id_genero_produto, nome_genero
   FROM vw_tbprodutos
@@ -41,7 +38,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
         rel="stylesheet"
     />
 
-    <!-- BOOTSTRAP ICONS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -49,7 +45,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
 
-    <!-- SEUS CSS ORIGINAIS -->
     <link rel="stylesheet" href="CSS/menu.css">
     <link rel="stylesheet" href="CSS/font-potta.css">
 
@@ -60,24 +55,21 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" id="mainNav">
   <div class="container-fluid">
 
-    <!-- ESQUERDA: CARRINHO -->
     <div class="d-flex align-items-center">
       <a class="nav-icon" href="carrinho.php" aria-label="Carrinho">
         <i class="bi bi-cart3"></i>
       </a>
     </div>
-    <!-- Esquerda casa -->
+
     <div class="d-flex align-items-center d-block d-lg-none">
       <a class="nav-icon" href="index.php" aria-label="Carrinho">
         <i class="bi bi-house"></i>
       </a>
     </div>
 
-    <!-- CENTRO: SEU MENU -->
     <div id="navMain">
       <ul class="navbar-nav mb-2 mb-lg-0">
 
-        <!-- MEGA MENU: TÊNIS -->
         <li class="nav-item dropdown dropdown-mega">
           <a class="nav-link fw-semibold navbar-brand text-dark fw-bold nav-center title-font"
              href="index.php"
@@ -90,7 +82,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
           <div class="dropdown-menu mega-menu p-4" aria-labelledby="megaTenis">
             <div class="row g-4">
 
-              <!-- PRODUTOS -->
               <div class="col-12 col-lg-4">
                 <div class="mega-title">
                   <a class="mega-link" href="index_produtos.php">Produtos</a>
@@ -106,7 +97,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
                 </div>
               </div>
 
-              <!-- MARCAS -->
               <div class="col-12 col-lg-4">
                 <div class="mega-title">Marcas</div>
 
@@ -120,7 +110,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
                 </div>
               </div>
 
-              <!-- GÊNERO -->
               <div class="col-12 col-lg-4">
                 <div class="mega-title">Gênero</div>
 
@@ -134,7 +123,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
                 </div>
               </div>
 
-              <!-- BUSCA -->
               <form class="d-flex mt-2" action="buscar.php" method="GET">
                 <input class="form-control me-2" type="search" name="q" placeholder="Buscar...">
                 <button class="btn btn-outline-dark" type="submit">Ok</button>
@@ -147,7 +135,6 @@ $lista_generos = $conn_produtos->query($sql_generos) or die("Erro generos: ".$co
       </ul>
     </div>
 
-    <!-- DIREITA: ADMIN (se for admin) + LOGIN -->
     <div class="d-flex align-items-center ms-auto gap-2">
 
       <?php if(isset($_SESSION['nivel_usuario']) && $_SESSION['nivel_usuario'] == 'admin'){ ?>

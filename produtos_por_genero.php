@@ -3,21 +3,17 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-// Consulta para trazer os dados e SE necessário filtrar
 $tabela       = "vw_tbprodutos";
 $campo_filtro = "id_genero_produto";
 
-// pega o id_genero da URL e transforma em número
 $filtro_select  = isset($_GET['id_genero']) ? (int)$_GET['id_genero'] : 0;
 
 if ($filtro_select <= 0) {
     die("genero inválida.");
 }
 
-/* ===================== ORDENAR (via GET) ===================== */
 $ordenar = $_GET['ordenar'] ?? 'recentes';
 
-// whitelist (seguro)
 switch ($ordenar) {
     case 'menor_preco':
         $ordenar_por = "valor_produto ASC";
@@ -33,12 +29,11 @@ switch ($ordenar) {
 
     case 'recentes':
     default:
-        // se tiver data/cadastro, use ela aqui (ex: data_produto DESC)
+
         $ordenar_por = "id_produto DESC";
         break;
 }
 
-/* ===================== CONSULTA ===================== */
 $consulta = "
     SELECT DISTINCT
         id_produto,
@@ -91,12 +86,10 @@ $totalRows = $lista->num_rows;
 
 <a name="">&nbsp; </a>
 
-<!-- TÍTULO -->
 <h1 class="text-center brand-title my-4">
     <?php echo e($row['nome_genero']); ?>
 </h1>
 
-<!-- BARRA DE CONTROLES -->
 <div class="container mb-3">
   <div class="toolbar">
     <div class="toolbar-left">
@@ -105,7 +98,7 @@ $totalRows = $lista->num_rows;
 
     <div class="toolbar-right">
       <form method="get" class="tool-group m-0">
-        <!-- mantém o genero ao ordenar -->
+    
         <input type="hidden" name="id_genero" value="<?php echo (int)$filtro_select; ?>">
 
         <span class="tool-label">Ordenar por</span>
@@ -125,14 +118,13 @@ $totalRows = $lista->num_rows;
   </div>
 </div>
 
-<!-- GRID DE PRODUTOS -->
 <div class="container my-4">
   <div class="row g-3">
     <?php if($totalRows > 0){ ?>
       <?php do { ?>
 
         <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
-          <!-- CORRIGIDO: usar id do row -->
+
           <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>" class="text-decoration-none text-dark">
             <div class="product-card card">
               <img

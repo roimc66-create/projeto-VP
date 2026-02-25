@@ -3,21 +3,18 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-// Consulta para trazer os dados e SE necessário filtrar
 $tabela       = "vw_tbprodutos";
 $campo_filtro = "id_tipo_produto";
 
-// pega o id_tipo da URL e transforma em número
 $filtro_select = isset($_GET['id_tipo']) ? (int)$_GET['id_tipo'] : 0;
 
 if ($filtro_select <= 0) {
     die("tipo inválida.");
 }
 $ordenar = $_GET['ordenar'] ?? 'recentes';
-/* ===================== ORDENAR (via GET) ===================== */
+
 $ordenar = $_GET['ordenar'] ?? 'recentes';
 
-// whitelist (seguro)
 switch ($ordenar) {
     case 'menor_preco':
         $ordenar_por = "valor_produto ASC";
@@ -33,12 +30,11 @@ switch ($ordenar) {
 
     case 'recentes':
     default:
-        // se tiver campo de data, troque por ele (ex: data_produto DESC)
+ 
         $ordenar_por = "id_produto DESC";
         break;
 }
 
-/* ===================== CONSULTA ===================== */
 $consulta = "
     SELECT DISTINCT
         id_produto,
@@ -89,9 +85,8 @@ $totalRows = $lista->num_rows;
 
 <a name="">&nbsp; </a>
 
-<!-- TÍTULO -->
 <h1 class="text-center brand-title my-4">
-    <?php echo e($row['nome_tipo']); ?>
+<?php echo ($totalRows > 0) ? e($row['nome_tipo']) : 'Tipo'; ?>
 </h1>
 
 <!-- BARRA DE CONTROLES -->
@@ -101,8 +96,8 @@ $totalRows = $lista->num_rows;
       <strong><?php echo (int)$totalRows; ?></strong> produtos
     </div>
 
-    <div class="toolbar-right">
-      <form method="get" class="tool-group m-0">
+    <div class="toolbar-right ms-auto">
+  <form method="get" class="tool-group m-0 ms-auto">
         <!-- mantém o id_tipo ao ordenar -->
         <input type="hidden" name="id_tipo" value="<?php echo (int)$filtro_select; ?>">
 
@@ -123,13 +118,12 @@ $totalRows = $lista->num_rows;
   </div>
 </div>
 
-<!-- GRID DE PRODUTOS -->
 <div class="container my-4">
   <div class="row g-3">
     <?php if($totalRows > 0){ ?>
       <?php do { ?>
         <div class="col-12 col-sm-6 col-lg-3" id="Exclusivos">
-          <!-- CORRIGIDO: usar id do row -->
+   
           <a href="produto_detalhe.php?id_produto=<?php echo (int)$row['id_produto']; ?>" class="text-decoration-none text-dark">
             <div class="product-card card">
               <img

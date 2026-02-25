@@ -2,55 +2,70 @@
 session_start();
 include("Connections/conn_produtos.php");
 
-/*
-  CHECKOUT.PHP (aceita 2 fluxos)
-  1) Carrinho normal: $_SESSION['carrinho']
-  2) Comprar agora: POST id_produto + id_tamanho (cria carrinho temporário com qtd=1)
-*/
-
-// ===================== 1) TRATAR "COMPRAR AGORA" =====================
 $id_produto_post = (int)($_POST['id_produto'] ?? 0);
-$id_tamanho_post = (int)($_POST['id_tamanho'] ?? 0);
+$id_tamanho_post_raw = $_POST['id_tamanho'] ?? '';
 
-if ($id_produto_post > 0 && $id_tamanho_post > 0) {
-  // valida se esse tamanho pertence ao produto e existe no estoque (>=1)
-  $sqlValida = "
-    SELECT pt.estoque
-    FROM tbproduto_tamanho pt
-    WHERE pt.id_produto = {$id_produto_post}
-      AND pt.id_tamanho = {$id_tamanho_post}
-    LIMIT 1
-  ";
-  $resValida = $conn_produtos->query($sqlValida);
-  if (!$resValida) {
-    die("Erro ao validar comprar agora: " . $conn_produtos->error);
-  }
-  if ($resValida->num_rows == 0) {
-    die("Produto/tamanho inválido.");
-  }
-  $v = $resValida->fetch_assoc();
-  if ((int)$v['estoque'] <= 0) {
-    die("Sem estoque para esse tamanho.");
+if ($id_produto_post > 0 && $id_tamanho_post_raw !== '' && $id_tamanho_post_raw !== null) {
+
+  // se vier número (id_tamanho), usa direto; se vier texto (G/GG/M/38), converte pelo numero_tamanho
+  if (is_numeric($id_tamanho_post_raw)) {
+    $id_tamanho_post = (int)$id_tamanho_post_raw;
+  } else {
+    $tamTxt = trim($id_tamanho_post_raw);
+    $tamEsc = $conn_produtos->real_escape_string($tamTxt);
+
+    $sqlTam = "
+      SELECT id_tamanho
+      FROM tbtamanhos
+      WHERE numero_tamanho = '{$tamEsc}'
+      LIMIT 1
+    ";
+    $resTam = $conn_produtos->query($sqlTam);
+    if (!$resTam) die("Erro ao buscar tamanho: " . $conn_produtos->error);
+
+    $rowTam = $resTam->fetch_assoc();
+    if (!$rowTam) die("Tamanho inválido.");
+
+    $id_tamanho_post = (int)$rowTam['id_tamanho'];
   }
 
-  // cria/atualiza carrinho com apenas esse item (qtd 1)
-  $_SESSION['carrinho'] = [];
-  $key = $id_produto_post . "-" . $id_tamanho_post;
-  $_SESSION['carrinho'][$key] = [
-    'id_produto' => $id_produto_post,
-    'id_tamanho' => $id_tamanho_post,
-    'qtd' => 1
-  ];
+  if ($id_tamanho_post > 0) {
+
+    $sqlValida = "
+      SELECT pt.estoque
+      FROM tbproduto_tamanho pt
+      WHERE pt.id_produto = {$id_produto_post}
+        AND pt.id_tamanho = {$id_tamanho_post}
+      LIMIT 1
+    ";
+    $resValida = $conn_produtos->query($sqlValida);
+    if (!$resValida) {
+      die("Erro ao validar comprar agora: " . $conn_produtos->error);
+    }
+    if ($resValida->num_rows == 0) {
+      die("Produto/tamanho inválido.");
+    }
+    $v = $resValida->fetch_assoc();
+    if ((int)$v['estoque'] <= 0) {
+      die("Sem estoque para esse tamanho.");
+    }
+
+    $_SESSION['carrinho'] = [];
+    $key = $id_produto_post . "-" . $id_tamanho_post;
+    $_SESSION['carrinho'][$key] = [
+      'id_produto' => $id_produto_post,
+      'id_tamanho' => $id_tamanho_post,
+      'qtd' => 1
+    ];
+  }
 }
 
-// ===================== 2) CARRINHO =====================
 $carrinho = $_SESSION['carrinho'] ?? [];
 if (count($carrinho) == 0) {
   header("Location: carrinho.php");
   exit;
 }
 
-// montar mapa de produtos/tamanhos pra buscar no banco
 $produtosIds = [];
 $tamanhosIds = [];
 foreach ($carrinho as $item) {
@@ -63,7 +78,6 @@ $tamanhosIds = array_values(array_unique($tamanhosIds));
 $produtosIn = implode(",", $produtosIds);
 $tamanhosIn = implode(",", $tamanhosIds);
 
-// buscar dados e estoque atual
 $sql = "
   SELECT
     p.id_produto,
@@ -83,14 +97,12 @@ $sql = "
 $res = $conn_produtos->query($sql);
 if (!$res) die("Erro checkout: " . $conn_produtos->error);
 
-// indexar por chave "produto-tamanho"
 $map = [];
 while ($r = $res->fetch_assoc()) {
   $k = $r['id_produto'] . "-" . $r['id_tamanho'];
   $map[$k] = $r;
 }
 
-// montar itens
 $itens = [];
 $total = 0;
 $errosEstoque = [];
@@ -111,7 +123,6 @@ foreach ($carrinho as $k => $item) {
     $errosEstoque[] = $p['nome_produto'] . " (tam " . $p['numero_tamanho'] . ")";
   }
 
-  // imagem
   $foto = $p['imagem_produto'];
   if ($foto && strpos($foto, "/") === false) {
     $img = "imagens/exclusivo/" . $foto;
@@ -123,7 +134,7 @@ foreach ($carrinho as $k => $item) {
   $itens[] = [
     'chave' => $k,
     'nome' => $p['nome_produto'],
-    'tam'  => (int)$p['numero_tamanho'],
+    'tam'  => $p['numero_tamanho'], // <- SEM (int) pra não virar 0 em G/GG/M
     'qtd'  => $qtd,
     'preco'=> $preco,
     'subtotal' => $subtotal,
@@ -134,25 +145,20 @@ foreach ($carrinho as $k => $item) {
   ];
 }
 
-/* ===================== REGRAS: PAGAMENTO / DESCONTOS / PARCELAS ===================== */
 $maxParcelas = 12;
-$semJurosAte = 3;         // até 3x sem juros
-$jurosAoMes  = 0.02;      // 2% ao mês a partir da 4ª parcela
+$semJurosAte = 3;
+$jurosAoMes  = 0.02;
 
-$descontoAvista = 0.05;   // 5% OFF
-$descontoPix    = 0.10;   // 10% OFF
+$descontoAvista = 0.05;
+$descontoPix    = 0.10;
 
-// forma de pagamento selecionada
-// opcoes: cartao | avista | pix
 $pagamento = isset($_POST['pagamento']) ? strtolower(trim($_POST['pagamento'])) : 'cartao';
 if (!in_array($pagamento, ['cartao', 'avista', 'pix'])) $pagamento = 'cartao';
 
-// parcela selecionada
 $parcelasSelecionadas = isset($_POST['parcelas']) ? (int)$_POST['parcelas'] : 1;
 if ($parcelasSelecionadas < 1) $parcelasSelecionadas = 1;
 if ($parcelasSelecionadas > $maxParcelas) $parcelasSelecionadas = $maxParcelas;
 
-// calcula total final conforme pagamento
 $totalFinal = $total;
 $valorParcela = $total;
 
@@ -167,7 +173,6 @@ if ($pagamento === 'avista') {
   $valorParcela = $totalFinal;
 
 } else {
-  // cartao parcelado
   if ($parcelasSelecionadas <= $semJurosAte) {
     $fator = 1;
   } else {
@@ -178,16 +183,13 @@ if ($pagamento === 'avista') {
   $valorParcela = $totalFinal / $parcelasSelecionadas;
 }
 
-/* ===================== FRETE ===================== */
 $fretePadrao = 40.00;
 $freteGratisAcima = 1500.00;
 
-// frete baseado no TOTAL FINAL (já com desconto/juros)
 $frete = ($totalFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
 
 $totalComFrete = $totalFinal + $frete;
 
-// valor da parcela exibida (agora considerando frete)
 $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcelasSelecionadas) : $totalComFrete;
 ?>
 <!DOCTYPE html>
@@ -203,12 +205,13 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
 <?php include('menu.php'); ?>
 
 <div class="container py-5">
-    <div class="mb-3 ">
-    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center ">
+  <div class="mb-3">
+    <a href="carrinho.php" class="btn btn-outline-dark d-inline-flex align-items-center">
       <i class="bi bi-arrow-left"></i>
       Voltar para o carrinho
     </a>
   </div>
+
   <h1 class="mb-4">Checkout</h1>
 
   <?php if (count($errosEstoque) > 0) { ?>
@@ -229,7 +232,7 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <img src="<?php echo $item['img']; ?>" style="width:90px;height:90px;object-fit:cover;border-radius:8px;">
             <div class="flex-grow-1">
               <div class="fw-bold"><?php echo htmlspecialchars($item['nome']); ?></div>
-              <div class="text-muted">Tamanho: <?php echo $item['tam']; ?> • Qtd: <?php echo $item['qtd']; ?></div>
+              <div class="text-muted">Tamanho: <?php echo htmlspecialchars($item['tam']); ?> • Qtd: <?php echo $item['qtd']; ?></div>
               <div>R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?></div>
             </div>
             <div class="text-end" style="min-width:140px;">
@@ -251,7 +254,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <strong>R$ <?php echo number_format($total, 2, ',', '.'); ?></strong>
           </div>
 
-          <!-- ===================== FORMA DE PAGAMENTO ===================== -->
           <form class="mt-3" method="POST" action="checkout.php" id="formPagamento">
             <label class="form-label fw-bold">Forma de pagamento</label>
 
@@ -284,11 +286,9 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
               </div>
             </div>
 
-            <!-- manter parcelas no post ao trocar pagamento -->
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">
           </form>
 
-          <!-- ===================== PARCELAS (só aparece no cartão) ===================== -->
           <?php if ($pagamento === 'cartao') { ?>
             <form class="mt-3" method="POST" action="checkout.php">
               <input type="hidden" name="pagamento" value="cartao">
@@ -310,7 +310,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
 
                   $tFinal = $total * $f;
 
-                  // frete também depende do total final desse cenário
                   $freteTmp = ($tFinal >= $freteGratisAcima) ? 0.00 : $fretePadrao;
                   $tComFreteTmp = $tFinal + $freteTmp;
 
@@ -368,7 +367,6 @@ $valorParcelaComFrete = ($parcelasSelecionadas > 0) ? ($totalComFrete / $parcela
             <?php } ?>
           </div>
 
-          <!-- ===================== FINALIZAR (com dados do cliente) ===================== -->
           <form class="mt-4 d-grid gap-2" action="checkout_finalizar.php" method="POST">
             <input type="hidden" name="pagamento" value="<?php echo htmlspecialchars($pagamento); ?>">
             <input type="hidden" name="parcelas" value="<?php echo (int)$parcelasSelecionadas; ?>">

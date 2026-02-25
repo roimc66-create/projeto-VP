@@ -3,21 +3,17 @@
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-// Consulta
 $tabela       = "vw_tbprodutos";
 $campo_filtro = "id_marca_produto";
 
-// pega o id_marca da URL
 $filtro_select = isset($_GET['id_marca']) ? (int)$_GET['id_marca'] : 0;
 
 if ($filtro_select <= 0) {
     die("Marca inválida.");
 }
 
-/* ===================== ORDENAR (via GET) ===================== */
 $ordenar = $_GET['ordenar'] ?? 'recentes';
 
-// whitelist (seguro)
 switch ($ordenar) {
     case 'menor_preco':
         $ordenar_por = "valor_produto ASC";
@@ -37,7 +33,6 @@ switch ($ordenar) {
         break;
 }
 
-/* ===================== CONSULTA ===================== */
 $consulta = "
     SELECT DISTINCT
         id_produto,
@@ -82,12 +77,10 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
 <body>
 <?php include('menu.php') ?>
 
-<!-- TÍTULO -->
 <h1 class="text-center brand-title my-4">
     <?php echo ($row) ? e($row['nome_marca']) : 'Marca'; ?>
 </h1>
 
-<!-- BARRA -->
 <div class="container mb-3">
   <div class="toolbar">
     <div class="left">
@@ -96,7 +89,7 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
 
     <div class="toolbar-right">
       <form method="get" class="tool-group m-0">
-        <!-- mantém o id_marca ao ordenar (AQUI estava o erro) -->
+
         <input type="hidden" name="id_marca" value="<?php echo (int)$filtro_select; ?>">
 
         <span class="tool-label">Ordenar por</span>
@@ -116,7 +109,6 @@ $row = ($totalRows > 0) ? $lista->fetch_assoc() : null;
   </div>
 </div>
 
-<!-- GRID -->
 <div class="container my-4">
   <div class="row g-4">
 

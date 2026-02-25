@@ -40,7 +40,6 @@
           </div>
         </div>
 
-         <!-- CONTATO CHAMATIVO -->
         <div class="col-md-4 mb-4 text-center d-flex flex-column justify-content-center align-items-center">
           
           <h6 class="fw-bold mb-3">FALE CONOSCO</h6>

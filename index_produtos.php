@@ -1,12 +1,10 @@
 <?php
-// Incluir conexão
+
 include("Connections/conn_produtos.php");
 include("helpfun.php");
 
-/* ===================== ORDENAR (via GET) ===================== */
 $ordenar = $_GET['ordenar'] ?? 'recentes';
 
-// whitelist segura
 switch ($ordenar) {
     case 'menor_preco':
         $ordenar_por = "valor_produto ASC";
@@ -22,12 +20,11 @@ switch ($ordenar) {
 
     case 'recentes':
     default:
-        // se tiver campo data, troque aqui
+
         $ordenar_por = "id_produto DESC";
         break;
 }
 
-/* ===================== CONSULTA ===================== */
 $consulta = "
     SELECT DISTINCT 
            id_produto,
@@ -70,7 +67,6 @@ $totalRows = $lista->num_rows;
 
 <h1 class="text-center brand-title my-4">Produtos</h1>
 
-<!-- BARRA DE CONTROLES -->
 <div class="container mb-3">
   <div class="toolbar">
     <div class="toolbar-left">
@@ -97,7 +93,6 @@ $totalRows = $lista->num_rows;
   </div>
 </div>
 
-<!-- GRID DE PRODUTOS -->
 <div class="container my-4">
   <div class="row g-4">
 
