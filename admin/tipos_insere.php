@@ -1,27 +1,50 @@
 <?php
- include("protecao.php");
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
-if ($_POST) {
+$erroMsg = "";
 
-    mysqli_select_db($conn_produtos, $database_conn);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $tabela_insert = "tbtipos";
-    $campos_insert = "nome_tipo";
+    $nome = trim($_POST['nome_tipo']);
 
-    $nome_tipo = $_POST['nome_tipo'];
+    if ($nome === "") {
+        $erroMsg = "O nome é obrigatório.";
+    }
 
-    $valores_insert = "'$nome_tipo'";
+    if ($erroMsg === "") {
 
-    $insertSQL = "
-        INSERT INTO $tabela_insert ($campos_insert)
-        VALUES ($valores_insert)
-    ";
+        $stmtDup = $conn_produtos->prepare(
+            "SELECT id_tipo 
+             FROM tbtipos 
+             WHERE nome_tipo = ?"
+        );
 
-    $resultado = $conn_produtos->query($insertSQL);
+        $stmtDup->bind_param("s", $nome);
+        $stmtDup->execute();
+        $stmtDup->store_result();
 
-    header("Location: tipos_lista.php");
-    exit;
+        if ($stmtDup->num_rows > 0) {
+            $erroMsg = "Esse tipo já está cadastrado.";
+        }
+
+        $stmtDup->close();
+    }
+
+    if ($erroMsg === "") {
+
+        $stmtInsert = $conn_produtos->prepare(
+            "INSERT INTO tbtipos (nome_tipo)
+             VALUES (?)"
+        );
+
+        $stmtInsert->bind_param("s", $nome);
+        $stmtInsert->execute();
+        $stmtInsert->close();
+
+        header("Location: tipos_lista.php");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -70,14 +93,20 @@ if ($_POST) {
                     <h4 class="mb-0 text-warning fw-bold">Inserir Nome</h4>
                 </div>
 
-                <div class="alert alert-warning">
+                    <div class="alert alert-warning">
 
-                    <form
-                        action="tipos_insere.php"
-                        method="post"
-                        id="form_insere_tipo"
-                        name="form_insere_tipo"
-                    >
+                        <?php if (!empty($erroMsg)): ?>
+                            <div class="text-danger small mb-2">
+                                <?= htmlspecialchars($erroMsg) ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <form
+                            action="tipos_insere.php"
+                            method="post"
+                            id="form_insere_tipo"
+                            name="form_insere_tipo"
+                        >
 
                         <div class="mb-3">
                             <label for="nome_tipo" class="form-label fw-semibold">

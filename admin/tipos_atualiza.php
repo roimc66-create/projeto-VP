@@ -1,4 +1,5 @@
 <?php
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 if (!isset($_GET['id_tipo'])) {
@@ -8,21 +9,68 @@ if (!isset($_GET['id_tipo'])) {
 
 $id_tipo = (int) $_GET['id_tipo'];
 
-$r = $conn_produtos->query(
-    "SELECT * FROM tbtipos WHERE id_tipo = $id_tipo"
+$stmtBusca = $conn_produtos->prepare(
+    "SELECT * 
+     FROM tbtipos 
+     WHERE id_tipo = ?"
 );
-$tipo = $r->fetch_assoc();
 
-if ($_POST) {
+$stmtBusca->bind_param("i", $id_tipo);
+$stmtBusca->execute();
 
-    $nome = $_POST['nome_tipo'];
+$resultado = $stmtBusca->get_result();
 
-    $conn_produtos->query(
-        "UPDATE tbtipos SET nome_tipo = '$nome' WHERE id_tipo = $id_tipo"
-    );
-
+if (!$resultado || $resultado->num_rows === 0) {
     header("Location: tipos_lista.php");
     exit;
+}
+
+$tipo = $resultado->fetch_assoc();
+$erroMsg = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $nome = trim($_POST['nome_tipo']);
+
+    if ($nome === "") {
+        $erroMsg = "O nome é obrigatório.";
+    }
+
+    if ($erroMsg === "") {
+
+        $stmtDup = $conn_produtos->prepare(
+            "SELECT id_tipo
+             FROM tbtipos
+             WHERE nome_tipo = ?
+             AND id_tipo != ?"
+        );
+
+        $stmtDup->bind_param("si", $nome, $id_tipo);
+        $stmtDup->execute();
+        $stmtDup->store_result();
+
+        if ($stmtDup->num_rows > 0) {
+            $erroMsg = "Esse tipo já está cadastrado.";
+        }
+
+        $stmtDup->close();
+    }
+
+    if ($erroMsg === "") {
+
+        $stmtUpdate = $conn_produtos->prepare(
+            "UPDATE tbtipos
+             SET nome_tipo = ?
+             WHERE id_tipo = ?"
+        );
+
+        $stmtUpdate->bind_param("si", $nome, $id_tipo);
+        $stmtUpdate->execute();
+        $stmtUpdate->close();
+
+        header("Location: tipos_lista.php");
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -62,10 +110,20 @@ if ($_POST) {
                     <h4 class="mb-0 text-warning fw-bold">Editar Tipo</h4>
                 </div>
 
-                <div class="alert alert-warning">
+                            <div class="alert alert-warning">
 
-                    <form method="post">
+                    <?php if (!empty($erroMsg)): ?>
+                        <div class="text-danger small mb-2">
+                            <?= htmlspecialchars($erroMsg) ?>
+                        </div>
+                    <?php endif; ?>
 
+                    <form
+                        action="tipos_insere.php"
+                        method="post"
+                        id="form_insere_tipo"
+                        name="form_insere_tipo"
+                    >
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nome:</label>
 
