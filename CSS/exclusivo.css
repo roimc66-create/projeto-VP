@@ -28,3 +28,33 @@
   opacity: 1;
   transform: translateY(0);
 }
+@media (max-width: 576px){
+
+  #Exclusivos .card{
+    padding: 10px !important;
+  }
+
+  #Exclusivos .card-img-top{
+    height: 120px !important;
+  }
+
+  #Exclusivos .card-title{
+    font-size: 12px;
+  }
+
+  #Exclusivos .card-text{
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  #Exclusivos .btn{
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  #Exclusivos .card .btn{
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+}
