@@ -79,22 +79,18 @@ if (count($keys) > 0) {
 
         $itens[] = [
             "chave"      => $k,
-            "id_produto" => (int)$p['id_produto'],
             "nome"       => $p['nome_produto'],
             "preco"      => $preco,
             "qtd"        => $qtd,
             "subtotal"   => $subtotal,
             "img"        => $img,
-
-            /* 🔥 AQUI A CORREÇÃO */
-            "tamanho"    => $p['numero_tamanho'] // ← SEM (int)
+            "tamanho"    => $p['numero_tamanho']
         ];
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,138 +99,151 @@ if (count($keys) > 0) {
 </head>
 
 <body>
+
 <?php include("menu.php") ?>
 
 <div class="container py-5">
 
-<div class="mb-3">
-<a href="#"
-onclick="
-if (document.referrer && !document.referrer.includes('checkout.php')) {
-history.back();
-} else {
-window.location.href='index.php';
-}
-return false;
-"
-class="btn btn-outline-dark">
-Voltar
-</a>
-</div>
+  <div class="mb-3">
+    <a href="#"
+      onclick="
+      if (document.referrer && !document.referrer.includes('checkout.php')) {
+        history.back();
+      } else {
+        window.location.href='index.php';
+      }
+      return false;
+      "
+      class="btn btn-outline-dark">
+      Voltar
+    </a>
+  </div>
 
-<h1 class="mb-4">Seu carrinho</h1>
+  <h1 class="mb-4">Seu carrinho</h1>
 
-<?php if (count($itens) == 0) { ?>
+  <?php if (count($itens) == 0) { ?>
 
-<div class="alert alert-warning">
-Seu carrinho está vazio.
-</div>
+    <div class="alert alert-warning">
+      Seu carrinho está vazio.
+    </div>
 
-<a href="index.php" class="btn btn-dark">
-Voltar para a loja
-</a>
+    <a href="index.php" class="btn btn-dark">
+      Voltar para a loja
+    </a>
 
-<?php } else { ?>
+  <?php } else { ?>
 
-<div class="row g-4">
+    <div class="row g-4">
 
-<div class="col-lg-8">
+      <div class="col-lg-8">
 
-<?php foreach ($itens as $item) { ?>
+        <?php foreach ($itens as $item) { ?>
 
-<div class="card mb-3">
-<div class="card-body d-flex gap-3 align-items-center">
+          <div class="card mb-3">
+            <div class="card-body">
 
-<img src="<?php echo $item['img']; ?>"
-style="width:90px;height:90px;object-fit:cover;border-radius:8px;">
+              <!-- GRID: nunca quebra feio -->
+              <div class="row g-2 align-items-center">
 
-<div class="flex-grow-1">
+                <!-- IMG -->
+                <div class="col-auto">
+                  <img src="<?php echo $item['img']; ?>"
+                    style="width:90px;height:90px;object-fit:cover;border-radius:8px;">
+                </div>
 
-<div class="fw-bold">
-<?php echo htmlspecialchars($item['nome']); ?>
-</div>
+                <!-- INFO -->
+                <div class="col">
+                  <div class="fw-bold">
+                    <?php echo htmlspecialchars($item['nome']); ?>
+                  </div>
 
-<div class="text-muted">
-Tamanho: <?php echo htmlspecialchars($item['tamanho']); ?>
-</div>
+                  <!-- no mobile menor, no md+ normal -->
+                  <div class="text-muted small small-md-none">
+                    Tamanho: <?php echo htmlspecialchars($item['tamanho']); ?>
+                  </div>
 
-<div class="mt-1">
-R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?>
-</div>
+                  <div class="mt-1">
+                    <span class="text-muted small d-inline d-md-none">Preço: </span>
+                    <span class="fw-semibold fs-6 fs-md-5">
+                      R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?>
+                    </span>
+                  </div>
+                </div>
 
-</div>
+                <!-- QTD -->
+                <div class="col-6 col-md-auto text-start text-md-center">
+                  <div class="d-flex align-items-center gap-2 justify-content-start justify-content-md-center">
 
-<div class="text-center">
+                    <a class="btn btn-outline-secondary btn-sm"
+                      href="carrinho_qtd.php?acao=menos&chave=<?php echo urlencode($item['chave']); ?>">
+                      -
+                    </a>
 
-<div class="d-flex align-items-center gap-2 justify-content-center">
+                    <span class="fw-bold"><?php echo $item['qtd']; ?></span>
 
-<a class="btn btn-outline-secondary btn-sm"
-href="carrinho_qtd.php?acao=menos&chave=<?php echo urlencode($item['chave']); ?>">
--
-</a>
+                    <a class="btn btn-outline-secondary btn-sm"
+                      href="carrinho_qtd.php?acao=mais&chave=<?php echo urlencode($item['chave']); ?>">
+                      +
+                    </a>
+                  </div>
 
-<span class="fw-bold"><?php echo $item['qtd']; ?></span>
+                  <a class="btn btn-link text-danger p-0 mt-2 small"
+                    href="carrinho_remover.php?chave=<?php echo urlencode($item['chave']); ?>">
+                    Remover
+                  </a>
+                </div>
 
-<a class="btn btn-outline-secondary btn-sm"
-href="carrinho_qtd.php?acao=mais&chave=<?php echo urlencode($item['chave']); ?>">
-+
-</a>
+                <!-- SUBTOTAL -->
+                <div class="col-6 col-md-auto text-end">
+                  <div class="text-muted small">Subtotal</div>
 
-</div>
+                  <!-- mobile menor, md+ maior -->
+                  <div class="fw-bold fs-6 fs-md-5">
+                    R$ <?php echo number_format($item['subtotal'], 2, ',', '.'); ?>
+                  </div>
+                </div>
 
-<a class="btn btn-link text-danger p-0 mt-2"
-href="carrinho_remover.php?chave=<?php echo urlencode($item['chave']); ?>">
-Remover
-</a>
+              </div>
 
-</div>
+            </div>
+          </div>
 
-<div class="text-end" style="min-width:140px;">
-<div class="text-muted">Subtotal</div>
-<div class="fw-bold">
-R$ <?php echo number_format($item['subtotal'], 2, ',', '.'); ?>
-</div>
-</div>
+        <?php } ?>
 
-</div>
-</div>
+      </div>
 
-<?php } ?>
+      <div class="col-lg-4">
 
-</div>
+        <div class="card">
+          <div class="card-body">
 
-<div class="col-lg-4">
+            <h5 class="mb-3">Resumo</h5>
 
-<div class="card">
-<div class="card-body">
+            <div class="d-flex justify-content-between">
+              <span>Total</span>
+              <strong class="fs-6 fs-md-5">
+                R$ <?php echo number_format($total, 2, ',', '.'); ?>
+              </strong>
+            </div>
 
-<h5 class="mb-3">Resumo</h5>
+            <div class="d-grid gap-2 mt-4">
+              <a href="checkout.php" class="btn btn-danger">
+                Finalizar compra
+              </a>
 
-<div class="d-flex justify-content-between">
-<span>Total</span>
-<strong>
-R$ <?php echo number_format($total, 2, ',', '.'); ?>
-</strong>
-</div>
+              <a href="index.php" class="btn btn-outline-dark">
+                Continuar comprando
+              </a>
+            </div>
 
-<div class="d-grid gap-2 mt-4">
-<a href="checkout.php" class="btn btn-danger">
-Finalizar compra
-</a>
+          </div>
+        </div>
 
-<a href="index.php" class="btn btn-outline-dark">
-Continuar comprando
-</a>
-</div>
+      </div>
 
-</div>
-</div>
+    </div>
 
-</div>
-
-</div>
-
-<?php } ?>
+  <?php } ?>
 
 </div>
 </body>
