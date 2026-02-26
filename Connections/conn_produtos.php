@@ -1,8 +1,8 @@
 <?php 
    /// definindo variaveis para conexão   
       $hostname_conn = "localhost";
-      $database_conn = "vpstreet_ti19";
-      $username_conn = "adminVP";
+      $database_conn = "iwanez83_vpstreet_ti19";
+      $username_conn = "iwanez83_adminVP";
       $password_conn = "senacvp_ti19";
       $charset_conn = "utf8";
       
@@ -13,5 +13,4 @@
     if($conn_produtos->connect_error){
         echo "Erro: ".$conn_produtos->connect_error;
     };     
-    //espaços vazios no php causam erros Header
-?>  
+?>       
