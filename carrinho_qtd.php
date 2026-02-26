@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 
 $acao = isset($_GET['acao']) ? $_GET['acao'] : '';
@@ -17,6 +18,5 @@ if($chave && isset($_SESSION['carrinho'][$chave])){
         }
     }
 }
-
-header("Location: carrinho.php");
+echo "<script>window.open('carrinho.php','_self')</script>";
 exit;

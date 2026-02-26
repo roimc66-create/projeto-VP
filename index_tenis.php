@@ -35,8 +35,8 @@ $row        = $lista->fetch_assoc();
 $totalRows  = $lista->num_rows;
 ?>
 
-    <link rel="stylesheet" href="css/exclusivo.css">
-    <link rel="stylesheet" href="css/produtos_detalhe.css">
+    <link rel="stylesheet" href="CSS/exclusivo.css">
+    <link rel="stylesheet" href="CSS/produtos_detalhe.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <div class="divider-full"></div>

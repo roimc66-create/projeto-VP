@@ -41,9 +41,9 @@ $row_exclusivo = ($totalRows > 0) ? $lista_exclusivo->fetch_assoc() : null;
 
 ?>
 
-
-  <link rel="stylesheet" href="css/exclusivo.css">
-
+<head>
+  <link rel="stylesheet" href="CSS/exclusivo.css">
+</head>
 
 <body>
 <main>

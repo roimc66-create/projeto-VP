@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include("Connections/conn_produtos.php");
 
@@ -87,7 +88,6 @@ if (isset($_SESSION['carrinho'][$chave])) {
     'qtd' => 1
   ];
 }
-
-header("Location: carrinho.php");
+echo "<script>window.open('carrinho.php','_self')</script>";
 exit;
 ?>

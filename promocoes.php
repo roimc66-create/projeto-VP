@@ -34,7 +34,7 @@ $consulta_promoçao = "
 $lista_promoçao = $conn_produtos->query($consulta_promoçao);
 
 if (!$lista_promoçao) {
-    die("Erro na consulta: " . $conn_produtos->error);
+  die("Erro na consulta: " . $conn_produtos->error);
 }
 
 $totalRows  = $lista_promoçao->num_rows;
@@ -45,9 +45,9 @@ $row_promoçao = ($totalRows > 0) ? $lista_promoçao->fetch_assoc() : null;
 <?php
 include("dia_mes.php");
 ?>
-
-  <link rel="stylesheet" href="css/promo.css">
-
+<head>
+<link rel="stylesheet" href="CSS/promo.css">
+</head>
 
 <body>
   <div class="snkr-container">
@@ -60,59 +60,56 @@ include("dia_mes.php");
       <?php if ($totalRows > 0 && $row_promoçao): ?>
 
         <section class="snkr-featured d-none d-lg-block">
-  <a class="snkr-link-overlay"
-     href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
-     aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>"></a>
+          <a class="snkr-link-overlay"
+            href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
+            aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>"></a>
 
-  <div class="snkr-date"><?php echo $dia; ?> | <?php echo $mes; ?></div>
+          <div class="snkr-date"><?php echo $dia; ?> | <?php echo $mes; ?></div>
 
-  <img
-    src="imagens/exclusivo/<?php echo e($row_promoçao['imagem_produto']); ?>"
-    class="snkr-shoe"
-    alt="<?php echo e($row_promoçao['nome_produto']); ?>"
-  >
+          <img
+            src="imagens/exclusivo/<?php echo e($row_promoçao['imagem_produto']); ?>"
+            class="snkr-shoe"
+            alt="<?php echo e($row_promoçao['nome_produto']); ?>">
 
-  <h3><?php echo e($row_promoçao['nome_produto']); ?></h3>
+          <h3><?php echo e($row_promoçao['nome_produto']); ?></h3>
 
-  <p class="card-text fw-bold">
-    R$ <?php echo dinheiro($row_promoçao['valor_produto']); ?>
-  </p>
-</section>
+          <p class="card-text fw-bold">
+            R$ <?php echo dinheiro($row_promoçao['valor_produto']); ?>
+          </p>
+        </section>
 
 
-     <section class="snkr-grid">
-  <?php
-  $contador = 0;
-  while ($row_grid = $lista_promoçao->fetch_assoc()):
-      if ($contador >= 4) {
-          break;
-      }
-      $contador++;
-  ?>
-    <div class="snkr-item " >      
+        <section class="snkr-grid">
+          <?php
+          $contador = 0;
+          while ($row_grid = $lista_promoçao->fetch_assoc()):
+            if ($contador >= 4) {
+              break;
+            }
+            $contador++;
+          ?>
+            <div class="snkr-item ">
 
-      <a class="snkr-link-overlay"
-         href="produto_detalhe.php?id_produto=<?php echo $row_grid['id_produto']; ?>"
-         aria-label="Ver <?php echo e($row_grid['nome_produto']); ?>"></a>
+              <a class="snkr-link-overlay"
+                href="produto_detalhe.php?id_produto=<?php echo $row_grid['id_produto']; ?>"
+                aria-label="Ver <?php echo e($row_grid['nome_produto']); ?>"></a>
 
-      <div class="snkr-date small"><?php echo $dia; ?> | <?php echo $mes; ?></div>
+              <div class="snkr-date small"><?php echo $dia; ?> | <?php echo $mes; ?></div>
 
-      <img
-        src="imagens/exclusivo/<?php echo e($row_grid['imagem_produto']); ?>"
-        alt="<?php echo e($row_grid['nome_produto']); ?>"
-        
-      >
+              <img
+                src="imagens/exclusivo/<?php echo e($row_grid['imagem_produto']); ?>"
+                alt="<?php echo e($row_grid['nome_produto']); ?>">
 
-      <h4><?php echo e($row_grid['nome_produto']); ?></h4>
+              <h4><?php echo e($row_grid['nome_produto']); ?></h4>
 
-      <p class="card-text fw-bold">R$ <?php echo dinheiro($row_grid['valor_produto']); ?></p>
-      <br>
+              <p class="card-text fw-bold">R$ <?php echo dinheiro($row_grid['valor_produto']); ?></p>
+              <br>
 
-     
 
-    </div>
-  <?php endwhile; ?>
-</section>
+
+            </div>
+          <?php endwhile; ?>
+        </section>
 
 
       <?php else: ?>
@@ -130,8 +127,8 @@ include("dia_mes.php");
   </div>
 
 
-<?php
-if ($lista_promoçao) {
+  <?php
+  if ($lista_promoçao) {
     mysqli_free_result($lista_promoçao);
-}
-?>
+  }
+  ?>

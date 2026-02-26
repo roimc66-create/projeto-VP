@@ -1,35 +1,35 @@
 -- backup do banco
-
--- drop do user se existir
-
-DROP USER IF EXISTS 'adminVP'@'localhost';
  
--- Criar o usuário adminVP se ele não existir
-
-CREATE USER IF NOT EXISTS 'adminVP'@'localhost'
-
+-- drop do user se existir
+ 
+DROP USER IF EXISTS 'iwanez_83adminVP'@'localhost';
+ 
+-- Criar o usuário iwanez_83adminVP se ele não existir
+ 
+CREATE USER IF NOT EXISTS 'iwanez_83adminVP'@'localhost'
+ 
     IDENTIFIED BY 'senacvp_ti19';
-
-GRANT ALL PRIVILEGES ON *.* TO 'adminVP'@'localhost'
-
+ 
+GRANT ALL PRIVILEGES ON *.* TO 'iwanez_83adminVP'@'localhost'
+ 
     WITH GRANT OPTION;
-
+ 
 FLUSH PRIVILEGES;
  
 -- drop do banco vpstreet_ti19 se ele exista
-
+ 
 DROP DATABASE IF EXISTS vpstreet_ti19;
  
 -- Criar o banco se caso ele não exista
-
+ 
 CREATE DATABASE IF NOT EXISTS vpstreet_ti19
-
+ 
     DEFAULT CHARACTER SET utf8
-
+ 
     COLLATE utf8_general_ci;
  
 -- usa o banco vpstreet_ti19
-
+ 
 USE vpstreet_ti19;
  
 -- criaçao tabela usuario
@@ -41,57 +41,57 @@ USE vpstreet_ti19;
 -- Tempo de geração: 26/02/2026 às 01:08
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
-
+ 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
+ 
+ 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
+ 
 --
 -- Banco de dados: `vpstreet_ti19`
 --
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbgeneros`
 --
-
+ 
 CREATE TABLE `tbgeneros` (
   `id_genero` int(11) NOT NULL,
   `nome_genero` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbgeneros`
 --
-
+ 
 INSERT INTO `tbgeneros` (`id_genero`, `nome_genero`) VALUES
 (1, 'Masculino'),
 (2, 'Feminino'),
 (3, 'infatil');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbmarcas`
 --
-
+ 
 CREATE TABLE `tbmarcas` (
   `id_marca` int(11) NOT NULL,
   `nome_marca` varchar(15) NOT NULL,
   `imagem_marca` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbmarcas`
 --
-
+ 
 INSERT INTO `tbmarcas` (`id_marca`, `nome_marca`, `imagem_marca`) VALUES
 (1, 'Adidas', 'adidas-logo.svg'),
 (2, 'Nike', 'nike-logo.svg'),
@@ -103,13 +103,13 @@ INSERT INTO `tbmarcas` (`id_marca`, `nome_marca`, `imagem_marca`) VALUES
 (8, 'Tesla', 'TESLA-logo.webp'),
 (9, 'Mizuno', 'MIZUNO-logo.jpg'),
 (10, 'Asics', 'asics-logo.svg');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbprodutos`
 --
-
+ 
 CREATE TABLE `tbprodutos` (
   `id_produto` int(11) NOT NULL,
   `id_marca_produto` int(11) DEFAULT NULL,
@@ -122,11 +122,11 @@ CREATE TABLE `tbprodutos` (
   `promoção_produto` enum('Pro','Não') NOT NULL,
   `sneakers_produto` enum('Sne','Not') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbprodutos`
 --
-
+ 
 INSERT INTO `tbprodutos` (`id_produto`, `id_marca_produto`, `id_genero_produto`, `id_tipo_produto`, `nome_produto`, `resumo_produto`, `valor_produto`, `imagem_produto`, `promoção_produto`, `sneakers_produto`) VALUES
 (1, 6, 1, 1, 'PUMA INHALE X A$AP ROCKY', 'Modelo de visual agressivo, com design inspirado nos anos 2000. Mistura materiais robustos com cores chamativas e detalhes esportivos que dão um ar futurista.', 1000.99, 'puma-promocao.webp', 'Pro', 'Not'),
 (2, 4, 1, 1, 'TÊNIS NIKE AIR FORCE 1', 'Clássico absoluto do basquete. Construção tradicional em couro, visual retrô e acabamento premium, perfeito para quem gosta de estilo autêntico e versátil.', 1299.00, 'Jordan novo.webp', '', ''),
@@ -182,23 +182,23 @@ INSERT INTO `tbprodutos` (`id_produto`, `id_marca_produto`, `id_genero_produto`,
 (53, 1, 1, 3, 'Trefoil', 'O design moderno da Camiseta adidas Skateboarding Triple Trefoil traz uma versão atualizada do legado das Três Listras, com sua estrutura de gola careca de algodão e modelagem básica', 100.00, 'adidas.webp', '', ''),
 (54, 7, 1, 3, 'Vans Dollface SS', 'O roxo é uma cor vibrante e versátil, que combina facilmente com diferentes estilos e complementa diversas combinações de roupas, trazendo um toque de personalidade ao visual.', 180.00, 'vans.webp', '', ''),
 (55, 5, 1, 3, 'New Balance Essentials', 'A Camiseta New Balance Essentials Masculina é a escolha perfeita para quem busca conforto e estilo no dia a dia. Confeccionada em material de alta qualidade', 200.00, 'new.webp', '', '');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbproduto_tamanho`
 --
-
+ 
 CREATE TABLE `tbproduto_tamanho` (
   `id_produto` int(11) NOT NULL,
   `id_tamanho` int(11) NOT NULL,
   `estoque` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbproduto_tamanho`
 --
-
+ 
 INSERT INTO `tbproduto_tamanho` (`id_produto`, `id_tamanho`, `estoque`) VALUES
 (1, 1, 10),
 (1, 2, 10),
@@ -523,22 +523,22 @@ INSERT INTO `tbproduto_tamanho` (`id_produto`, `id_tamanho`, `estoque`) VALUES
 (55, 8, 50),
 (55, 9, 50),
 (55, 10, 50);
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbtamanhos`
 --
-
+ 
 CREATE TABLE `tbtamanhos` (
   `id_tamanho` int(11) NOT NULL,
   `numero_tamanho` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbtamanhos`
 --
-
+ 
 INSERT INTO `tbtamanhos` (`id_tamanho`, `numero_tamanho`) VALUES
 (1, '34'),
 (2, '35'),
@@ -550,34 +550,34 @@ INSERT INTO `tbtamanhos` (`id_tamanho`, `numero_tamanho`) VALUES
 (9, 'G'),
 (10, 'GG'),
 (8, 'M');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbtipos`
 --
-
+ 
 CREATE TABLE `tbtipos` (
   `id_tipo` int(11) NOT NULL,
   `nome_tipo` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbtipos`
 --
-
+ 
 INSERT INTO `tbtipos` (`id_tipo`, `nome_tipo`) VALUES
 (1, 'Tenis'),
 (2, 'Chinelo'),
 (3, 'Camisa'),
 (4, 'Bonés');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para tabela `tbusuarios`
 --
-
+ 
 CREATE TABLE `tbusuarios` (
   `id_usuario` int(11) NOT NULL,
   `login_usuario` varchar(30) NOT NULL,
@@ -585,18 +585,18 @@ CREATE TABLE `tbusuarios` (
   `senha_usuario` varchar(8) NOT NULL,
   `nivel_usuario` enum('admin','user') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+ 
 --
 -- Despejando dados para a tabela `tbusuarios`
 --
-
+ 
 INSERT INTO `tbusuarios` (`id_usuario`, `login_usuario`, `email_usuario`, `senha_usuario`, `nivel_usuario`) VALUES
 (1, 'paulo', 'paulo@email.com', '1234', 'admin'),
 (2, 'rocha', 'rocha@email.com', '1234', 'user'),
 (3, 'gabriel', 'gabriel@email.com', '1234', 'admin');
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura stand-in para view `vw_tbprodutos`
 -- (Veja abaixo para a visão atual)
@@ -620,32 +620,32 @@ CREATE TABLE `vw_tbprodutos` (
 ,`numero_tamanho` varchar(10)
 ,`estoque` int(11)
 );
-
+ 
 -- --------------------------------------------------------
-
+ 
 --
 -- Estrutura para view `vw_tbprodutos`
 --
 DROP TABLE IF EXISTS `vw_tbprodutos`;
 
-CREATE VIEW `vw_tbprodutos`  AS SELECT `p`.`id_produto` AS `id_produto`, `p`.`id_marca_produto` AS `id_marca_produto`, `p`.`id_genero_produto` AS `id_genero_produto`, `p`.`id_tipo_produto` AS `id_tipo_produto`, `t`.`nome_tipo` AS `nome_tipo`, `m`.`nome_marca` AS `nome_marca`, `i`.`nome_genero` AS `nome_genero`, `m`.`imagem_marca` AS `imagem_marca`, `p`.`nome_produto` AS `nome_produto`, `p`.`resumo_produto` AS `resumo_produto`, `p`.`valor_produto` AS `valor_produto`, `p`.`imagem_produto` AS `imagem_produto`, `p`.`promoção_produto` AS `promoção_produto`, `p`.`sneakers_produto` AS `sneakers_produto`, `ta`.`id_tamanho` AS `id_tamanho`, `ta`.`numero_tamanho` AS `numero_tamanho`, `pt`.`estoque` AS `estoque` FROM (((((`tbprodutos` `p` join `tbgeneros` `i` on(`p`.`id_genero_produto` = `i`.`id_genero`)) join `tbmarcas` `m` on(`p`.`id_marca_produto` = `m`.`id_marca`)) join `tbtipos` `t` on(`p`.`id_tipo_produto` = `t`.`id_tipo`)) left join `tbproduto_tamanho` `pt` on(`pt`.`id_produto` = `p`.`id_produto`)) left join `tbtamanhos` `ta` on(`ta`.`id_tamanho` = `pt`.`id_tamanho`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_tbprodutos`  AS SELECT `p`.`id_produto` AS `id_produto`, `p`.`id_marca_produto` AS `id_marca_produto`, `p`.`id_genero_produto` AS `id_genero_produto`, `p`.`id_tipo_produto` AS `id_tipo_produto`, `t`.`nome_tipo` AS `nome_tipo`, `m`.`nome_marca` AS `nome_marca`, `i`.`nome_genero` AS `nome_genero`, `m`.`imagem_marca` AS `imagem_marca`, `p`.`nome_produto` AS `nome_produto`, `p`.`resumo_produto` AS `resumo_produto`, `p`.`valor_produto` AS `valor_produto`, `p`.`imagem_produto` AS `imagem_produto`, `p`.`promoção_produto` AS `promoção_produto`, `p`.`sneakers_produto` AS `sneakers_produto`, `ta`.`id_tamanho` AS `id_tamanho`, `ta`.`numero_tamanho` AS `numero_tamanho`, `pt`.`estoque` AS `estoque` FROM (((((`tbprodutos` `p` join `tbgeneros` `i` on(`p`.`id_genero_produto` = `i`.`id_genero`)) join `tbmarcas` `m` on(`p`.`id_marca_produto` = `m`.`id_marca`)) join `tbtipos` `t` on(`p`.`id_tipo_produto` = `t`.`id_tipo`)) left join `tbproduto_tamanho` `pt` on(`pt`.`id_produto` = `p`.`id_produto`)) left join `tbtamanhos` `ta` on(`ta`.`id_tamanho` = `pt`.`id_tamanho`)) ;
 
 --
 -- Índices para tabelas despejadas
 --
-
+ 
 --
 -- Índices de tabela `tbgeneros`
 --
 ALTER TABLE `tbgeneros`
   ADD PRIMARY KEY (`id_genero`);
-
+ 
 --
 -- Índices de tabela `tbmarcas`
 --
 ALTER TABLE `tbmarcas`
   ADD PRIMARY KEY (`id_marca`);
-
+ 
 --
 -- Índices de tabela `tbprodutos`
 --
@@ -654,78 +654,78 @@ ALTER TABLE `tbprodutos`
   ADD KEY `idx_marca_produto` (`id_marca_produto`),
   ADD KEY `idx_genero_produto` (`id_genero_produto`),
   ADD KEY `idx_tipo_produto` (`id_tipo_produto`);
-
+ 
 --
 -- Índices de tabela `tbproduto_tamanho`
 --
 ALTER TABLE `tbproduto_tamanho`
   ADD PRIMARY KEY (`id_produto`,`id_tamanho`),
   ADD KEY `id_tamanho_fk` (`id_tamanho`);
-
+ 
 --
 -- Índices de tabela `tbtamanhos`
 --
 ALTER TABLE `tbtamanhos`
   ADD PRIMARY KEY (`id_tamanho`),
   ADD UNIQUE KEY `numero_tamanho_uniq` (`numero_tamanho`);
-
+ 
 --
 -- Índices de tabela `tbtipos`
 --
 ALTER TABLE `tbtipos`
   ADD PRIMARY KEY (`id_tipo`);
-
+ 
 --
 -- Índices de tabela `tbusuarios`
 --
 ALTER TABLE `tbusuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `login_usuario_uniq` (`login_usuario`);
-
+ 
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbgeneros`
 --
 ALTER TABLE `tbgeneros`
   MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbmarcas`
 --
 ALTER TABLE `tbmarcas`
   MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbprodutos`
 --
 ALTER TABLE `tbprodutos`
   MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbtamanhos`
 --
 ALTER TABLE `tbtamanhos`
   MODIFY `id_tamanho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbtipos`
 --
 ALTER TABLE `tbtipos`
   MODIFY `id_tipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+ 
 --
 -- AUTO_INCREMENT de tabela `tbusuarios`
 --
 ALTER TABLE `tbusuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+ 
 --
 -- Restrições para tabelas despejadas
 --
-
+ 
 --
 -- Restrições para tabelas `tbprodutos`
 --
@@ -733,7 +733,7 @@ ALTER TABLE `tbprodutos`
   ADD CONSTRAINT `fk_prod_genero` FOREIGN KEY (`id_genero_produto`) REFERENCES `tbgeneros` (`id_genero`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prod_marca` FOREIGN KEY (`id_marca_produto`) REFERENCES `tbmarcas` (`id_marca`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_prod_tipo` FOREIGN KEY (`id_tipo_produto`) REFERENCES `tbtipos` (`id_tipo`) ON UPDATE CASCADE;
-
+ 
 --
 -- Restrições para tabelas `tbproduto_tamanho`
 --
@@ -741,4 +741,5 @@ ALTER TABLE `tbproduto_tamanho`
   ADD CONSTRAINT `fk_pt_produto` FOREIGN KEY (`id_produto`) REFERENCES `tbprodutos` (`id_produto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pt_tamanho` FOREIGN KEY (`id_tamanho`) REFERENCES `tbtamanhos` (`id_tamanho`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
+
 

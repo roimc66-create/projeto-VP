@@ -9,13 +9,13 @@ $consulta = "
 
 $lista = $conn_produtos->query($consulta);
 ?>
-
+<head>
 <link rel="stylesheet" href="CSS/style.css">
+</head>
 
-<style>
 
 
-</style>
+
 
 <section class="bg-white text-center" id="Marcas">
     <div class="container">
