@@ -61,8 +61,9 @@ include("dia_mes.php");
 
         <section class="snkr-featured d-none d-lg-block">
           <a class="snkr-link-overlay"
-            href="produto_detalhe.php?id_produto=<?php echo $row_promoçao['id_produto']; ?>"
-            aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>"></a>
+  href="/alunos/vp/produto_detalhe.php?id_produto=<?php echo (int)$row_promoçao['id_produto']; ?>"
+  aria-label="Ver <?php echo e($row_promoçao['nome_produto']); ?>">
+</a>
 
           <div class="snkr-date"><?php echo $dia; ?> | <?php echo $mes; ?></div>
 
