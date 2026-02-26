@@ -4,13 +4,10 @@ include("helpfun.php");
 
 $id_atual = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
 
-$tipoAtual = 0;
-if($id_atual > 0){
-  $qTipo = $conn_produtos->query("SELECT id_tipo_produto FROM tbprodutos WHERE id_produto = $id_atual LIMIT 1");
-  if($qTipo && $qTipo->num_rows > 0){
-    $tipoAtual = (int)$qTipo->fetch_assoc()['id_tipo_produto'];
-  }
-}
+/* ===============================
+   BUSCAR 6 PRODUTOS ALEATÓRIOS
+   (exceto o atual)
+================================= */
 
 $consulta = "
     SELECT DISTINCT
@@ -21,26 +18,23 @@ $consulta = "
         nome_marca
     FROM vw_tbprodutos
     WHERE id_produto <> $id_atual
-      AND ($tipoAtual = 0 OR id_tipo_produto = $tipoAtual)
     ORDER BY RAND()
-    LIMIT 6;
+    LIMIT 6
 ";
 
 $lista = $conn_produtos->query($consulta);
+
 if(!$lista){
     die('Erro na consulta: ' . $conn_produtos->error);
 }
 
-$row        = $lista->fetch_assoc();
 $totalRows  = $lista->num_rows;
 ?>
-
-    <link rel="stylesheet" href="CSS/exclusivo.css">
-    <link rel="stylesheet" href="CSS/produtos_detalhe.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="CSS/exclusivo.css">
+<link rel="stylesheet" href="CSS/produtos_detalhe.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <div class="divider-full"></div>
-
 
 <div class="container my-4">
 
@@ -59,41 +53,53 @@ $totalRows  = $lista->num_rows;
 <div class="carousel-wrap">
   <div class="carousel-viewport" id="carouselViewport">
     <div class="row flex-nowrap m-0" id="vitrineProdutos">
+
       <?php if($totalRows > 0){ ?>
-        <?php do { ?>
+        <?php while($row = $lista->fetch_assoc()){ ?>
 
           <div class="col-12 col-sm-6 col-lg-3 product-item">
             <a href="produto_detalhe.php?id_produto=<?php echo $row['id_produto']; ?>"
                class="text-decoration-none text-dark">
 
               <div class="product-card card h-100">
+
                 <img
                   src="imagens/exclusivo/<?php echo e($row['imagem_produto']); ?>"
                   class="product-img img-fluid"
-
                   alt="<?php echo e($row['nome_produto']); ?>">
 
                 <div class="product-meta card-body">
-                  <div class="product-brand"><?php echo e($row['nome_marca']); ?></div>
-                  <p class="product-name"><?php echo e($row['nome_produto']); ?></p>
-                  <p class="product-price"><?php echo dinheiro($row['valor_produto']); ?></p>
+                  <div class="product-brand">
+                    <?php echo e($row['nome_marca']); ?>
+                  </div>
+
+                  <p class="product-name">
+                    <?php echo e($row['nome_produto']); ?>
+                  </p>
+
+                  <p class="product-price">
+                    <?php echo dinheiro($row['valor_produto']); ?>
+                  </p>
+
                   <span class="btn btn-dark w-100">Comprar</span>
                 </div>
+
               </div>
             </a>
           </div>
 
-        <?php } while($row = $lista->fetch_assoc()); ?>
+        <?php } ?>
       <?php } else { ?>
         <div class="col-12">
-          <div class="alert alert-warning text-center">Nenhum produto encontrado.</div>
+          <div class="alert alert-warning text-center">
+            Nenhum produto encontrado.
+          </div>
         </div>
       <?php } ?>
+
     </div>
   </div>
 </div>
-
-  </div>
 
 </div>
 
