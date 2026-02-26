@@ -1,9 +1,9 @@
 <?php
-
+ob_start();
 include("../Connections/conn_produtos.php");
 
 if (!isset($_GET['id_tamanho'])) {
-    header("Location: tamanhos_lista.php");
+    echo "<script>window.open('tamanhos_lista.php','_self')</script>";
     exit;
 }
 
@@ -21,7 +21,7 @@ $stmt = $conn_produtos->prepare($sql);
 $stmt->bind_param("i", $id_tamanho);
 
 if ($stmt->execute()) {
-    header("Location: tamanhos_lista.php?excluido=1");
+      echo "<script>window.open('tamanhos_lista.php','_self')</script>";
 } else {
     echo "Erro ao excluir.";
 }

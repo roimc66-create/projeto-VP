@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include("../Connections/conn_produtos.php");
 
 if ($_POST) {
@@ -27,7 +28,7 @@ if ($_POST) {
 
     $resultado = $conn_produtos->query($insertSQL);
 
-    header("Location: marcas_lista.php");
+    echo "<script>window.open('marcas_lista.php','_self')</script>";
     exit;
 }
 ?>

@@ -15,6 +15,6 @@ $deleteSQL = "
 
 $conn_produtos->query($deleteSQL);
 
-header("Location: genero_lista.php");
+    echo "<script>window.open('adm_options.php','_self')</script>";
 exit;
 ?>

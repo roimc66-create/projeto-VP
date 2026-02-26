@@ -1,10 +1,11 @@
 <?php
+ob_start();
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 $idDel = isset($_GET['id_usuario']) ? (int)$_GET['id_usuario'] : 0;
 if ($idDel <= 0) {
-    header("Location: usuario_lista.php?erro=notfound");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
@@ -12,7 +13,7 @@ $idLogado = isset($_SESSION['id_usuario']) ? (int)$_SESSION['id_usuario'] : 0;
 
 // Bloquear se excluir
 if ($idLogado > 0 && $idDel === $idLogado) {
-    header("Location: usuario_lista.php?erro=self");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
@@ -20,14 +21,14 @@ if ($idLogado > 0 && $idDel === $idLogado) {
 $rTotal = $conn_produtos->query("SELECT COUNT(*) AS total FROM tbusuarios");
 $total = (int)$rTotal->fetch_assoc()['total'];
 if ($total <= 1) {
-    header("Location: usuario_lista.php?erro=last");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
 // Bloquear excluir o último ADMIN
 $rNivel = $conn_produtos->query("SELECT nivel_usuario FROM tbusuarios WHERE id_usuario = $idDel");
 if ($rNivel->num_rows == 0) {
-    header("Location: usuario_lista.php?erro=notfound");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 $nivelDel = $rNivel->fetch_assoc()['nivel_usuario'];
@@ -37,7 +38,7 @@ if ($nivelDel === 'admin') {
     $totalAdmin = (int)$rAdmins->fetch_assoc()['total_admin'];
 
     if ($totalAdmin <= 1) {
-        header("Location: usuario_lista.php?erro=lastadmin");
+        echo "<script>window.open('usuario_lista.php?erro=lastadmin','_self')</script>";
         exit;
     }
 }
@@ -48,11 +49,11 @@ $stmt->execute();
 
 if ($stmt->affected_rows <= 0) {
     $stmt->close();
-    header("Location: usuario_lista.php?erro=notfound");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
 $stmt->close();
-header("Location: usuario_lista.php");
+echo "<script>window.open('usuario_lista.php','_self')</script>";
 exit;
 ?>

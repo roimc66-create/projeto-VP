@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include("protecao.php");
 include("../Connections/conn_produtos.php");
  
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtUpdate->execute();
         $stmtUpdate->close();
 
-        header("Location: tipos_lista.php");
+        echo "<script>window.open('tipos_lista.php','_self')</script>";
         exit;
     }
 }

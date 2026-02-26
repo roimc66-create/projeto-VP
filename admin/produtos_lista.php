@@ -19,7 +19,7 @@ $consulta = "
         promoção_produto,
         sneakers_produto
     FROM vw_tbprodutos
-    ORDER BY id_produto ASC;
+    ORDER BY id_marca_produto ASC;
 ";
 
 $lista = $conn_produtos->query($consulta);

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include("../Connections/conn_produtos.php");
 
 mysqli_select_db($conn_produtos, $database_conn);
@@ -15,6 +16,6 @@ $deleteSQL = "
 
 $conn_produtos->query($deleteSQL);
 
-header("Location: marcas_lista.php");
+echo "<script>window.open('marcas_lista.php','_self')</script>";
 exit;
 ?>

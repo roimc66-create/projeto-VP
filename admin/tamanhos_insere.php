@@ -1,4 +1,5 @@
 <?php
+ob_start();
  include("protecao.php");
 include("../Connections/conn_produtos.php");
 
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->bind_param("i", $numero_tamanho);
 
                 if ($stmt->execute()) {
-                    header("Location: tamanhos_lista.php");
+                    echo "<script>window.open('tamanhos_lista.php','_self')</script>";
                     exit;
                 } else {
                     $mensagem = "<div class='alert alert-danger'>Erro: {$conn_produtos->error}</div>";

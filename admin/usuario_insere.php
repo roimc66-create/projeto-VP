@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             if ($stmtInsert->execute()) {
-                header("Location: usuario_lista.php");
+                echo "<script>window.open('usuario_lista.php','_self')</script>";
                 exit;
             } else {
                 $erroMsg = "Erro ao cadastrar usuário.";
