@@ -46,7 +46,7 @@ $row_promoçao = ($totalRows > 0) ? $lista_promoçao->fetch_assoc() : null;
 include("dia_mes.php");
 ?>
 
-  <link rel="stylesheet" href="css/promo.css">
+  <link rel="stylesheet" href="CSS/promo.css">
 
 
 <body>

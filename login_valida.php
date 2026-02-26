@@ -15,9 +15,8 @@ if($_POST){
     ";
 
     $resultado = $conn_produtos->query($consulta);
-
     if($resultado->num_rows > 0){
-
+        
         $dados = $resultado->fetch_assoc();
 
         $_SESSION['id_usuario']    = $dados['id_usuario'];

@@ -1,154 +1,150 @@
 <?php
 session_start();
 
-if(isset($_SESSION['login_usuario'])){
+if (isset($_SESSION['login_usuario'])) {
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Já logado</title>
+    <!DOCTYPE html>
+    <html lang="pt-br">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Já logado</title>
 
-<style>
-body{
-    background:#f5f5f5;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-.login-box{
-    background:white;
-    padding:40px;
-    border-radius:10px;
-    box-shadow:0 0 20px rgba(0,0,0,0.1);
-    width:100%;
-    max-width:380px;
-    text-align:center;
-}
+        <style>
+            body {
+                background: #f5f5f5;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 15px;
+            }
 
-@media (max-width:576px){
-    .login-box{
-        padding:25px;
-    }
-}
-</style>
-</head>
+            .login-box {
+                background: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 380px;
+                text-align: center;
+            }
 
-<body>
+            @media (max-width:576px) {
+                .login-box {
+                    padding: 25px;
+                }
+            }
+        </style>
+    </head>
 
-<div class="login-box">
+    <body>
 
-<h4>Você já está logado</h4>
+        <div class="login-box">
 
-<p class="mb-3">
-Bem-vindo,<br>
-<strong><?php echo $_SESSION['login_usuario']; ?></strong>
-</p>
+            <h4>Você já está logado</h4>
 
-<a href="index.php" class="btn btn-dark w-100 mb-2">
-Voltar para a loja
-</a>
+            <p class="mb-3">
+                Bem-vindo,<br>
+                <strong><?php echo $_SESSION['login_usuario']; ?></strong>
+            </p>
 
-<a href="logout.php" class="btn btn-outline-danger w-100">
-Sair da conta
-</a>
+            <a href="index.php" class="btn btn-dark w-100 mb-2">
+                Voltar para a loja
+            </a>
 
-</div>
+            <a href="logout.php" class="btn btn-outline-danger w-100">
+                Sair da conta
+            </a>
 
-</body>
-</html>
+        </div>
+
+    </body>
+
+    </html>
 
 <?php
-exit;
+    exit;
 }
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
 
+<head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
-body{
-    background:#f5f5f5;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-}
-
-.login-box{
-    background:white;
-    padding:40px;
-    border-radius:10px;
-    box-shadow:0 0 20px rgba(0,0,0,0.1);
-    width:100%;
-    max-width:380px;
-}
-
-@media (max-width:576px){
-    .login-box{
-        padding:25px;
+    body {
+        background: #f5f5f5;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
     }
 
-    h3{
-        font-size:22px;
+    .login-box {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 380px;
     }
-}
+
+    @media (max-width:576px) {
+        .login-box {
+            padding: 25px;
+        }
+
+        h3 {
+            font-size: 22px;
+        }
+    }
 </style>
 </head>
 
 <body>
 
-<div class="login-box">
+    <div class="login-box">
 
-<h3 class="text-center mb-4">Login</h3>
+        <h3 class="text-center mb-4">Login</h3>
 
-<?php if(isset($_GET['erro'])){ ?>
-<div class="alert alert-danger text-center py-2" style="font-size:14px;">
-Login ou senha inválidos
-</div>
-<?php } ?>
+        <?php if (isset($_GET['erro'])) { ?>
+            <div class="alert alert-danger text-center py-2" style="font-size:14px;">
+                Login ou senha inválidos
+            </div>
+        <?php } ?>
 
-<form action="login_valida.php" method="POST">
+        <form action="login_valida.php" method="POST">
 
-<div class="mb-3">
-<label>Login</label>
-<input type="text" name="login_usuario" class="form-control" required>
-</div>
+            <div class="mb-3">
+                <label>Login</label>
+                <input type="text" name="login_usuario" class="form-control" required>
+            </div>
 
-<div class="mb-3">
-<label>Senha</label>
-<input type="password" name="senha_usuario" class="form-control" required>
-</div>
+            <div class="mb-3">
+                <label>Senha</label>
+                <input type="password" name="senha_usuario" class="form-control" required>
+            </div>
 
-<button class="btn btn-dark w-100 mb-2">Entrar</button>
+            <button class="btn btn-dark w-100 mb-2">Entrar</button>
 
-<a href="index.php" class="btn btn-outline-secondary w-100">
-Voltar para a loja
-</a>
+            <a href="index.php" class="btn btn-outline-secondary w-100">
+                Voltar para a loja
+            </a>
 
-<div class="text-center mt-3">
-<small class="text-muted">Não tem login?</small><br>
+            <div class="text-center mt-3">
+                <small class="text-muted">Não tem login?</small><br>
 
-<a href="cadastro.php" class="fw-bold text-dark text-decoration-none">
-Cadastre-se agora
-</a>
-</div>
+                <a href="cadastro.php" class="fw-bold text-dark text-decoration-none">
+                    Cadastre-se agora
+                </a>
+            </div>
 
-</form>
+        </form>
 
-</div>
+    </div>
 
 </body>
-</html>

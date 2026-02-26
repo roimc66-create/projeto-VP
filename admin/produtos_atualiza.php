@@ -21,12 +21,12 @@ if ($result->num_rows == 0) {
 $produto = $result->fetch_assoc();
 
 /* Buscar */
-$lista_marcas = $conn_produtos->query("SELECT * FROM tbmarcas ORDER BY nome_marca ASC");
-$lista_generos = $conn_produtos->query("SELECT * FROM tbgeneros ORDER BY nome_genero ASC");
-$lista_tipos = $conn_produtos->query("SELECT * FROM tbtipos ORDER BY nome_tipo ASC");
+$lista_marcas   = $conn_produtos->query("SELECT * FROM tbmarcas ORDER BY nome_marca ASC");
+$lista_generos  = $conn_produtos->query("SELECT * FROM tbgeneros ORDER BY nome_genero ASC");
+$lista_tipos    = $conn_produtos->query("SELECT * FROM tbtipos ORDER BY nome_tipo ASC");
 $lista_tamanhos = $conn_produtos->query("SELECT * FROM tbtamanhos ORDER BY numero_tamanho ASC");
 
-/* Tamnho que é o produto */
+/* Tamanho que é do produto */
 $tamanhos_prod = [];
 $resTam = $conn_produtos->query("
     SELECT id_tamanho, estoque
@@ -41,16 +41,18 @@ while ($t = $resTam->fetch_assoc()) {
 /* Atualizar */
 if (isset($_POST['salvar'])) {
 
-    $nome   = $_POST['nome_produto'];
-    $resumo = $_POST['resumo_produto'];
-    $valor  = $_POST['valor_produto'];
-    $marca  = $_POST['id_marca_produto'];
-    $genero = $_POST['id_genero_produto'];
-    $tipo   = $_POST['id_tipo_produto'];
-    $promo  = $_POST['promoção_produto'];
-    $sneak  = $_POST['sneakers_produto'];
+    $nome   = $_POST['nome_produto'] ?? '';
+    $resumo = $_POST['resumo_produto'] ?? '';
+    $valor  = $_POST['valor_produto'] ?? 0;
+    $marca  = $_POST['id_marca_produto'] ?? 0;
+    $genero = $_POST['id_genero_produto'] ?? 0;
+    $tipo   = $_POST['id_tipo_produto'] ?? 0;
 
-    /* Iamgem */
+    // novos (promo e sneakers)
+    $promo  = $_POST['promoção_produto'] ?? 'Não';
+    $sneak  = $_POST['sneakers_produto'] ?? 'Not';
+
+    /* Imagem */
     if (!empty($_FILES['imagem_produto']['name'])) {
 
         $imagem = $_FILES['imagem_produto']['name'];
@@ -184,41 +186,62 @@ body { background: #ffffff; min-height: 100vh; }
 
 <div class="row">
 
-<div class="col-md-4 mb-3">
-<label class="form-label fw-semibold">Marca</label>
-<select name="id_marca_produto" class="form-select" required>
-<?php while($m = $lista_marcas->fetch_assoc()){ ?>
-<option value="<?= $m['id_marca']; ?>"
-<?= $m['id_marca']==$produto['id_marca_produto']?'selected':'' ?>>
-<?= $m['nome_marca']; ?>
-</option>
-<?php } ?>
-</select>
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-semibold">Marca</label>
+    <select name="id_marca_produto" class="form-select" required>
+      <?php while($m = $lista_marcas->fetch_assoc()){ ?>
+      <option value="<?= $m['id_marca']; ?>"
+        <?= ($m['id_marca'] == $produto['id_marca_produto']) ? 'selected' : '' ?>>
+        <?= $m['nome_marca']; ?>
+      </option>
+      <?php } ?>
+    </select>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-semibold">Gênero</label>
+    <select name="id_genero_produto" class="form-select" required>
+      <?php while($g = $lista_generos->fetch_assoc()){ ?>
+      <option value="<?= $g['id_genero']; ?>"
+        <?= ($g['id_genero'] == $produto['id_genero_produto']) ? 'selected' : '' ?>>
+        <?= $g['nome_genero']; ?>
+      </option>
+      <?php } ?>
+    </select>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <label class="form-label fw-semibold">Tipo</label>
+    <select name="id_tipo_produto" class="form-select" required>
+      <?php while($t = $lista_tipos->fetch_assoc()){ ?>
+      <option value="<?= $t['id_tipo']; ?>"
+        <?= ($t['id_tipo'] == $produto['id_tipo_produto']) ? 'selected' : '' ?>>
+        <?= $t['nome_tipo']; ?>
+      </option>
+      <?php } ?>
+    </select>
+  </div>
+
 </div>
 
-<div class="col-md-4 mb-3">
-<label class="form-label fw-semibold">Gênero</label>
-<select name="id_genero_produto" class="form-select" required>
-<?php while($g = $lista_generos->fetch_assoc()){ ?>
-<option value="<?= $g['id_genero']; ?>"
-<?= $g['id_genero']==$produto['id_genero_produto']?'selected':'' ?>>
-<?= $g['nome_genero']; ?>
-</option>
-<?php } ?>
-</select>
-</div>
+<!-- ✅ PROMO + SNEAKERS (faltava aqui) -->
+<div class="row">
 
-<div class="col-md-4 mb-3">
-<label class="form-label fw-semibold">Tipo</label>
-<select name="id_tipo_produto" class="form-select" required>
-<?php while($t = $lista_tipos->fetch_assoc()){ ?>
-<option value="<?= $t['id_tipo']; ?>"
-<?= $t['id_tipo']==$produto['id_tipo_produto']?'selected':'' ?>>
-<?= $t['nome_tipo']; ?>
-</option>
-<?php } ?>
-</select>
-</div>
+  <div class="col-md-6 mb-3">
+    <label class="form-label fw-semibold">Promoção</label>
+    <select name="promoção_produto" class="form-select">
+      <option value="Pro" <?= ($produto['promoção_produto'] == 'Pro') ? 'selected' : '' ?>>Pro</option>
+      <option value="Não" <?= ($produto['promoção_produto'] == 'Não') ? 'selected' : '' ?>>Não</option>
+    </select>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label class="form-label fw-semibold">Sneakers</label>
+    <select name="sneakers_produto" class="form-select">
+      <option value="Sne" <?= ($produto['sneakers_produto'] == 'Sne') ? 'selected' : '' ?>>Sne</option>
+      <option value="Not" <?= ($produto['sneakers_produto'] == 'Not') ? 'selected' : '' ?>>Not</option>
+    </select>
+  </div>
 
 </div>
 
@@ -238,7 +261,7 @@ body { background: #ffffff; min-height: 100vh; }
        type="checkbox"
        name="tamanhos[]"
        value="<?= $tam['id_tamanho']; ?>"
-       <?= $checked?'checked':''; ?>>
+       <?= $checked ? 'checked' : ''; ?>>
 <label class="form-check-label fw-bold">
 Tam <?= $tam['numero_tamanho']; ?>
 </label>
@@ -248,7 +271,7 @@ Tam <?= $tam['numero_tamanho']; ?>
        name="estoque[<?= $tam['id_tamanho']; ?>]"
        class="form-control form-control-sm mt-2 estoque-input"
        value="<?= $estoque_val; ?>"
-       <?= $checked?'':'disabled'; ?>
+       <?= $checked ? '' : 'disabled'; ?>
        min="0">
 
 </div>
@@ -262,7 +285,7 @@ Tam <?= $tam['numero_tamanho']; ?>
 <label class="form-label fw-semibold">Imagem Atual</label><br>
 <img src="../imagens/exclusivo/<?= $produto['imagem_produto']; ?>"
      class="preview-img img-fluid">
-<input type="file" name="imagem_produto" class="form-control mt-2">
+<input type="file" name="imagem_produto" class="form-control mt-2" accept="image/*">
 </div>
 
 <button type="submit" name="salvar"
@@ -286,6 +309,7 @@ document.querySelectorAll('.chk-tamanho').forEach(function(chk){
         const input = box.querySelector('.estoque-input');
         if(this.checked){
             input.disabled = false;
+            input.focus();
         }else{
             input.disabled = true;
             input.value = 0;
