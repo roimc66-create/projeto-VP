@@ -14,7 +14,7 @@ $r = $conn_produtos->query(
 );
 
 if ($r->num_rows == 0) {
-    hecho "<script>window.open('marcas_lista.php','_self')</script>";
+    echo "<script>window.open('marcas_lista.php','_self')</script>";
     exit;
 }
 
