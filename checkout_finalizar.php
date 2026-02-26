@@ -1,10 +1,11 @@
 <?php
+ob_start();
 session_start();
 include("Connections/conn_produtos.php");
 
 $carrinho = $_SESSION['carrinho'] ?? [];
 if(count($carrinho) == 0){
-  header("Location: carrinho.php");
+  echo "<script>window.open('carrinho.php','_self')</script>";
   exit;
 }
 
@@ -36,7 +37,7 @@ try {
 
   unset($_SESSION['carrinho']);
 
-  header("Location: checkout_sucesso.php");
+  echo "<script>window.open('checkout_sucesso.php','_self')</script>";
   exit;
 
 } catch (Exception $e) {

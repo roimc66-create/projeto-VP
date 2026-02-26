@@ -1,4 +1,5 @@
 <?php
+ob_start(); //Inicia o buffer
 session_start();
 include("Connections/conn_produtos.php");
 
@@ -23,13 +24,13 @@ if($_POST){
         $_SESSION['login_usuario'] = $dados['login_usuario'];
         $_SESSION['nivel_usuario'] = $dados['nivel_usuario'];
 
-        header("Location: index.php");
+       echo "<script>window.open('index.php','_self')</script>";
         exit;
 
     }else{
 
-        header("Location: login.php?erro=1");
-        exit;
+       echo "<script>window.open('login.php?erro=1', '_self');</script>";
+       exit;
     }
 }
 ?>

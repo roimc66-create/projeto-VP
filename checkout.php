@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include("Connections/conn_produtos.php");
 
@@ -62,7 +63,7 @@ if ($id_produto_post > 0 && $id_tamanho_post_raw !== '' && $id_tamanho_post_raw 
 
 $carrinho = $_SESSION['carrinho'] ?? [];
 if (count($carrinho) == 0) {
-  header("Location: carrinho.php");
+  echo "<script>window.open('carrinho.php','_self')</script>";
   exit;
 }
 
