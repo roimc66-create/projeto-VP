@@ -743,9 +743,3 @@ ALTER TABLE `tbproduto_tamanho`
 COMMIT;
  
  
-phpMyAdmin
- 
-echo "<script>window.open('index.php','_self')</script>";
- 
-ob_start();
- 
