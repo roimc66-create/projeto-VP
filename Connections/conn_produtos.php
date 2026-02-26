@@ -1,8 +1,8 @@
 <?php 
    /// definindo variaveis para conexão   
       $hostname_conn = "localhost";
-      $database_conn = "vpstreet_ti19";
-      $username_conn = "iwanez_83adminVP";
+      $database_conn = "iwanez83_vpstreet_ti19";
+      $username_conn = "iwanez83_adminVP";
       $password_conn = "senacvp_ti19";
       $charset_conn = "utf8";
       

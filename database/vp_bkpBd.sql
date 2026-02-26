@@ -2,35 +2,35 @@
  
 -- drop do user se existir
  
-DROP USER IF EXISTS 'iwanez_83adminVP'@'localhost';
+DROP USER IF EXISTS 'iwanez83_adminVP'@'localhost';
  
--- Criar o usuário iwanez_83adminVP se ele não existir
+-- Criar o usuário iwanez83_adminVP se ele não existir
  
-CREATE USER IF NOT EXISTS 'iwanez_83adminVP'@'localhost'
+CREATE USER IF NOT EXISTS 'iwanez83_adminVP'@'localhost'
  
     IDENTIFIED BY 'senacvp_ti19';
  
-GRANT ALL PRIVILEGES ON *.* TO 'iwanez_83adminVP'@'localhost'
+GRANT ALL PRIVILEGES ON *.* TO 'iwanez83_adminVP'@'localhost'
  
     WITH GRANT OPTION;
  
 FLUSH PRIVILEGES;
  
--- drop do banco vpstreet_ti19 se ele exista
+-- drop do banco iwanez83_vpstreet_ti19 se ele exista
  
-DROP DATABASE IF EXISTS vpstreet_ti19;
+DROP DATABASE IF EXISTS iwanez83_vpstreet_ti19;
  
 -- Criar o banco se caso ele não exista
  
-CREATE DATABASE IF NOT EXISTS vpstreet_ti19
+CREATE DATABASE IF NOT EXISTS iwanez83_vpstreet_ti19
  
     DEFAULT CHARACTER SET utf8
  
     COLLATE utf8_general_ci;
  
--- usa o banco vpstreet_ti19
+-- usa o banco iwanez83_vpstreet_ti19
  
-USE vpstreet_ti19;
+USE iwanez83_vpstreet_ti19;
  
 -- criaçao tabela usuario
 -- phpMyAdmin SQL Dump
