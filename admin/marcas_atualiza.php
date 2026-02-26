@@ -1,8 +1,9 @@
 <?php
+ob_start();
 include("../Connections/conn_produtos.php");
 
 if (!isset($_GET['id_marca'])) {
-    header("Location: marcas_lista.php");
+    echo "<script>window.open('marcas_lista.php','_self')</script>";
     exit;
 }
 
@@ -13,7 +14,7 @@ $r = $conn_produtos->query(
 );
 
 if ($r->num_rows == 0) {
-    header("Location: marcas_lista.php");
+    hecho "<script>window.open('marcas_lista.php','_self')</script>";
     exit;
 }
 
@@ -47,7 +48,7 @@ if ($_POST) {
         );
     }
 
-    header("Location: marcas_lista.php");
+    echo "<script>window.open('marcas_lista.php','_self')</script>";
     exit;
 }
 ?>

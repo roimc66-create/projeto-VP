@@ -627,9 +627,9 @@ CREATE TABLE `vw_tbprodutos` (
 -- Estrutura para view `vw_tbprodutos`
 --
 DROP TABLE IF EXISTS `vw_tbprodutos`;
- 
-CREATE VIEW `vw_tbprodutos`  AS SELECT `p`.`id_produto` AS `id_produto`, `p`.`id_marca_produto` AS `id_marca_produto`, `p`.`id_genero_produto` AS `id_genero_produto`, `p`.`id_tipo_produto` AS `id_tipo_produto`, `t`.`nome_tipo` AS `nome_tipo`, `m`.`nome_marca` AS `nome_marca`, `i`.`nome_genero` AS `nome_genero`, `m`.`imagem_marca` AS `imagem_marca`, `p`.`nome_produto` AS `nome_produto`, `p`.`resumo_produto` AS `resumo_produto`, `p`.`valor_produto` AS `valor_produto`, `p`.`imagem_produto` AS `imagem_produto`, `p`.`promoção_produto` AS `promoção_produto`, `p`.`sneakers_produto` AS `sneakers_produto`, `ta`.`id_tamanho` AS `id_tamanho`, `ta`.`numero_tamanho` AS `numero_tamanho`, `pt`.`estoque` AS `estoque` FROM (((((`tbprodutos` `p` join `tbgeneros` `i` on(`p`.`id_genero_produto` = `i`.`id_genero`)) join `tbmarcas` `m` on(`p`.`id_marca_produto` = `m`.`id_marca`)) join `tbtipos` `t` on(`p`.`id_tipo_produto` = `t`.`id_tipo`)) left join `tbproduto_tamanho` `pt` on(`pt`.`id_produto` = `p`.`id_produto`)) left join `tbtamanhos` `ta` on(`ta`.`id_tamanho` = `pt`.`id_tamanho`)) ;
- 
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_tbprodutos`  AS SELECT `p`.`id_produto` AS `id_produto`, `p`.`id_marca_produto` AS `id_marca_produto`, `p`.`id_genero_produto` AS `id_genero_produto`, `p`.`id_tipo_produto` AS `id_tipo_produto`, `t`.`nome_tipo` AS `nome_tipo`, `m`.`nome_marca` AS `nome_marca`, `i`.`nome_genero` AS `nome_genero`, `m`.`imagem_marca` AS `imagem_marca`, `p`.`nome_produto` AS `nome_produto`, `p`.`resumo_produto` AS `resumo_produto`, `p`.`valor_produto` AS `valor_produto`, `p`.`imagem_produto` AS `imagem_produto`, `p`.`promoção_produto` AS `promoção_produto`, `p`.`sneakers_produto` AS `sneakers_produto`, `ta`.`id_tamanho` AS `id_tamanho`, `ta`.`numero_tamanho` AS `numero_tamanho`, `pt`.`estoque` AS `estoque` FROM (((((`tbprodutos` `p` join `tbgeneros` `i` on(`p`.`id_genero_produto` = `i`.`id_genero`)) join `tbmarcas` `m` on(`p`.`id_marca_produto` = `m`.`id_marca`)) join `tbtipos` `t` on(`p`.`id_tipo_produto` = `t`.`id_tipo`)) left join `tbproduto_tamanho` `pt` on(`pt`.`id_produto` = `p`.`id_produto`)) left join `tbtamanhos` `ta` on(`ta`.`id_tamanho` = `pt`.`id_tamanho`)) ;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -741,5 +741,5 @@ ALTER TABLE `tbproduto_tamanho`
   ADD CONSTRAINT `fk_pt_produto` FOREIGN KEY (`id_produto`) REFERENCES `tbprodutos` (`id_produto`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_pt_tamanho` FOREIGN KEY (`id_tamanho`) REFERENCES `tbtamanhos` (`id_tamanho`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
- 
- 
+
+

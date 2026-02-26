@@ -1,5 +1,6 @@
 <?php
- include("protecao.php");
+ob_start();
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 if($_POST){
@@ -80,7 +81,7 @@ if($_POST){
         }
     }
 
-    header("Location: produtos_lista.php");
+    echo "<script>window.open('produtos_lista.php','_self')</script>";
     exit;
 }
 

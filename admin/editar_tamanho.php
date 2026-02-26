@@ -1,5 +1,6 @@
 <?php
- include("protecao.php");
+ob_start();
+include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 /* Validar o ID */
@@ -51,8 +52,7 @@ $dados = $stmt->get_result();
 $row = $dados->fetch_assoc();
 
 if (!$row) {
-    header("Location: tamanhos_lista.php");
-    exit;
+    echo "<script>window.open('tamanhos_lista.php','_self')</script>";
 }
 ?>
 

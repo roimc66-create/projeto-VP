@@ -1,9 +1,10 @@
 <?php
+ob_start();
 include("protecao.php");
 include("../Connections/conn_produtos.php");
 
 if (!isset($_GET['id_usuario'])) {
-    header("Location: usuario_lista.php");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
@@ -17,7 +18,7 @@ $stmtBusca->execute();
 $resultado = $stmtBusca->get_result();
 
 if (!$resultado || $resultado->num_rows === 0) {
-    header("Location: usuario_lista.php?erro=notfound");
+    echo "<script>window.open('usuario_lista.php','_self')</script>";
     exit;
 }
 
@@ -114,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtUpdate->execute();
         $stmtUpdate->close();
 
-        header("Location: usuario_lista.php");
+        echo "<script>window.open('usuario_lista.php','_self')</script>";
         exit;
     }
 }

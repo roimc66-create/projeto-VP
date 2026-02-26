@@ -1,4 +1,5 @@
 <?php
+ob_start();
 // Incluir o arquivo e fazer a conexão
 include("../Connections/conn_produtos.php");
 
