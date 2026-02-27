@@ -68,7 +68,7 @@ $row_exclusivo = ($totalRows > 0) ? $lista_exclusivo->fetch_assoc() : null;
                   <p class="card-text fw-bold">R$ <?php echo dinheiro($row_exclusivo['valor_produto']); ?></p>
                 </div>
       
-                <a href="/alunos/vp/produto_detalhe.php?id_produto=<?php echo (int)$row_promoçao['id_produto']; ?>" class="btn btn-dark w-100" role="button">Comprar</a>
+                <a href="produto_detalhe.php?id_produto=<?php echo (int)$row_promoçao['id_produto']; ?>" class="btn btn-dark w-100" role="button">Comprar</a>
               </div>
             </div>
           </div>
