@@ -19,7 +19,7 @@
 
         <div class="col-md-4 mb-3">
           <h6 class="fw-bold">PARCELAMENTOS</h6>
-          <p class="mb-0">PARCELAMENTOS COM JUROS APARTIR DE 3 PARCELAMENTOS </p>
+          <p class="mb-0">PARCELAMENTOS COM JUROS APARTIR DE 4 PARCELAMENTOS </p>
           
         </div>
 
